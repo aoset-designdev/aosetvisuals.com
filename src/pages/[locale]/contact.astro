@@ -1,0 +1,36 @@
+---
+// src/pages/[locale]/contact.astro
+import Layout from '../../layouts/Layout.astro';
+import ContactSection from '../../components/ContactSection.astro';
+import { getLocalePaths, useTranslations } from '../../i18n/utils';
+import type { Locale } from '../../i18n/config';
+
+export function getStaticPaths() {
+  return getLocalePaths();
+}
+
+const { locale } = Astro.params as { locale: Locale };
+const t = useTranslations(locale);
+---
+
+<Layout
+  title={`Contact — AOSET`}
+  locale={locale}
+  description={t.contact.intro}
+>
+  <ContactSection locale={locale} />
+
+  <!-- Google Maps embed — replace YOUR_EMBED_CODE with your actual embed URL -->
+  <section class="h-[450px] w-full">
+    <iframe
+      title="AOSET office location"
+      src="https://www.google.com/maps/embed?pb=YOUR_EMBED_CODE_HERE"
+      width="100%"
+      height="100%"
+      style="border:0"
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"
+      class="block"
+    ></iframe>
+  </section>
+</Layout>

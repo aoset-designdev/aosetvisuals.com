@@ -1,0 +1,98 @@
+---
+// src/pages/[locale]/work.astro
+// Add project images to src/assets/work/ (project-1.jpg, project-2.jpg, project-3.jpg)
+import Layout from '../../layouts/Layout.astro';
+import { getLocalePaths, useTranslations } from '../../i18n/utils';
+import type { Locale } from '../../i18n/config';
+
+export function getStaticPaths() {
+  return getLocalePaths();
+}
+
+const { locale } = Astro.params as { locale: Locale };
+const t = useTranslations(locale);
+
+const projects = [
+  { id: 'project-1', color: 'bg-[var(--color-ramp-400)]' },
+  { id: 'project-2', color: 'bg-[var(--color-ramp-500)]' },
+  { id: 'project-3', color: 'bg-[var(--color-ramp-600)]' },
+];
+---
+
+<Layout title={`${t.work.heading} — AOSET`} locale={locale} description={t.work.subtitle}>
+
+  <section class="mx-auto max-w-3xl px-4 py-16 text-center sm:px-6 lg:px-8 lg:pt-24">
+    <h1 class="text-3xl font-semibold leading-snug text-[var(--color-text)] sm:text-4xl">
+      {t.work.heading}
+    </h1>
+    <p class="mt-4 text-base text-[var(--color-text)]/70">{t.work.subtitle}</p>
+  </section>
+
+  <section class="mx-auto max-w-7xl px-4 pb-24 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {projects.map((project) => (
+        <a
+          href={`#${project.id}`}
+          class="group relative isolate block aspect-square overflow-hidden rounded-lg"
+          aria-label={`View ${project.id}`}
+        >
+          <!--
+            Replace with Image component once you add images:
+            <Image src={projectImages[index]} alt=""
+              class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+              widths={[480, 960]} sizes="(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw"
+              format="avif" quality={90} />
+          -->
+          <div class={`absolute inset-0 ${project.color} flex items-center justify-center`}>
+            <span class="text-white/50 text-sm">{project.id}.jpg</span>
+          </div>
+          <div class="absolute inset-0 bg-black/0 transition-colors group-hover:bg-black/20" aria-hidden="true"></div>
+        </a>
+      ))}
+    </div>
+
+    <!-- CSS-only lightbox -->
+    {projects.map((project) => (
+      <div id={project.id} class="lightbox-overlay">
+        <a href="#" class="lightbox-backdrop" aria-label="Close lightbox"></a>
+        <div class={`lightbox-image ${project.color} flex items-center justify-center rounded-lg`}>
+          <span class="text-white/60 text-sm">{project.id}</span>
+        </div>
+      </div>
+    ))}
+  </section>
+
+</Layout>
+
+<style>
+  .lightbox-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+  }
+  .lightbox-overlay:target {
+    opacity: 1;
+    visibility: visible;
+  }
+  .lightbox-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgb(0 0 0 / 0.85);
+  }
+  .lightbox-image {
+    position: relative;
+    max-height: 90vh;
+    max-width: 90vw;
+    width: 800px;
+    height: 600px;
+    object-fit: contain;
+    border-radius: 0.5rem;
+  }
+</style>

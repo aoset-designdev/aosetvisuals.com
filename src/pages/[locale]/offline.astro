@@ -1,0 +1,30 @@
+---
+// src/pages/[locale]/offline.astro
+import Layout from '../../layouts/Layout.astro';
+import { getLocalePaths } from '../../i18n/utils';
+import type { Locale } from '../../i18n/config';
+
+export function getStaticPaths() {
+  return getLocalePaths();
+}
+
+const { locale } = Astro.params as { locale: Locale };
+---
+
+<Layout title="Offline — AOSET" locale={locale}>
+  <section class="mx-auto max-w-xl px-4 py-32 text-center">
+    <svg viewBox="0 0 24 24" class="mx-auto mb-6 h-16 w-16 text-[var(--color-muted)]" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M3 3l18 18M10.584 10.587a2 2 0 002.828 2.83M6.386 6.389A5.5 5.5 0 0112 5c3.03 0 5.5 2.47 5.5 5.5a5.48 5.48 0 01-1.388 3.612M4.5 10.5A7.5 7.5 0 0116.88 4.12M3 20.25h18" />
+    </svg>
+    <h1 class="text-3xl font-semibold text-[var(--color-text)]">You're offline</h1>
+    <p class="mt-4 text-[var(--color-text)]/70">
+      Please check your connection and try again.
+    </p>
+    <button
+      onclick="window.location.reload()"
+      class="mt-8 inline-flex items-center justify-center rounded-md bg-[var(--color-accent)] px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[var(--color-accent-dark)]"
+    >
+      Retry
+    </button>
+  </section>
+</Layout>

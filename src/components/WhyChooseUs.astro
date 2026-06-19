@@ -1,0 +1,28 @@
+---
+// src/components/WhyChooseUs.astro
+import { useTranslations } from '../i18n/utils';
+import type { Locale } from '../i18n/config';
+
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+  <h2 class="text-center text-3xl font-semibold leading-snug text-[var(--color-text)] sm:text-4xl">
+    {t.whyChooseUs.heading}
+  </h2>
+  <div class="mt-12 grid grid-cols-1 gap-10 text-center sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
+    {t.whyChooseUs.features.map((feature) => (
+      <div>
+        <h3
+          class="text-xl font-semibold leading-snug text-[var(--color-text)] sm:text-2xl"
+          set:html={feature.title}
+        />
+        <p class="mt-3 text-sm leading-relaxed text-[var(--color-text)]/70">
+          {feature.text}
+        </p>
+      </div>
+    ))}
+  </div>
+</section>

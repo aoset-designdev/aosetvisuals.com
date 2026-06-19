@@ -1,0 +1,47 @@
+---
+// src/components/Hero.astro
+// NOTE: Replace the placeholder image import with your actual hero image.
+// Place it at: src/assets/hero-remodeling.jpg
+// import heroImage from '../assets/hero-remodeling.jpg';
+// import { Image } from 'astro:assets';
+import { useTranslations, localizePath } from '../i18n/utils';
+import type { Locale } from '../i18n/config';
+
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<section class="relative isolate flex min-h-[860px] items-center overflow-hidden bg-[var(--color-ramp-900)]">
+
+  <!--
+    Replace this placeholder div with:
+    <Image
+      src={heroImage}
+      alt=""
+      role="presentation"
+      class="absolute inset-0 -z-10 h-full w-full object-cover"
+      widths={[640, 980, 1500]}
+      sizes="100vw"
+      format="avif"
+      quality={85}
+    />
+  -->
+  <div class="absolute inset-0 -z-10 bg-gradient-to-br from-[var(--color-ramp-900)] to-[var(--color-ramp-700)]" aria-hidden="true"></div>
+  <div class="absolute inset-0 -z-10 bg-black/20" aria-hidden="true"></div>
+
+  <div class="mx-auto w-full max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
+    <div class="max-w-2xl">
+      <h1
+        class="text-4xl font-semibold leading-tight text-white sm:text-5xl lg:text-7xl"
+        set:html={t.hero.title}
+      />
+      <a
+        href={localizePath(locale, '/contact')}
+        class="mt-8 inline-flex items-center justify-center rounded-md bg-[var(--color-accent)] px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-[var(--color-accent-dark)]"
+      >
+        {t.hero.cta}
+      </a>
+    </div>
+  </div>
+</section>

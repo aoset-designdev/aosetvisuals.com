@@ -1,0 +1,35 @@
+---
+// src/pages/[locale]/about.astro
+import Layout from '../../layouts/Layout.astro';
+import AboutBanner from '../../components/AboutBanner.astro';
+import OurProcess from '../../components/OurProcess.astro';
+import QualityGuarantee from '../../components/QualityGuarantee.astro';
+import CtaBanner from '../../components/CtaBanner.astro';
+import { getLocalePaths, useTranslations } from '../../i18n/utils';
+import type { Locale } from '../../i18n/config';
+
+export function getStaticPaths() {
+  return getLocalePaths();
+}
+
+const { locale } = Astro.params as { locale: Locale };
+const t = useTranslations(locale);
+---
+
+<Layout title={`${t.about.hero.heading} — AOSET`} locale={locale} description={t.about.hero.body}>
+
+  <section class="mx-auto max-w-3xl px-4 py-16 text-center sm:px-6 lg:px-8 lg:pt-24">
+    <h1 class="text-3xl font-semibold leading-snug text-[var(--color-text)] sm:text-4xl">
+      {t.about.hero.heading}
+    </h1>
+    <p class="mt-6 text-base leading-loose text-[var(--color-text)]/70">
+      {t.about.hero.body}
+    </p>
+  </section>
+
+  <AboutBanner />
+  <OurProcess locale={locale} />
+  <QualityGuarantee locale={locale} />
+  <CtaBanner locale={locale} section="about" />
+
+</Layout>

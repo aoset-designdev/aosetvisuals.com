@@ -1,0 +1,202 @@
+---
+// src/components/Header.astro
+import { useTranslations, localizePath, switchLocalePath } from '../i18n/utils';
+import { locales, localeNames, type Locale } from '../i18n/config';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+
+const navItems = [
+  { key: 'home'     as const, path: '' },
+  { key: 'about'    as const, path: '/about' },
+  { key: 'services' as const, path: '/services' },
+  { key: 'work'     as const, path: '/work' },
+  { key: 'contact'  as const, path: '/contact' },
+];
+
+const currentPath = Astro.url.pathname;
+
+function isActive(path: string): boolean {
+  const full = localizePath(locale, path);
+  return currentPath === full || currentPath === `${full}/`;
+}
+---
+
+<header class="sticky top-0 z-50 w-full border-b border-[var(--color-border)] bg-[var(--color-surface)]/90 backdrop-blur-sm">
+  <div class="mx-auto flex max-w-7xl items-center justify-between gap-6 px-4 py-3 sm:px-6 lg:px-8">
+
+    <!-- Logo -->
+    <a
+      href={localizePath(locale, '/')}
+      class="flex items-center gap-2 shrink-0"
+      aria-label="AOSET — Home"
+    >
+      <svg
+        viewBox="0 0 160 136"
+        class="h-8 w-8"
+        fill="var(--color-accent)"
+        aria-hidden="true"
+      >
+        <path d="M71.22 10.63L60.6 0 0 61.05v74.93h15.03V68.36L71.22 10.63Z" />
+        <path d="M109.85 10.66l.03-.03L99.25 0 32.06 68.34l.02.02h-.02v67.62h99.16v-15.03l-.5-52.59h-.02l.02-.02L98.5 38.49l-10.25 10.25 27.41 26.71v46.5H47.09V43.5l52.15-53.04 45.82 44.5-.17.09.08 69.94h15.03V61.05L109.85 10.66Z" />
+      </svg>
+      <span class="text-lg font-semibold tracking-tight text-[var(--color-text)]">AOSET</span>
+    </a>
+
+    <!-- Desktop nav -->
+    <nav aria-label="Main navigation" class="hidden md:block">
+      <ul class="flex items-center gap-8 text-sm font-medium">
+        {navItems.map((item) => (
+          <li>
+            <a
+              href={localizePath(locale, item.path)}
+              aria-current={isActive(item.path) ? 'page' : undefined}
+              class={`transition-colors hover:text-[var(--color-accent)] ${
+                isActive(item.path)
+                  ? 'text-[var(--color-accent)]'
+                  : 'text-[var(--color-text)]/80'
+              }`}
+            >
+              {t.nav[item.key]}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <!-- Desktop controls -->
+    <div class="hidden items-center gap-3 md:flex">
+
+      <!-- Language switcher -->
+      <details class="relative">
+        <summary
+          class="flex cursor-pointer list-none items-center gap-1 rounded-md px-2 py-1 text-sm font-medium text-[var(--color-text)]/80 hover:text-[var(--color-accent)] [&::-webkit-details-marker]:hidden"
+          aria-label="Select language"
+        >
+          {locale.toUpperCase()}
+          <svg viewBox="0 0 20 20" class="h-3 w-3" fill="currentColor" aria-hidden="true">
+            <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414Z" />
+          </svg>
+        </summary>
+        <ul class="absolute right-0 mt-2 min-w-[8rem] rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] py-1 shadow-lg">
+          {locales.map((l) => (
+            <li>
+              <a
+                href={switchLocalePath(Astro.url, l)}
+                class={`block px-3 py-1.5 text-sm transition-colors hover:text-[var(--color-accent)] ${
+                  l === locale ? 'text-[var(--color-accent)] font-medium' : 'text-[var(--color-text)]/80'
+                }`}
+              >
+                {localeNames[l]}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </details>
+
+      <!-- Theme toggle -->
+      <button
+        id="theme-toggle"
+        type="button"
+        aria-label="Toggle dark mode"
+        class="flex h-9 w-9 items-center justify-center rounded-md text-[var(--color-text)]/80 transition-colors hover:text-[var(--color-accent)]"
+      >
+        <!-- Sun icon (shown in light mode) -->
+        <svg id="icon-sun" viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="12" cy="12" r="4" />
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+        </svg>
+        <!-- Moon icon (shown in dark mode) -->
+        <svg id="icon-moon" viewBox="0 0 24 24" class="hidden h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mobile hamburger -->
+    <details class="md:hidden">
+      <summary
+        class="flex h-9 w-9 cursor-pointer list-none items-center justify-center rounded-md text-[var(--color-text)] [&::-webkit-details-marker]:hidden"
+        aria-label="Toggle menu"
+      >
+        <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <path d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </summary>
+      <div class="absolute inset-x-0 top-full border-t border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-4 shadow-lg">
+        <ul class="flex flex-col gap-3 text-sm font-medium">
+          {navItems.map((item) => (
+            <li>
+              <a
+                href={localizePath(locale, item.path)}
+                aria-current={isActive(item.path) ? 'page' : undefined}
+                class={`block py-1 transition-colors hover:text-[var(--color-accent)] ${
+                  isActive(item.path)
+                    ? 'text-[var(--color-accent)]'
+                    : 'text-[var(--color-text)]/80'
+                }`}
+              >
+                {t.nav[item.key]}
+              </a>
+            </li>
+          ))}
+        </ul>
+        <div class="mt-4 flex items-center gap-3 border-t border-[var(--color-border)] pt-4">
+          {locales.map((l) => (
+            <a
+              href={switchLocalePath(Astro.url, l)}
+              class={`text-sm transition-colors hover:text-[var(--color-accent)] ${
+                l === locale ? 'text-[var(--color-accent)] font-semibold' : 'text-[var(--color-text)]/70'
+              }`}
+            >
+              {l.toUpperCase()}
+            </a>
+          ))}
+          <button
+            id="theme-toggle-mobile"
+            type="button"
+            class="ml-auto flex h-8 w-8 items-center justify-center rounded-md text-[var(--color-text)]/70 hover:text-[var(--color-accent)]"
+            aria-label="Toggle dark mode"
+          >
+            <svg id="icon-sun-mobile" viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="12" cy="12" r="4" />
+              <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+            </svg>
+            <svg id="icon-moon-mobile" viewBox="0 0 24 24" class="hidden h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </details>
+
+  </div>
+</header>
+
+<script is:inline>
+  // Sync icon state on page load
+  function syncIcons() {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    document.getElementById('icon-sun')?.classList.toggle('hidden', isDark);
+    document.getElementById('icon-moon')?.classList.toggle('hidden', !isDark);
+    document.getElementById('icon-sun-mobile')?.classList.toggle('hidden', isDark);
+    document.getElementById('icon-moon-mobile')?.classList.toggle('hidden', !isDark);
+  }
+
+  function toggleTheme() {
+    const html = document.documentElement;
+    const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    try { localStorage.setItem('aoset-theme', next); } catch (_) {}
+    syncIcons();
+  }
+
+  document.getElementById('theme-toggle')?.addEventListener('click', toggleTheme);
+  document.getElementById('theme-toggle-mobile')?.addEventListener('click', toggleTheme);
+
+  syncIcons();
+</script>

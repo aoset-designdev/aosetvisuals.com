@@ -1,0 +1,19 @@
+---
+// src/components/QualityGuarantee.astro
+import { useTranslations } from '../i18n/utils';
+import type { Locale } from '../i18n/config';
+
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<section class="mx-auto max-w-3xl px-4 py-16 text-center sm:px-6 lg:px-8 lg:py-24">
+  <h2 class="text-3xl font-semibold leading-snug text-[var(--color-text)] sm:text-4xl">
+    {t.about.quality.heading}
+  </h2>
+  <div class="mt-6 space-y-6 text-base leading-loose text-[var(--color-text)]/70">
+    <p>{t.about.quality.body1}</p>
+    <p>{t.about.quality.body2}</p>
+  </div>
+</section>

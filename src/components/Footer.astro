@@ -1,0 +1,54 @@
+---
+// src/components/Footer.astro
+import { useTranslations } from '../i18n/utils';
+import type { Locale } from '../i18n/config';
+
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const currentYear = new Date().getFullYear();
+
+const socialLinks = [
+  {
+    label: 'Facebook',
+    href: 'https://www.facebook.com',
+    icon: `<path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.879V14.89h-2.54v-2.89h2.54V9.797c0-2.506 1.493-3.89 3.776-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562v1.875h2.773l-.443 2.89h-2.33v6.989C18.343 21.128 22 16.991 22 12Z" />`,
+  },
+  {
+    label: 'Twitter / X',
+    href: 'https://www.twitter.com',
+    icon: `<path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.451-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117l11.966 15.644Z" />`,
+  },
+  {
+    label: 'YouTube',
+    href: 'https://www.youtube.com',
+    icon: `<path d="M23.498 6.186a2.998 2.998 0 0 0-2.115-2.124C19.505 3.5 12 3.5 12 3.5s-7.505 0-9.383.562A2.998 2.998 0 0 0 .502 6.186 31.36 31.36 0 0 0 0 12a31.36 31.36 0 0 0 .502 5.814 2.998 2.998 0 0 0 2.115 2.124C4.495 20.5 12 20.5 12 20.5s7.505 0 9.383-.562a2.998 2.998 0 0 0 2.115-2.124A31.36 31.36 0 0 0 24 12a31.36 31.36 0 0 0-.502-5.814ZM9.6 15.6V8.4l6.6 3.6-6.6 3.6Z" />`,
+  },
+];
+---
+
+<footer class="border-t border-[var(--color-border)]">
+  <div class="mx-auto flex max-w-7xl flex-col items-center gap-4 px-4 py-8 sm:flex-row sm:justify-between sm:px-6 lg:px-8">
+
+    <p class="text-sm text-[var(--color-text)]/60">
+      © {currentYear} AOSET. {t.footer.rights}
+    </p>
+
+    <ul class="flex items-center gap-4" aria-label="Social media links">
+      {socialLinks.map((social) => (
+        <li>
+          <a
+            href={social.href}
+            target="_blank"
+            rel="noreferrer noopener"
+            aria-label={social.label}
+            class="text-[var(--color-text)]/60 transition-colors hover:text-[var(--color-accent)]"
+          >
+            <svg viewBox="0 0 24 24" class="h-5 w-5" fill="currentColor" aria-hidden="true" set:html={social.icon} />
+          </a>
+        </li>
+      ))}
+    </ul>
+
+  </div>
+</footer>

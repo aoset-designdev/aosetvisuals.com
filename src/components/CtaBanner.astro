@@ -1,0 +1,28 @@
+---
+// src/components/CtaBanner.astro
+import { useTranslations, localizePath } from '../i18n/utils';
+import type { Locale } from '../i18n/config';
+
+interface Props {
+  locale: Locale;
+  section?: 'home' | 'about';
+}
+const { locale, section = 'home' } = Astro.props;
+const t = useTranslations(locale);
+
+const heading = section === 'about' ? t.about.cta.heading : t.cta.heading;
+const button  = section === 'about' ? t.about.cta.button  : t.cta.button;
+---
+
+<section class="bg-[var(--color-accent)] px-4 py-16 text-center sm:px-6 lg:px-8 lg:py-24">
+  <h2
+    class="text-2xl font-semibold leading-snug text-white sm:text-3xl"
+    set:html={heading}
+  />
+  <a
+    href={localizePath(locale, '/contact')}
+    class="mt-8 inline-flex items-center justify-center rounded-md bg-white px-8 py-3 text-sm font-semibold text-[var(--color-accent)] transition-colors hover:bg-white/90"
+  >
+    {button}
+  </a>
+</section>

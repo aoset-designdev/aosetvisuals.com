@@ -1,0 +1,58 @@
+---
+// src/pages/[locale]/services.astro
+// Add service images to src/assets/services/ (kitchen.jpg, bathrooms.jpg, etc.)
+import Layout from '../../layouts/Layout.astro';
+import { getLocalePaths, useTranslations, localizePath } from '../../i18n/utils';
+import type { Locale } from '../../i18n/config';
+
+export function getStaticPaths() {
+  return getLocalePaths();
+}
+
+const { locale } = Astro.params as { locale: Locale };
+const t = useTranslations(locale);
+
+const bgColors = [
+  'from-[var(--color-ramp-500)] to-[var(--color-ramp-700)]',
+  'from-[var(--color-ramp-600)] to-[var(--color-ramp-800)]',
+  'from-[var(--color-ramp-400)] to-[var(--color-ramp-600)]',
+  'from-[var(--color-ramp-700)] to-[var(--color-ramp-900)]',
+  'from-[var(--color-ramp-300)] to-[var(--color-ramp-500)]',
+  'from-[var(--color-ramp-500)] to-[var(--color-ramp-800)]',
+];
+---
+
+<Layout title={`${t.services.heading} — AOSET`} locale={locale} description={t.services.subtitle}>
+
+  <section class="mx-auto max-w-3xl px-4 py-16 text-center sm:px-6 lg:px-8 lg:pt-24">
+    <h1 class="text-3xl font-semibold leading-snug text-[var(--color-text)] sm:text-4xl">
+      {t.services.heading}
+    </h1>
+    <p class="mt-4 text-base text-[var(--color-text)]/70">{t.services.subtitle}</p>
+  </section>
+
+  <section class="mx-auto max-w-7xl px-4 pb-24 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {t.services.items.map((service, index) => (
+        <a
+          href={localizePath(locale, service.href)}
+          class={`group relative isolate flex aspect-[4/3] flex-col items-center justify-center overflow-hidden rounded-lg p-9 text-center bg-gradient-to-b ${bgColors[index]}`}
+        >
+          <!--
+            Replace with Image component once you add images:
+            <Image src={images[index]} alt={service.title}
+              class="absolute inset-0 -z-20 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+              widths={[315, 630]} sizes="(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw"
+              format="avif" quality={85} />
+          -->
+          <div class="absolute inset-0 -z-10 bg-black/40 transition-colors group-hover:bg-black/55" aria-hidden="true"></div>
+          <h3 class="text-2xl font-semibold text-white">{service.title}</h3>
+          <p class="mt-4 text-sm leading-relaxed text-white/85 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+            {service.description}
+          </p>
+        </a>
+      ))}
+    </div>
+  </section>
+
+</Layout>

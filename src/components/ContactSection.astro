@@ -1,0 +1,149 @@
+---
+// src/components/ContactSection.astro
+import { useTranslations } from '../i18n/utils';
+import type { Locale } from '../i18n/config';
+
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+
+const WORKER_URL = import.meta.env.PUBLIC_CONTACT_WORKER_URL ?? 'https://contact.aoset.workers.dev';
+---
+
+<section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+  <div class="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-20">
+
+    <!-- Contact info -->
+    <div>
+      <h2
+        class="text-3xl font-semibold leading-snug text-[var(--color-text)] sm:text-4xl"
+        set:html={t.contact.heading}
+      />
+      <p class="mt-6 text-sm leading-loose text-[var(--color-text)]/70">{t.contact.intro}</p>
+
+      <div class="mt-6 text-sm leading-loose text-[var(--color-text)]/70">
+        <p class="font-semibold text-[var(--color-text)]">{t.contact.serviceAreasLabel}</p>
+        <p>{t.contact.serviceAreas}</p>
+      </div>
+
+      <address class="mt-6 space-y-1 text-sm leading-loose text-[var(--color-text)]/70 not-italic">
+        <p>500 Terry Francine Street<br />San Francisco, CA 94158</p>
+        <p><a href="mailto:info@aoset.com" class="hover:text-[var(--color-accent)] transition-colors">info@aoset.com</a></p>
+        <p><a href="tel:1234567890" class="hover:text-[var(--color-accent)] transition-colors">123-456-7890</a></p>
+      </address>
+    </div>
+
+    <!-- Form -->
+    <form
+      id="contact-form"
+      data-worker-url={WORKER_URL}
+      data-success-msg={t.contact.form.success}
+      data-error-msg={t.contact.form.error}
+      class="space-y-5"
+      aria-label="Contact form"
+      novalidate
+    >
+      <!-- Row 1: First + Last name -->
+      <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+        {[
+          { id: 'firstName', type: 'text',  label: t.contact.form.firstName,  required: true  },
+          { id: 'lastName',  type: 'text',  label: t.contact.form.lastName,   required: true  },
+        ].map((f) => (
+          <div>
+            <label for={f.id} class="block text-sm font-medium text-[var(--color-text)]">
+              {f.label}{f.required && <span aria-hidden="true" class="text-[var(--color-accent)]"> *</span>}
+            </label>
+            <input
+              type={f.type} id={f.id} name={f.id} required={f.required}
+              class="mt-1 block w-full rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-2 text-sm text-[var(--color-text)] focus:border-[var(--color-accent)] focus:outline-none focus:ring-1 focus:ring-[var(--color-accent)]"
+            />
+          </div>
+        ))}
+      </div>
+
+      <!-- Row 2: Email + Phone -->
+      <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+        {[
+          { id: 'email', type: 'email', label: t.contact.form.email, required: true  },
+          { id: 'phone', type: 'tel',   label: t.contact.form.phone, required: false },
+        ].map((f) => (
+          <div>
+            <label for={f.id} class="block text-sm font-medium text-[var(--color-text)]">
+              {f.label}{f.required && <span aria-hidden="true" class="text-[var(--color-accent)]"> *</span>}
+            </label>
+            <input
+              type={f.type} id={f.id} name={f.id} required={f.required}
+              class="mt-1 block w-full rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-2 text-sm text-[var(--color-text)] focus:border-[var(--color-accent)] focus:outline-none focus:ring-1 focus:ring-[var(--color-accent)]"
+            />
+          </div>
+        ))}
+      </div>
+
+      <!-- Address -->
+      <div>
+        <label for="address" class="block text-sm font-medium text-[var(--color-text)]">{t.contact.form.address}</label>
+        <input type="text" id="address" name="address"
+          class="mt-1 block w-full rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-2 text-sm text-[var(--color-text)] focus:border-[var(--color-accent)] focus:outline-none focus:ring-1 focus:ring-[var(--color-accent)]" />
+      </div>
+
+      <!-- Subject -->
+      <div>
+        <label for="subject" class="block text-sm font-medium text-[var(--color-text)]">{t.contact.form.subject}</label>
+        <input type="text" id="subject" name="subject"
+          class="mt-1 block w-full rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-2 text-sm text-[var(--color-text)] focus:border-[var(--color-accent)] focus:outline-none focus:ring-1 focus:ring-[var(--color-accent)]" />
+      </div>
+
+      <!-- Message -->
+      <div>
+        <label for="message" class="block text-sm font-medium text-[var(--color-text)]">{t.contact.form.message}</label>
+        <textarea id="message" name="message" rows="5"
+          class="mt-1 block w-full rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-2 text-sm text-[var(--color-text)] focus:border-[var(--color-accent)] focus:outline-none focus:ring-1 focus:ring-[var(--color-accent)]"></textarea>
+      </div>
+
+      <button
+        type="submit"
+        class="inline-flex items-center justify-center rounded-md bg-[var(--color-accent)] px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-[var(--color-accent-dark)] disabled:opacity-60"
+      >
+        {t.contact.form.submit}
+      </button>
+
+      <p id="form-status" class="text-sm" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  const status = document.getElementById('form-status') as HTMLParagraphElement | null;
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!form || !status) return;
+
+    const submit = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+    submit.disabled = true;
+    status.textContent = '';
+    status.className = 'text-sm';
+
+    try {
+      const payload = Object.fromEntries(new FormData(form).entries());
+      const res = await fetch(form.dataset.workerUrl!, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+      status.textContent = form.dataset.successMsg ?? 'Sent!';
+      status.className = 'text-sm text-green-600';
+      form.reset();
+    } catch (err) {
+      console.error('Contact form error:', err);
+      status.textContent = form.dataset.errorMsg ?? 'Error. Please try again.';
+      status.className = 'text-sm text-red-600';
+    } finally {
+      submit.disabled = false;
+    }
+  });
+</script>

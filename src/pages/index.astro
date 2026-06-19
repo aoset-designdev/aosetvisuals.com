@@ -1,0 +1,24 @@
+---
+// src/pages/index.astro
+// Detects browser language and redirects to the appropriate locale.
+// Cloudflare Pages also handles this via public/_redirects as fallback.
+---
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AOSET</title>
+    <script is:inline>
+      (function () {
+        const supported = ['en', 'es', 'fr'];
+        const preferred = (navigator.language || 'en').slice(0, 2).toLowerCase();
+        const locale = supported.includes(preferred) ? preferred : 'en';
+        window.location.replace('/' + locale + '/');
+      })();
+    </script>
+    <noscript>
+      <meta http-equiv="refresh" content="0; url=/en/" />
+    </noscript>
+  </head>
+  <body></body>
+</html>

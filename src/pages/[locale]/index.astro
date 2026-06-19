@@ -1,0 +1,28 @@
+---
+// src/pages/[locale]/index.astro
+import Layout from '../../layouts/Layout.astro';
+import Hero from '../../components/Hero.astro';
+import AboutIntro from '../../components/AboutIntro.astro';
+import WhyChooseUs from '../../components/WhyChooseUs.astro';
+import ServicesOverview from '../../components/ServicesOverview.astro';
+import Testimonials from '../../components/Testimonials.astro';
+import CtaBanner from '../../components/CtaBanner.astro';
+import { getLocalePaths, useTranslations } from '../../i18n/utils';
+import type { Locale } from '../../i18n/config';
+
+export function getStaticPaths() {
+  return getLocalePaths();
+}
+
+const { locale } = Astro.params as { locale: Locale };
+const t = useTranslations(locale);
+---
+
+<Layout title="AOSET" locale={locale} description={t.hero.title.replace(/<[^>]*>/g, ' ')}>
+  <Hero locale={locale} />
+  <AboutIntro locale={locale} />
+  <WhyChooseUs locale={locale} />
+  <ServicesOverview locale={locale} />
+  <Testimonials locale={locale} />
+  <CtaBanner locale={locale} />
+</Layout>

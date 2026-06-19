@@ -1,0 +1,53 @@
+---
+// src/components/OurProcess.astro
+// Add images: src/assets/about/process-1.jpg through process-4.jpg
+import { useTranslations } from '../i18n/utils';
+import type { Locale } from '../i18n/config';
+
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+
+const placeholderColors = [
+  'bg-[var(--color-ramp-300)]',
+  'bg-[var(--color-ramp-400)]',
+  'bg-[var(--color-ramp-500)]',
+  'bg-[var(--color-ramp-600)]',
+];
+---
+
+<section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+  <div class="mx-auto max-w-2xl text-center">
+    <h2 class="text-3xl font-semibold leading-snug text-[var(--color-text)] sm:text-4xl">
+      {t.about.process.heading}
+    </h2>
+    <p class="mt-4 text-base leading-loose text-[var(--color-text)]/70">
+      {t.about.process.intro}
+    </p>
+  </div>
+
+  <ol class="mt-12 grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
+    {t.about.process.steps.map((step, index) => (
+      <li class="text-center">
+        <!--
+          Replace placeholder with:
+          <div class="relative mx-auto aspect-[245/420] overflow-hidden rounded-lg">
+            <Image src={images[index]} alt={step.title}
+              class="absolute inset-0 h-full w-full object-cover"
+              widths={[245, 490]} sizes="(min-width:1024px) 25vw, 50vw" format="avif" quality={80} />
+          </div>
+        -->
+        <div class={`relative mx-auto aspect-[245/420] max-w-[245px] overflow-hidden rounded-lg ${placeholderColors[index]} sm:max-w-none flex items-center justify-center`}>
+          <span class="text-white/60 text-xs px-4">process-{index + 1}.jpg</span>
+        </div>
+        <span class="mt-6 block text-sm font-semibold text-[var(--color-accent)]" aria-hidden="true">
+          {String(index + 1).padStart(2, '0')}
+        </span>
+        <h3 class="mt-2 text-xl font-semibold leading-snug text-[var(--color-text)] sm:text-2xl">
+          {step.title}
+        </h3>
+        <p class="mt-3 text-sm leading-loose text-[var(--color-text)]/70">{step.text}</p>
+      </li>
+    ))}
+  </ol>
+</section>

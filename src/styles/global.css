@@ -1,0 +1,75 @@
+/* src/styles/global.css */
+@import "tailwindcss";
+
+/* ─────────────────────────────────────────
+   DESIGN TOKENS
+   Replace hex values with your aoset-tokens.css values
+   ───────────────────────────────────────── */
+@theme {
+  /* Five-ramp luxury palette */
+  --color-ramp-50:  #f4f6fb;
+  --color-ramp-100: #d9e1f2;
+  --color-ramp-200: #b3c3e5;
+  --color-ramp-300: #7d96c4;
+  --color-ramp-400: #4f6fa3;
+  --color-ramp-500: #2f4b80;   /* cerulean base */
+  --color-ramp-600: #243b66;
+  --color-ramp-700: #1a2d52;
+  --color-ramp-800: #11203d;
+  --color-ramp-900: #0a1128;   /* midnight blue */
+
+  /* Semantic tokens — LIGHT defaults */
+  --color-surface:      var(--color-ramp-50);
+  --color-text:         var(--color-ramp-900);
+  --color-border:       var(--color-ramp-100);
+  --color-accent:       var(--color-ramp-500);
+  --color-accent-dark:  var(--color-ramp-700);
+  --color-muted:        var(--color-ramp-300);
+
+  /* Typography */
+  --font-sans: "Poppins", system-ui, sans-serif;
+
+  /* Spacing / layout */
+  --max-w-site: 80rem; /* 1280px */
+}
+
+/* ─────────────────────────────────────────
+   DARK MODE via [data-theme="dark"]
+   Tailwind v4 custom variant
+   ───────────────────────────────────────── */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+[data-theme="dark"] {
+  --color-surface:     var(--color-ramp-900);
+  --color-text:        var(--color-ramp-50);
+  --color-border:      var(--color-ramp-700);
+  --color-accent:      var(--color-ramp-300);
+  --color-accent-dark: var(--color-ramp-100);
+  --color-muted:       var(--color-ramp-600);
+}
+
+/* ─────────────────────────────────────────
+   BASE STYLES
+   ───────────────────────────────────────── */
+html {
+  font-family: var(--font-sans);
+  color-scheme: light dark;
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* View transitions (Astro ClientRouter) */
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.25s;
+}

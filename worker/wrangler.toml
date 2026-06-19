@@ -1,0 +1,19 @@
+name            = "aoset-contact"
+main            = "src/index.ts"
+compatibility_date = "2025-01-01"
+
+[vars]
+ALLOWED_ORIGIN        = "https://aoset.com"
+GOOGLE_FORM_ACTION_URL = "https://docs.google.com/forms/d/e/YOUR_FORM_ID/formResponse"
+ENTRY_FIRST_NAME      = "entry.111111111"
+ENTRY_LAST_NAME       = "entry.222222222"
+ENTRY_EMAIL           = "entry.333333333"
+ENTRY_PHONE           = "entry.444444444"
+ENTRY_ADDRESS         = "entry.555555555"
+ENTRY_SUBJECT         = "entry.666666666"
+ENTRY_MESSAGE         = "entry.777777777"
+NOTIFY_EMAIL          = "info@aoset.com"
+FROM_EMAIL            = "AOSET Contact <noreply@aoset.com>"
+
+# Set secret (never commit to git):
+# wrangler secret put RESEND_API_KEY
