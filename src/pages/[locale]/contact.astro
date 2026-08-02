@@ -1,36 +1,50 @@
 ---
 // src/pages/[locale]/contact.astro
-import Layout from '../../layouts/Layout.astro';
-import ContactSection from '../../components/ContactSection.astro';
-import { getLocalePaths, useTranslations } from '../../i18n/utils';
-import type { Locale } from '../../i18n/config';
+import Layout from '@/layouts/Layout.astro';
+import ContactSection from '@/components/ContactSection.astro';
+import { getLocalePaths, useTranslations } from '@/i18n/utils';
+import { locales, type Locale } from '@/i18n/config';
+
+// REQUIRED: Static page in Cloudflare SSR mode using getStaticPaths()
+export const prerender = true;
 
 export function getStaticPaths() {
   return getLocalePaths();
 }
 
-const { locale } = Astro.params as { locale: Locale };
+// Safely extract and validate locale parameter
+const rawLocale = Astro.params.locale;
+const locale: Locale = locales.includes(rawLocale as Locale) 
+  ? (rawLocale as Locale) 
+  : 'en';
+
 const t = useTranslations(locale);
+
+// Strip HTML tags from translation string for clean meta description snippet
+const metaDescription = t.contact.intro.replace(/<[^>]*>/g, '');
+
+// Add your real Google Maps Embed URL here or leave empty to hide
+const GOOGLE_MAPS_EMBED_URL = ""; 
 ---
 
 <Layout
-  title={`Contact — AOSET`}
+  title={`${t.contact.heading || 'Contact'} — AOSET`}
   locale={locale}
-  description={t.contact.intro}
+  description={metaDescription}
 >
   <ContactSection locale={locale} />
 
-  <!-- Google Maps embed — replace YOUR_EMBED_CODE with your actual embed URL -->
-  <section class="h-[450px] w-full">
-    <iframe
-      title="AOSET office location"
-      src="https://www.google.com/maps/embed?pb=YOUR_EMBED_CODE_HERE"
-      width="100%"
-      height="100%"
-      style="border:0"
-      loading="lazy"
-      referrerpolicy="no-referrer-when-downgrade"
-      class="block"
-    ></iframe>
-  </section>
+  {GOOGLE_MAPS_EMBED_URL && (
+    <section class="h-112.5 w-full">
+      <iframe
+        title="AOSET office location"
+        src={GOOGLE_MAPS_EMBED_URL}
+        width="100%"
+        height="100%"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        class="block border-none"
+      />
+    </section>
+  )}
 </Layout>

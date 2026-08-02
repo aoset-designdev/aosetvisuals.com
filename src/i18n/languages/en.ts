@@ -1,5 +1,6 @@
 // src/i18n/languages/en.ts
-export default {
+
+export const en = {
   nav: {
     home: 'Home',
     about: 'About',
@@ -8,7 +9,8 @@ export default {
     contact: 'Contact',
   },
   hero: {
-    title: 'Exceptional Home<br />Remodeling &amp; Renovations',
+    title: 'Exceptional Home<br />Remodeling & Renovations',
+    subtitle: 'Transforming spaces with precision craftsmanship and quality materials.',
     cta: 'Get A Free Estimate',
   },
   aboutIntro: {
@@ -18,28 +20,54 @@ export default {
   },
   whyChooseUs: {
     heading: 'Why Choose Us',
+    subheading: 'Dedicated craftsmanship and end-to-end service you can depend on.',
     features: [
-      { title: 'Easy<br />Financing', text: 'We offer flexible financing options to bring your project to life without straining your budget.' },
-      { title: 'Free, At Home<br />Consultations', text: 'Our team visits your space at no cost to understand your vision and offer the best solution.' },
-      { title: 'Award Winning<br />Service', text: 'Recognized for excellence in every project, with regional awards that validate our quality.' },
-      { title: 'Licensed &amp;<br />Insured', text: 'We operate with all current licenses and insurance for your peace of mind and protection.' },
+      { 
+        title: 'Easy<br />Financing', 
+        text: 'We offer flexible financing options to bring your project to life without straining your budget.' 
+      },
+      { 
+        title: 'Free, At Home<br />Consultations', 
+        text: 'Our team visits your space at no cost to understand your vision and offer the best solution.' 
+      },
+      { 
+        title: 'Award Winning<br />Service', 
+        text: 'Recognized for excellence in every project, with regional awards that validate our quality.' 
+      },
+      { 
+        title: 'Licensed &<br />Insured', 
+        text: 'We operate with all current licenses and insurance for your peace of mind and protection.' 
+      },
     ],
   },
   servicesOverview: {
     heading: 'Our Services Include',
     cta: 'See All Services',
     items: [
-      { title: 'Kitchens', href: '/services' },
-      { title: 'Bathrooms', href: '/services' },
-      { title: 'Interiors', href: '/services' },
+      { title: 'Kitchens', href: '/services/kitchens' },
+      { title: 'Bathrooms', href: '/services/bathrooms' },
+      { title: 'Interiors', href: '/services/interiors' },
     ],
   },
   testimonials: {
     heading: 'Satisfied Customers',
+    subheading: 'Read what home owners across the Bay Area have to say about working with us.',
     items: [
-      { quote: "Exceptional service from start to finish. The team transformed our kitchen beyond what we imagined. Highly recommended.", name: 'Dave Reddington' },
-      { quote: "Punctuality, professionalism, and impeccable results. Our bathroom was renovated in record time with premium quality.", name: 'Amelia Banks' },
-      { quote: "Personal approach, top-tier materials, and a finish that speaks for itself. I would hire them again without hesitation.", name: 'Kenny Stutes' },
+      { 
+        quote: "Exceptional service from start to finish. The team transformed our kitchen beyond what we imagined. Highly recommended.", 
+        name: 'Dave Reddington',
+        role: 'Homeowner, San Francisco'
+      },
+      { 
+        quote: "Punctuality, professionalism, and impeccable results. Our bathroom was renovated in record time with premium quality.", 
+        name: 'Amelia Banks',
+        role: 'Homeowner, San Mateo'
+      },
+      { 
+        quote: "Personal approach, top-tier materials, and a finish that speaks for itself. I would hire them again without hesitation.", 
+        name: 'Kenny Stutes',
+        role: 'Homeowner, Santa Clara'
+      },
     ],
   },
   cta: {
@@ -75,11 +103,11 @@ export default {
     heading: 'Our Services',
     subtitle: "Let us help you make your dreams a reality.",
     items: [
-      { title: 'Kitchen', description: 'Functional, elegant kitchens that become the heart of your home.', href: '/services/kitchens' },
+      { title: 'Kitchens', description: 'Functional, elegant kitchens that become the heart of your home.', href: '/services/kitchens' },
       { title: 'Bathrooms', description: 'Bathroom renovations combining comfort, aesthetics, and durability.', href: '/services/bathrooms' },
       { title: 'Interiors', description: 'Interior spaces redefined with premium materials and contemporary design.', href: '/services/interiors' },
       { title: 'Additions', description: 'We expand your home with solid structures that integrate seamlessly.', href: '/services/additions' },
-      { title: 'Exteriors', description: 'Facades and outdoor spaces that elevate your property\'s first impression.', href: '/services/exteriors' },
+      { title: 'Exteriors', description: "Facades and outdoor spaces that elevate your property's first impression.", href: '/services/exteriors' },
       { title: 'Sunrooms', description: 'Sun-filled spaces that extend your home and connect you with nature.', href: '/services/sunrooms' },
     ],
   },
@@ -109,3 +137,13 @@ export default {
     rights: 'All rights reserved.',
   },
 } as const;
+
+// Deeply convert all literal string types to general `string` while preserving structure
+type DeepStringify<T> = T extends string
+  ? string
+  : T extends object
+  ? { [K in keyof T]: DeepStringify<T[K]> }
+  : T;
+
+export type TranslationSchema = DeepStringify<typeof en>;
+export default en;

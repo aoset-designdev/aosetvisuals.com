@@ -2,66 +2,88 @@
 @import "tailwindcss";
 
 /* ─────────────────────────────────────────
-   DESIGN TOKENS
-   Replace hex values with your aoset-tokens.css values
+   DARK MODE VARIANT
+   ───────────────────────────────────────── */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* ─────────────────────────────────────────
+   TAILWIND v4 THEME EXTENSIONS
    ───────────────────────────────────────── */
 @theme {
-  /* Five-ramp luxury palette */
+  /* Font Family */
+  --font-sans: "Poppins", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Color Ramp Utilities (e.g., bg-ramp-50, text-ramp-900) */
   --color-ramp-50:  #f4f6fb;
   --color-ramp-100: #d9e1f2;
   --color-ramp-200: #b3c3e5;
   --color-ramp-300: #7d96c4;
   --color-ramp-400: #4f6fa3;
-  --color-ramp-500: #2f4b80;   /* cerulean base */
+  --color-ramp-500: #2f4b80;   /* Cerulean base */
   --color-ramp-600: #243b66;
   --color-ramp-700: #1a2d52;
   --color-ramp-800: #11203d;
-  --color-ramp-900: #0a1128;   /* midnight blue */
+  --color-ramp-900: #0a1128;   /* Midnight blue */
 
-  /* Semantic tokens — LIGHT defaults */
-  --color-surface:      var(--color-ramp-50);
-  --color-text:         var(--color-ramp-900);
-  --color-border:       var(--color-ramp-100);
-  --color-accent:       var(--color-ramp-500);
-  --color-accent-dark:  var(--color-ramp-700);
-  --color-muted:        var(--color-ramp-300);
+  /* Dynamic Semantic Utilities (e.g., bg-surface, text-text, bg-accent) */
+  --color-surface:     var(--theme-surface);
+  --color-text:        var(--theme-text);
+  --color-border:      var(--theme-border);
+  --color-accent:      var(--theme-accent);
+  --color-accent-dark: var(--theme-accent-dark);
+  --color-muted:       var(--theme-muted);
 
-  /* Typography */
-  --font-sans: "Poppins", system-ui, sans-serif;
-
-  /* Spacing / layout */
-  --max-w-site: 80rem; /* 1280px */
+  /* Custom Layout Spacing (generates max-w-site) */
+  --breakpoint-site: 80rem; /* 1280px */
 }
 
 /* ─────────────────────────────────────────
-   DARK MODE via [data-theme="dark"]
-   Tailwind v4 custom variant
+   ROOT VARIABLES & DARK MODE TOKENS
    ───────────────────────────────────────── */
-@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+:root {
+  /* LIGHT MODE DEFAULT TOKENS */
+  --theme-surface:     #f4f6fb;
+  --theme-text:        #0a1128;
+  --theme-border:      #d9e1f2;
+  --theme-accent:      #2f4b80;
+  --theme-accent-dark: #1a2d52;
+  --theme-muted:       #7d96c4;
+
+  color-scheme: light;
+}
 
 [data-theme="dark"] {
-  --color-surface:     var(--color-ramp-900);
-  --color-text:        var(--color-ramp-50);
-  --color-border:      var(--color-ramp-700);
-  --color-accent:      var(--color-ramp-300);
-  --color-accent-dark: var(--color-ramp-100);
-  --color-muted:       var(--color-ramp-600);
+  /* DARK MODE OVERRIDES */
+  --theme-surface:     #0a1128;
+  --theme-text:        #f4f6fb;
+  --theme-border:      #1a2d52;
+  --theme-accent:      #7d96c4;
+  --theme-accent-dark: #d9e1f2;
+  --theme-muted:       #243b66;
+
+  color-scheme: dark;
 }
 
 /* ─────────────────────────────────────────
-   BASE STYLES
+   BASE HTML STYLES
    ───────────────────────────────────────── */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
 html {
   font-family: var(--font-sans);
-  color-scheme: light dark;
-  scroll-behavior: smooth;
 }
 
 body {
   background-color: var(--color-surface);
   color: var(--color-text);
+  min-height: 100dvh; /* Mobile browser URL bar friendly */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 /* View transitions (Astro ClientRouter) */

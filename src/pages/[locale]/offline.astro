@@ -1,30 +1,68 @@
 ---
 // src/pages/[locale]/offline.astro
-import Layout from '../../layouts/Layout.astro';
-import { getLocalePaths } from '../../i18n/utils';
-import type { Locale } from '../../i18n/config';
+import Layout from '@/layouts/Layout.astro';
+import { getLocalePaths } from '@/i18n/utils';
+import { locales, type Locale } from '@/i18n/config';
 
+// REQUIRED: Static page in Cloudflare SSR mode using getStaticPaths()
+export const prerender = true;
+
+// Generate static routes for all configured locales (/en/offline, /es/offline)
 export function getStaticPaths() {
   return getLocalePaths();
 }
 
-const { locale } = Astro.params as { locale: Locale };
+// Safely extract and validate locale parameter
+const rawLocale = Astro.params.locale;
+const locale: Locale = locales.includes(rawLocale as Locale) 
+  ? (rawLocale as Locale) 
+  : 'en';
 ---
 
 <Layout title="Offline — AOSET" locale={locale}>
   <section class="mx-auto max-w-xl px-4 py-32 text-center">
-    <svg viewBox="0 0 24 24" class="mx-auto mb-6 h-16 w-16 text-[var(--color-muted)]" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M3 3l18 18M10.584 10.587a2 2 0 002.828 2.83M6.386 6.389A5.5 5.5 0 0112 5c3.03 0 5.5 2.47 5.5 5.5a5.48 5.48 0 01-1.388 3.612M4.5 10.5A7.5 7.5 0 0116.88 4.12M3 20.25h18" />
+    <!-- Offline Icon (Tailwind v4: size-16 replaces h-16 w-16, text-muted replaces var syntax) -->
+    <svg 
+      viewBox="0 0 24 24" 
+      class="text-muted mx-auto mb-6 size-16" 
+      fill="none" 
+      stroke="currentColor" 
+      stroke-width="1.5" 
+      aria-hidden="true"
+    >
+      <path 
+        stroke-linecap="round" 
+        stroke-linejoin="round" 
+        d="M3 3l18 18M10.584 10.587a2 2 0 002.828 2.83M6.386 6.389A5.5 5.5 0 0112 5c3.03 0 5.5 2.47 5.5 5.5a5.48 5.48 0 01-1.388 3.612M4.5 10.5A7.5 7.5 0 0116.88 4.12M3 20.25h18" 
+      />
     </svg>
-    <h1 class="text-3xl font-semibold text-[var(--color-text)]">You're offline</h1>
-    <p class="mt-4 text-[var(--color-text)]/70">
-      Please check your connection and try again.
+
+    <!-- Tailwind v4 Theme Utilities (text-text, text-text/70) -->
+    <h1 class="text-text text-3xl font-semibold">
+      You're offline
+    </h1>
+    
+    <p class="text-text/70 mt-4">
+      Please check your internet connection and try reloading the page.
     </p>
+
+    <!-- Tailwind v4 Theme Utilities (bg-accent, hover:bg-accent-dark) -->
     <button
-      onclick="window.location.reload()"
-      class="mt-8 inline-flex items-center justify-center rounded-md bg-[var(--color-accent)] px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[var(--color-accent-dark)]"
+      id="retry-btn"
+      type="button"
+      class="bg-accent hover:bg-accent-dark mt-8 inline-flex cursor-pointer items-center justify-center rounded-md px-6 py-2.5 text-sm font-semibold text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
     >
       Retry
     </button>
   </section>
 </Layout>
+
+<!-- Client-side reload trigger -->
+<script>
+  const retryBtn = document.getElementById('retry-btn');
+  if (retryBtn) {
+    retryBtn.addEventListener('click', () => {
+      window.location.reload();
+    });
+  }
+</script>

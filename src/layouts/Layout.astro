@@ -20,11 +20,16 @@ const {
   ogImage = '/og-default.jpg',
 } = Astro.props;
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://aoset.com');
+// Determine fallback base domain
+const siteBase = Astro.site ?? 'https://aosetvisuals.com';
+
+// Construct canonical and absolute OG URLs
+const canonicalURL = new URL(Astro.url.pathname, siteBase);
+const absoluteOgImage = new URL(ogImage, siteBase).toString();
 ---
 
 <!doctype html>
-<html lang={locale} data-theme="light">
+<html lang={locale}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -32,34 +37,33 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://aoset.co
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
 
-    <!-- PWA -->
+    <!-- PWA & Mobile Icons -->
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/icons/icon-192.png" />
     <link rel="manifest" href="/manifest.webmanifest" />
     <meta name="theme-color" content="#0a1128" />
-    <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-    <!-- Open Graph -->
+    <!-- Open Graph & Social Cards -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={ogImage} />
+    <meta property="og:image" content={absoluteOgImage} />
     <meta name="twitter:card" content="summary_large_image" />
 
-    <!-- hreflang alternates -->
+    <!-- Multi-language hreflang Alternates -->
     {locales.map((l) => (
       <link
         rel="alternate"
         hreflang={l}
-        href={new URL(switchLocalePath(Astro.url, l), Astro.site ?? 'https://aoset.com')}
+        href={new URL(switchLocalePath(Astro.url, l), siteBase)}
       />
     ))}
-    <link rel="alternate" hreflang="x-default" href={new URL(localizePath('en', '/'), Astro.site ?? 'https://aoset.com')} />
+    <link rel="alternate" hreflang="x-default" href={new URL(localizePath('en', '/'), siteBase)} />
 
-    <!-- Google Fonts: Poppins (self-host in production for better perf) -->
+    <!-- Google Fonts Preconnect -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -67,7 +71,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://aoset.co
       rel="stylesheet"
     />
 
-    <!-- Theme init — prevents FOUC, runs synchronously before paint -->
+    <!-- Synchronous Theme Init Script (Prevents FOUC) -->
     <script is:inline>
       (function () {
         try {
@@ -75,11 +79,13 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://aoset.co
           const preferred = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
           const theme = stored ?? preferred;
           document.documentElement.setAttribute('data-theme', theme);
-        } catch (_) {}
+        } catch (_) {
+          document.documentElement.setAttribute('data-theme', 'light');
+        }
       })();
     </script>
   </head>
-  <body class="min-h-screen bg-[var(--color-surface)] text-[var(--color-text)] antialiased">
+  <body class="bg-surface text-text min-h-screen">
     <Header locale={locale} />
     <main id="main-content">
       <slot />

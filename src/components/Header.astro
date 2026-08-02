@@ -21,30 +21,30 @@ const navItems = [
 const currentPath = Astro.url.pathname;
 
 function isActive(path: string): boolean {
-  const full = localizePath(locale, path);
-  return currentPath === full || currentPath === `${full}/`;
+  const target = localizePath(locale, path).replace(/\/$/, '') || '/';
+  const current = currentPath.replace(/\/$/, '') || '/';
+  return current === target;
 }
 ---
 
-<header class="sticky top-0 z-50 w-full border-b border-[var(--color-border)] bg-[var(--color-surface)]/90 backdrop-blur-sm">
+<header class="sticky top-0 z-50 w-full border-b border-border bg-surface/90 backdrop-blur-sm">
   <div class="mx-auto flex max-w-7xl items-center justify-between gap-6 px-4 py-3 sm:px-6 lg:px-8">
 
     <!-- Logo -->
     <a
       href={localizePath(locale, '/')}
-      class="flex items-center gap-2 shrink-0"
+      class="flex shrink-0 items-center gap-2 rounded-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
       aria-label="AOSET — Home"
     >
       <svg
         viewBox="0 0 160 136"
-        class="h-8 w-8"
-        fill="var(--color-accent)"
+        class="h-8 w-8 fill-current text-accent"
         aria-hidden="true"
       >
         <path d="M71.22 10.63L60.6 0 0 61.05v74.93h15.03V68.36L71.22 10.63Z" />
         <path d="M109.85 10.66l.03-.03L99.25 0 32.06 68.34l.02.02h-.02v67.62h99.16v-15.03l-.5-52.59h-.02l.02-.02L98.5 38.49l-10.25 10.25 27.41 26.71v46.5H47.09V43.5l52.15-53.04 45.82 44.5-.17.09.08 69.94h15.03V61.05L109.85 10.66Z" />
       </svg>
-      <span class="text-lg font-semibold tracking-tight text-[var(--color-text)]">AOSET</span>
+      <span class="text-lg font-semibold tracking-tight text-text">AOSET</span>
     </a>
 
     <!-- Desktop nav -->
@@ -55,10 +55,10 @@ function isActive(path: string): boolean {
             <a
               href={localizePath(locale, item.path)}
               aria-current={isActive(item.path) ? 'page' : undefined}
-              class={`transition-colors hover:text-[var(--color-accent)] ${
+              class={`rounded-xs transition-colors hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
                 isActive(item.path)
-                  ? 'text-[var(--color-accent)]'
-                  : 'text-[var(--color-text)]/80'
+                  ? 'text-accent'
+                  : 'text-text/80'
               }`}
             >
               {t.nav[item.key]}
@@ -72,9 +72,9 @@ function isActive(path: string): boolean {
     <div class="hidden items-center gap-3 md:flex">
 
       <!-- Language switcher -->
-      <details class="relative">
+      <details class="js-dropdown relative">
         <summary
-          class="flex cursor-pointer list-none items-center gap-1 rounded-md px-2 py-1 text-sm font-medium text-[var(--color-text)]/80 hover:text-[var(--color-accent)] [&::-webkit-details-marker]:hidden"
+          class="flex cursor-pointer list-none items-center gap-1 rounded-md px-2 py-1 text-sm font-medium text-text/80 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent [&::-webkit-details-marker]:hidden"
           aria-label="Select language"
         >
           {locale.toUpperCase()}
@@ -82,13 +82,13 @@ function isActive(path: string): boolean {
             <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414Z" />
           </svg>
         </summary>
-        <ul class="absolute right-0 mt-2 min-w-[8rem] rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] py-1 shadow-lg">
+        <ul class="absolute right-0 mt-2 min-w-32 rounded-md border border-border bg-surface py-1 shadow-lg">
           {locales.map((l) => (
             <li>
               <a
                 href={switchLocalePath(Astro.url, l)}
-                class={`block px-3 py-1.5 text-sm transition-colors hover:text-[var(--color-accent)] ${
-                  l === locale ? 'text-[var(--color-accent)] font-medium' : 'text-[var(--color-text)]/80'
+                class={`block px-3 py-1.5 text-sm transition-colors hover:text-accent ${
+                  l === locale ? 'font-medium text-accent' : 'text-text/80'
                 }`}
               >
                 {localeNames[l]}
@@ -103,41 +103,39 @@ function isActive(path: string): boolean {
         id="theme-toggle"
         type="button"
         aria-label="Toggle dark mode"
-        class="flex h-9 w-9 items-center justify-center rounded-md text-[var(--color-text)]/80 transition-colors hover:text-[var(--color-accent)]"
+        class="flex h-9 w-9 items-center justify-center rounded-md text-text/80 transition-colors hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
       >
-        <!-- Sun icon (shown in light mode) -->
         <svg id="icon-sun" viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
           <circle cx="12" cy="12" r="4" />
           <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
         </svg>
-        <!-- Moon icon (shown in dark mode) -->
         <svg id="icon-moon" viewBox="0 0 24 24" class="hidden h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
           <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z" />
         </svg>
       </button>
     </div>
 
-    <!-- Mobile hamburger -->
-    <details class="md:hidden">
+    <!-- Mobile menu -->
+    <details class="js-dropdown md:hidden">
       <summary
-        class="flex h-9 w-9 cursor-pointer list-none items-center justify-center rounded-md text-[var(--color-text)] [&::-webkit-details-marker]:hidden"
+        class="flex h-9 w-9 cursor-pointer list-none items-center justify-center rounded-md text-text hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent [&::-webkit-details-marker]:hidden"
         aria-label="Toggle menu"
       >
         <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
           <path d="M4 6h16M4 12h16M4 18h16" />
         </svg>
       </summary>
-      <div class="absolute inset-x-0 top-full border-t border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-4 shadow-lg">
+      <div class="absolute inset-x-0 top-full border-t border-border bg-surface px-4 py-4 shadow-lg">
         <ul class="flex flex-col gap-3 text-sm font-medium">
           {navItems.map((item) => (
             <li>
               <a
                 href={localizePath(locale, item.path)}
                 aria-current={isActive(item.path) ? 'page' : undefined}
-                class={`block py-1 transition-colors hover:text-[var(--color-accent)] ${
+                class={`block py-1 transition-colors hover:text-accent ${
                   isActive(item.path)
-                    ? 'text-[var(--color-accent)]'
-                    : 'text-[var(--color-text)]/80'
+                    ? 'text-accent'
+                    : 'text-text/80'
                 }`}
               >
                 {t.nav[item.key]}
@@ -145,12 +143,12 @@ function isActive(path: string): boolean {
             </li>
           ))}
         </ul>
-        <div class="mt-4 flex items-center gap-3 border-t border-[var(--color-border)] pt-4">
+        <div class="mt-4 flex items-center gap-3 border-t border-border pt-4">
           {locales.map((l) => (
             <a
               href={switchLocalePath(Astro.url, l)}
-              class={`text-sm transition-colors hover:text-[var(--color-accent)] ${
-                l === locale ? 'text-[var(--color-accent)] font-semibold' : 'text-[var(--color-text)]/70'
+              class={`text-sm transition-colors hover:text-accent ${
+                l === locale ? 'font-semibold text-accent' : 'text-text/70'
               }`}
             >
               {l.toUpperCase()}
@@ -159,7 +157,7 @@ function isActive(path: string): boolean {
           <button
             id="theme-toggle-mobile"
             type="button"
-            class="ml-auto flex h-8 w-8 items-center justify-center rounded-md text-[var(--color-text)]/70 hover:text-[var(--color-accent)]"
+            class="ml-auto flex h-8 w-8 items-center justify-center rounded-md text-text/70 hover:text-accent"
             aria-label="Toggle dark mode"
           >
             <svg id="icon-sun-mobile" viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
@@ -177,26 +175,51 @@ function isActive(path: string): boolean {
   </div>
 </header>
 
-<script is:inline>
-  // Sync icon state on page load
-  function syncIcons() {
-    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-    document.getElementById('icon-sun')?.classList.toggle('hidden', isDark);
-    document.getElementById('icon-moon')?.classList.toggle('hidden', !isDark);
-    document.getElementById('icon-sun-mobile')?.classList.toggle('hidden', isDark);
-    document.getElementById('icon-moon-mobile')?.classList.toggle('hidden', !isDark);
-  }
+<script>
+  function initHeader() {
+    // 1. Theme sync & toggle logic
+    function syncIcons() {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      document.getElementById('icon-sun')?.classList.toggle('hidden', isDark);
+      document.getElementById('icon-moon')?.classList.toggle('hidden', !isDark);
+      document.getElementById('icon-sun-mobile')?.classList.toggle('hidden', isDark);
+      document.getElementById('icon-moon-mobile')?.classList.toggle('hidden', !isDark);
+    }
 
-  function toggleTheme() {
-    const html = document.documentElement;
-    const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-    html.setAttribute('data-theme', next);
-    try { localStorage.setItem('aoset-theme', next); } catch (_) {}
+    function toggleTheme() {
+      const html = document.documentElement;
+      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      try { localStorage.setItem('aoset-theme', next); } catch (_) {}
+      syncIcons();
+    }
+
+    document.getElementById('theme-toggle')?.addEventListener('click', toggleTheme);
+    document.getElementById('theme-toggle-mobile')?.addEventListener('click', toggleTheme);
     syncIcons();
+
+    // 2. Auto-close <details> dropdowns when clicking outside or clicking a nav link
+    const dropdowns = document.querySelectorAll<HTMLDetailsElement>('details.js-dropdown');
+    
+    document.addEventListener('click', (e) => {
+      const target = e.target as Node;
+      dropdowns.forEach((details) => {
+        if (!details.contains(target)) {
+          details.removeAttribute('open');
+        }
+      });
+    });
+
+    dropdowns.forEach((details) => {
+      details.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', () => {
+          details.removeAttribute('open');
+        });
+      });
+    });
   }
 
-  document.getElementById('theme-toggle')?.addEventListener('click', toggleTheme);
-  document.getElementById('theme-toggle-mobile')?.addEventListener('click', toggleTheme);
-
-  syncIcons();
+  // Support initial page load + Astro client router view transitions
+  initHeader();
+  document.addEventListener('astro:page-load', initHeader);
 </script>

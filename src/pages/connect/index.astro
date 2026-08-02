@@ -1,0 +1,420 @@
+---
+// src/pages/connect/index.astro
+// Standalone landing page optimized for physical business card QR code scans.
+// Located outside dynamic [locale] routes for clean URL routing (/connect).
+
+export const prerender = true;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>AOSET Visuals — Digital Card</title>
+    <style>
+      @font-face {
+        font-family: "Montserrat";
+         src: url("/fonts/montserrat-vf.woff2") format("woff2-variations");
+        font-weight: 100 900;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Montserrat", system-ui, -apple-system, sans-serif;
+        min-height: 100svh;
+        background: #f0f4f8;
+        color: #102a43;
+        -webkit-font-smoothing: antialiased;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem 1rem;
+      }
+
+      main {
+        width: 100%;
+        max-width: 26rem;
+      }
+
+      .card {
+        background: #ffffff;
+        border-radius: 20px;
+        padding: 2.25rem 1.75rem 1.75rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        box-shadow: 0 10px 25px -5px rgba(16, 42, 67, 0.08);
+      }
+
+      .logo-wrap {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background: #eef4fb;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.25rem;
+        flex-shrink: 0;
+      }
+
+      .logo-wrap img {
+        width: 48px;
+        height: auto;
+      }
+
+      .tagline {
+        font-size: 0.6875rem;
+        font-weight: 600;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #7a8793;
+        margin-top: 0.375rem;
+        margin-bottom: 0.375rem;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        color: #102a43;
+      }
+
+      .body-copy {
+        font-size: 0.8125rem;
+        line-height: 1.5;
+        color: #5b6770;
+        margin-bottom: 1.5rem;
+      }
+
+      .actions {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        width: 100%;
+        border-radius: 12px;
+        padding: 0.875rem 1.25rem;
+        font-family: inherit;
+        font-size: 0.875rem;
+        font-weight: 600;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.18s ease;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .btn-primary {
+        background: #0b5fa5;
+        color: #ffffff;
+        border: 2px solid transparent;
+      }
+
+      .btn-primary:hover,
+      .btn-primary:focus-visible {
+        background: #084b82;
+      }
+
+      .btn-outline {
+        background: transparent;
+        color: #0b5fa5;
+        border: 2px solid #0b5fa5;
+      }
+
+      .btn-outline:hover,
+      .btn-outline:focus-visible {
+        background: #eef4fb;
+      }
+
+      .btn svg {
+        flex-shrink: 0;
+        width: 18px;
+        height: 18px;
+      }
+
+      .form-wrap {
+        width: 100%;
+        border-top: 1px solid #e8edf2;
+        padding-top: 1.5rem;
+        margin-bottom: 1.5rem;
+        text-align: left;
+      }
+
+      .form-title {
+        font-size: 0.9375rem;
+        font-weight: 700;
+        color: #102a43;
+        margin-bottom: 1rem;
+        text-align: center;
+      }
+
+      .form-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 0.875rem;
+      }
+
+      .form-row {
+        display: flex;
+        gap: 0.75rem;
+      }
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+        width: 100%;
+      }
+
+      label {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #486581;
+      }
+
+      input,
+      textarea {
+        width: 100%;
+        padding: 0.65rem 0.875rem;
+        font-family: inherit;
+        font-size: 0.875rem;
+        color: #102a43;
+        background: #f8fafc;
+        border: 1px solid #d9e2ec;
+        border-radius: 8px;
+        transition: border-color 0.15s ease, box-shadow 0.15s ease;
+      }
+
+      input:focus,
+      textarea:focus {
+        outline: none;
+        border-color: #0b5fa5;
+        background: #ffffff;
+        box-shadow: 0 0 0 3px rgba(11, 95, 165, 0.15);
+      }
+
+      textarea {
+        resize: vertical;
+        min-height: 80px;
+      }
+
+      .status-msg {
+        display: none;
+        padding: 0.75rem;
+        border-radius: 8px;
+        font-size: 0.8125rem;
+        text-align: center;
+        margin-top: 0.75rem;
+      }
+
+      .status-msg.success {
+        display: block;
+        background: #e6fffa;
+        color: #047857;
+        border: 1px solid #a7f3d0;
+      }
+
+      .status-msg.error {
+        display: block;
+        background: #fef2f2;
+        color: #b91c1c;
+        border: 1px solid #fecaca;
+      }
+
+      .card-footer {
+        width: 100%;
+        border-top: 1px solid #e8edf2;
+        padding-top: 1.25rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1.25rem;
+      }
+
+      .footer-item {
+        display: flex;
+        align-items: center;
+        gap: 0.35rem;
+        font-size: 0.75rem;
+        color: #7a8793;
+      }
+
+      .footer-item svg {
+        width: 14px;
+        height: 14px;
+        color: #0b5fa5;
+        flex-shrink: 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <main>
+      <div class="card">
+        <div class="logo-wrap">
+          <img
+            src="/images/logo.svg"
+            alt="AOSET Visuals Logo"
+            width="48"
+            height="48"
+          />
+        </div>
+
+        <h1>AOSET Visuals</h1>
+        <p class="tagline">Visual Media &amp; Digital Production</p>
+        <p class="body-copy">
+          Save our business contact card to your phone or send us an inquiry directly below.
+        </p>
+
+        <div class="actions">
+          <a
+            href="/connect/contact.vcf"
+            class="btn btn-primary"
+            aria-label="Save contact card for AOSET Visuals"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M19 8v6M22 11h-6"></path>
+            </svg>
+            Save Contact Card (.vcf)
+          </a>
+
+          <a href="/" class="btn btn-outline">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"></circle>
+              <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1 4-10z"></path>
+            </svg>
+            Visit Website
+          </a>
+        </div>
+
+        <div class="form-wrap">
+          <p class="form-title">Send a Quick Message</p>
+          <form id="connect-form" class="form-grid">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="firstName">First Name *</label>
+                <input type="text" id="firstName" name="firstName" required placeholder="Jane" />
+              </div>
+              <div class="form-group">
+                <label for="lastName">Last Name *</label>
+                <input type="text" id="lastName" name="lastName" required placeholder="Doe" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email Address *</label>
+              <input type="email" id="email" name="email" required placeholder="jane@example.com" />
+            </div>
+
+            <div class="form-group">
+              <label for="phone">Phone Number</label>
+              <input type="tel" id="phone" name="phone" placeholder="(305) 000-0000" />
+            </div>
+
+            <div class="form-group">
+              <label for="message">Message / Project Details</label>
+              <textarea id="message" name="message" placeholder="How can we help you?"></textarea>
+            </div>
+
+            <button type="submit" id="submit-btn" class="btn btn-primary" style="margin-top: 0.5rem;">
+              Send Message
+            </button>
+
+            <div id="status-message" class="status-msg"></div>
+          </form>
+        </div>
+
+        <div class="card-footer">
+          <span class="footer-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+            Verified Business
+          </span>
+          <span class="footer-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+            Global / Remote
+          </span>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      const form = document.getElementById('connect-form') as HTMLFormElement;
+      const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
+      const statusMsg = document.getElementById('status-message') as HTMLDivElement;
+
+      if (form) {
+        form.addEventListener('submit', async (event) => {
+          event.preventDefault();
+
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Sending...';
+          statusMsg.className = 'status-msg';
+          statusMsg.textContent = '';
+
+          const formData = new FormData(form);
+          const payload = {
+            firstName: formData.get('firstName'),
+            lastName: formData.get('lastName'),
+            email: formData.get('email'),
+            phone: formData.get('phone'),
+            message: formData.get('message'),
+          };
+
+          try {
+            const response = await fetch('/api/connect', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(payload),
+            });
+
+            const result = await response.json().catch(() => ({}));
+
+            if (response.ok) {
+              statusMsg.textContent = 'Thank you! Your message has been sent successfully.';
+              statusMsg.classList.add('success');
+              form.reset();
+            } else {
+              statusMsg.textContent = result.error || 'Something went wrong. Please try again.';
+              statusMsg.classList.add('error');
+            }
+          } catch (error) {
+            statusMsg.textContent = 'Network error. Please check your internet connection.';
+            statusMsg.classList.add('error');
+          } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Send Message';
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

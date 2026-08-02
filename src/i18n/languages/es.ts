@@ -1,5 +1,7 @@
 // src/i18n/languages/es.ts
-export default {
+import type { TranslationSchema } from './en';
+
+export const es = {
   nav: {
     home: 'Inicio',
     about: 'Nosotros',
@@ -9,6 +11,7 @@ export default {
   },
   hero: {
     title: 'Remodelaciones y Renovaciones<br />de Hogar Excepcionales',
+    subtitle: 'Transformando espacios con mano de obra de precisión y materiales de alta calidad.',
     cta: 'Solicita un Presupuesto Gratis',
   },
   aboutIntro: {
@@ -18,28 +21,54 @@ export default {
   },
   whyChooseUs: {
     heading: '¿Por qué elegirnos?',
+    subheading: 'Artesanía dedicada y servicio integral en el que puedes confiar.',
     features: [
-      { title: 'Financiamiento<br />Accesible', text: 'Ofrecemos opciones de financiamiento flexibles para hacer realidad tu proyecto sin comprometer tu presupuesto.' },
-      { title: 'Consultas Gratis<br />en tu Hogar', text: 'Nuestro equipo visita tu espacio sin costo para entender tu visión y ofrecerte la mejor solución.' },
-      { title: 'Servicio<br />Premiado', text: 'Reconocidos por la excelencia en cada proyecto, con premios regionales que avalan nuestra calidad.' },
-      { title: 'Licenciados<br />y Asegurados', text: 'Operamos con todas las licencias y seguros vigentes para tu tranquilidad y protección.' },
+      { 
+        title: 'Financiamiento<br />Accesible', 
+        text: 'Ofrecemos opciones de financiamiento flexibles para hacer realidad tu proyecto sin comprometer tu presupuesto.' 
+      },
+      { 
+        title: 'Consultas Gratis<br />en tu Hogar', 
+        text: 'Nuestro equipo visita tu espacio sin costo para entender tu visión y ofrecerte la mejor solución.' 
+      },
+      { 
+        title: 'Servicio<br />Premiado', 
+        text: 'Reconocidos por la excelencia en cada proyecto, con premios regionales que avalan nuestra calidad.' 
+      },
+      { 
+        title: 'Licenciados<br />y Asegurados', 
+        text: 'Operamos con todas las licencias y seguros vigentes para tu tranquilidad y protección.' 
+      },
     ],
   },
   servicesOverview: {
     heading: 'Nuestros Servicios Incluyen',
     cta: 'Ver Todos los Servicios',
     items: [
-      { title: 'Cocinas', href: '/services' },
-      { title: 'Baños', href: '/services' },
-      { title: 'Interiores', href: '/services' },
+      { title: 'Cocinas', href: '/services/kitchens' },
+      { title: 'Baños', href: '/services/bathrooms' },
+      { title: 'Interiores', href: '/services/interiors' },
     ],
   },
   testimonials: {
     heading: 'Clientes Satisfechos',
+    subheading: 'Lee lo que los propietarios del Área de la Bahía opinan sobre trabajar con nosotros.',
     items: [
-      { quote: 'Un servicio excepcional de principio a fin. El equipo transformó nuestra cocina más allá de lo que imaginábamos. Totalmente recomendados.', name: 'Dave Reddington' },
-      { quote: 'Puntualidad, profesionalismo y resultados impecables. Renovaron nuestro baño en tiempo récord y con calidad premium.', name: 'Amelia Banks' },
-      { quote: 'Trato cercano, materiales de primera y un acabado que habla por sí solo. Sin duda volvería a contratarlos.', name: 'Kenny Stutes' },
+      { 
+        quote: 'Un servicio excepcional de principio a fin. El equipo transformó nuestra cocina más allá de lo que imaginábamos. Totalmente recomendados.', 
+        name: 'Dave Reddington',
+        role: 'Propietario, San Francisco'
+      },
+      { 
+        quote: 'Puntualidad, profesionalismo y resultados impecables. Renovaron nuestro baño en tiempo récord y con calidad premium.', 
+        name: 'Amelia Banks',
+        role: 'Propietaria, San Mateo'
+      },
+      { 
+        quote: 'Trato cercano, materiales de primera y un acabado que habla por sí solo. Sin duda volvería a contratarlos.', 
+        name: 'Kenny Stutes',
+        role: 'Propietario, Santa Clara'
+      },
     ],
   },
   cta: {
@@ -79,7 +108,7 @@ export default {
       { title: 'Baños', description: 'Renovaciones de baños que combinan confort, estética y durabilidad.', href: '/services/bathrooms' },
       { title: 'Interiores', description: 'Espacios interiores redefinidos con materiales premium y visión de diseño contemporáneo.', href: '/services/interiors' },
       { title: 'Ampliaciones', description: 'Expandimos tu hogar con estructuras sólidas que se integran a la perfección con lo existente.', href: '/services/additions' },
-      { title: 'Exteriores', description: 'Fachadas y espacios exteriores que elevan la primera impresión de tu propiedad.', href: '/services/exteriors' },
+      { title: 'Exteriors', description: 'Fachadas y espacios exteriores que elevan la primera impresión de tu propiedad.', href: '/services/exteriors' },
       { title: 'Solarios', description: 'Espacios iluminados por el sol que extienden tu hogar y conectan con la naturaleza.', href: '/services/sunrooms' },
     ],
   },
@@ -108,4 +137,6 @@ export default {
   footer: {
     rights: 'Todos los derechos reservados.',
   },
-} as const;
+} as const satisfies TranslationSchema;
+
+export default es;
