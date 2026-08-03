@@ -16,7 +16,7 @@ export const prerender = true;
     <style>
       @font-face {
         font-family: "Montserrat";
-         src: url("/fonts/montserrat-vf.woff2") format("woff2-variations");
+        src: url("/fonts/montserrat-vf.woff2") format("woff2-variations");
         font-weight: 100 900;
         font-style: normal;
         font-display: swap;
@@ -150,6 +150,24 @@ export const prerender = true;
         flex-shrink: 0;
         width: 18px;
         height: 18px;
+      }
+
+      .ios-hint {
+        font-size: 0.71875rem;
+        color: #627d98;
+        margin-top: -0.25rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .quick-contact {
+        display: flex;
+        gap: 0.5rem;
+        width: 100%;
+      }
+
+      .quick-contact .btn {
+        padding: 0.65rem;
+        font-size: 0.8125rem;
       }
 
       .form-wrap {
@@ -287,8 +305,8 @@ export const prerender = true;
         </p>
 
         <div class="actions">
-          <a
-            href="/connect/contact.vcf"
+          <button
+            id="save-vcard-btn"
             class="btn btn-primary"
             aria-label="Save contact card for AOSET Visuals"
           >
@@ -297,16 +315,26 @@ export const prerender = true;
               <circle cx="9" cy="7" r="4"></circle>
               <path d="M19 8v6M22 11h-6"></path>
             </svg>
-            Save Contact Card (.vcf)
-          </a>
+            Save Contact Card
+          </button>
+          <p class="ios-hint">Tap above to add directly to contacts</p>
 
-          <a href="/" class="btn btn-outline">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <circle cx="12" cy="12" r="10"></circle>
-              <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1 4-10z"></path>
-            </svg>
-            Visit Website
-          </a>
+          <div class="quick-contact">
+            <a href="mailto:hello@aosetvisuals.com" class="btn btn-outline">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+              Email Us
+            </a>
+            <a href="/" class="btn btn-outline">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1 4-10z"></path>
+              </svg>
+              Website
+            </a>
+          </div>
         </div>
 
         <div class="form-wrap">
@@ -365,6 +393,38 @@ export const prerender = true;
     </main>
 
     <script>
+      // Inline vCard payload optimized for mobile OS Contacts App
+      const vcardData = [
+        "BEGIN:VCARD",
+        "VERSION:3.0",
+        "N:Visuals;AOSET;;;",
+        "FN:AOSET Visuals",
+        "ORG:AOSET Visuals",
+        "EMAIL;TYPE=INTERNET,WORK:hello@aosetvisuals.com",
+        "URL:https://aosetvisuals.com",
+        "NOTE:Visual Media & Digital Production",
+        "END:VCARD"
+      ].join("\r\n");
+
+      const saveVCardBtn = document.getElementById("save-vcard-btn");
+
+      if (saveVCardBtn) {
+        saveVCardBtn.addEventListener("click", () => {
+          const blob = new Blob([vcardData], { type: "text/vcard;charset=utf-8" });
+          const url = URL.createObjectURL(blob);
+          
+          const tempLink = document.createElement("a");
+          tempLink.href = url;
+          tempLink.setAttribute("download", "AOSET_Visuals.vcf");
+          document.body.appendChild(tempLink);
+          tempLink.click();
+          document.body.removeChild(tempLink);
+          
+          setTimeout(() => URL.revokeObjectURL(url), 1000);
+        });
+      }
+
+      // Form Handling
       const form = document.getElementById('connect-form') as HTMLFormElement;
       const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
       const statusMsg = document.getElementById('status-message') as HTMLDivElement;
