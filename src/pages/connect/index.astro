@@ -12,9 +12,8 @@ export const prerender = false;
     <!-- Card Container -->
     <section class="w-full max-w-md bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 sm:p-8 border border-slate-700/60 shadow-2xl text-slate-50 font-sans">
       
-      <!-- Studio Header -->
+      <!-- Studio Header with Inline SVG Logo -->
       <div class="flex flex-col items-center justify-center text-center mb-6">
-        <!-- Studio Logo SVG -->
         <svg 
           class="w-12 h-12 text-white mb-2 bg-transparent" 
           viewBox="0 0 100 100" 
@@ -32,8 +31,8 @@ export const prerender = false;
       </div>
 
       <!-- Action Buttons Stack -->
-      <div class="flex flex-col gap-3">
-        <!-- 1. Save Contact Card (vCard) Button -->
+      <div class="space-y-2.5">
+        <!-- 1. Primary Action: Save Contact Card (vCard) -->
         <a
           href="/api/connect"
           id="save-vcard-link"
@@ -48,59 +47,74 @@ export const prerender = false;
           <span>Save Contact Card</span>
         </a>
 
-        <!-- 2. WhatsApp Business Direct Link -->
-        <a
-          href="https://wa.me/13054821642?text=Hello%20AOSET%20Visuals%2C%20I'd%20like%20to%20get%20in%20touch!"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="flex items-center justify-center gap-2.5 w-full py-3 px-4 rounded-xl font-semibold bg-[#25d366] hover:bg-[#20bd5a] text-white transition-all active:scale-[0.98] shadow-md"
-          aria-label="Chat with AOSET Visuals on WhatsApp"
-        >
-          <svg viewBox="0 0 24 24" class="w-5 h-5 fill-none stroke-current stroke-2 stroke-linecap-round stroke-linejoin-round">
-            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
-          </svg>
-          <span>WhatsApp</span>
-        </a>
+        <!-- 2. Secondary Quick-Action Grid (Website, WhatsApp, Call) -->
+        <div class="grid grid-cols-3 gap-2.5">
+          <!-- Visit Website Button -->
+          <a
+            href="https://aosetvisuals.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex flex-col sm:flex-row items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl font-medium bg-slate-700/80 hover:bg-slate-700 text-white text-xs sm:text-sm transition-all active:scale-[0.98]"
+            aria-label="Visit AOSET Visuals Website"
+          >
+            <svg viewBox="0 0 24 24" class="w-4 h-4 fill-none stroke-current stroke-2 stroke-linecap-round stroke-linejoin-round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="2" y1="12" x2="22" y2="12"></line>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10z"></path>
+            </svg>
+            <span>Website</span>
+          </a>
 
-        <!-- 3. Direct Phone Call Button -->
-        <a
-          href="tel:+13054821642"
-          class="flex items-center justify-center gap-2.5 w-full py-3 px-4 rounded-xl font-semibold bg-slate-700 hover:bg-slate-600 text-white transition-all active:scale-[0.98]"
-          aria-label="Call AOSET Visuals directly"
-        >
-          <svg viewBox="0 0 24 24" class="w-5 h-5 fill-none stroke-current stroke-2 stroke-linecap-round stroke-linejoin-round">
-            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-          </svg>
-          <span>Call Us</span>
-        </a>
+          <!-- WhatsApp Direct Link -->
+          <a
+            href="https://wa.me/13054821642?text=Hello%20AOSET%20Visuals%2C%20I'd%20like%20to%20get%20in%20touch!"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex flex-col sm:flex-row items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl font-medium bg-[#25d366] hover:bg-[#20bd5a] text-white text-xs sm:text-sm transition-all active:scale-[0.98]"
+            aria-label="Chat with AOSET Visuals on WhatsApp"
+          >
+            <svg viewBox="0 0 24 24" class="w-4 h-4 fill-none stroke-current stroke-2 stroke-linecap-round stroke-linejoin-round">
+              <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+            </svg>
+            <span>WhatsApp</span>
+          </a>
+
+          <!-- Phone Call Button -->
+          <a
+            href="tel:+13054821642"
+            class="flex flex-col sm:flex-row items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl font-medium bg-slate-700/80 hover:bg-slate-700 text-white text-xs sm:text-sm transition-all active:scale-[0.98]"
+            aria-label="Call AOSET Visuals directly"
+          >
+            <svg viewBox="0 0 24 24" class="w-4 h-4 fill-none stroke-current stroke-2 stroke-linecap-round stroke-linejoin-round">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+            </svg>
+            <span>Call</span>
+          </a>
+        </div>
       </div>
 
       <!-- Visual Divider -->
-      <div class="relative flex py-6 items-center">
+      <div class="relative flex py-5 items-center">
         <div class="grow border-t border-slate-700/80"></div>
         <span class="shrink-0 mx-3 text-xs font-medium uppercase tracking-wider text-slate-400">or send a message</span>
         <div class="grow border-t border-slate-700/80"></div>
       </div>
 
-      <!-- Lead Capture Form -->
+      <!-- Streamlined Lead Capture Form -->
       <form id="connect-form" class="space-y-3">
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <!-- Full Name -->
+        <div>
           <input 
             type="text" 
-            name="firstName" 
-            placeholder="First Name *" 
-            required 
-            class="w-full px-3.5 py-2.5 rounded-lg bg-slate-900/90 border border-slate-700 text-slate-100 placeholder-slate-500 text-sm outline-none focus:border-blue-500 transition-colors"
-          />
-          <input 
-            type="text" 
-            name="lastName" 
-            placeholder="Last Name *" 
+            name="name" 
+            placeholder="Full Name *" 
             required 
             class="w-full px-3.5 py-2.5 rounded-lg bg-slate-900/90 border border-slate-700 text-slate-100 placeholder-slate-500 text-sm outline-none focus:border-blue-500 transition-colors"
           />
         </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+
+        <!-- Email Address -->
+        <div>
           <input 
             type="email" 
             name="email" 
@@ -108,29 +122,19 @@ export const prerender = false;
             required 
             class="w-full px-3.5 py-2.5 rounded-lg bg-slate-900/90 border border-slate-700 text-slate-100 placeholder-slate-500 text-sm outline-none focus:border-blue-500 transition-colors"
           />
-          <input 
-            type="tel" 
-            name="phone" 
-            placeholder="Phone Number" 
-            class="w-full px-3.5 py-2.5 rounded-lg bg-slate-900/90 border border-slate-700 text-slate-100 placeholder-slate-500 text-sm outline-none focus:border-blue-500 transition-colors"
-          />
         </div>
-        <div>
-          <input 
-            type="text" 
-            name="subject" 
-            placeholder="Subject" 
-            class="w-full px-3.5 py-2.5 rounded-lg bg-slate-900/90 border border-slate-700 text-slate-100 placeholder-slate-500 text-sm outline-none focus:border-blue-500 transition-colors"
-          />
-        </div>
+
+        <!-- Message Body -->
         <div>
           <textarea 
             name="message" 
-            placeholder="Your Message" 
-            rows="3" 
+            placeholder="How can we help you?" 
+            rows="2" 
             class="w-full px-3.5 py-2.5 rounded-lg bg-slate-900/90 border border-slate-700 text-slate-100 placeholder-slate-500 text-sm outline-none focus:border-blue-500 transition-colors resize-none"
           ></textarea>
         </div>
+
+        <!-- Submit Button -->
         <button 
           type="submit" 
           class="w-full py-3 px-4 rounded-xl font-semibold bg-white hover:bg-slate-200 text-slate-900 transition-all active:scale-[0.98]"
