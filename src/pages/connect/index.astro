@@ -394,32 +394,57 @@ export const prerender = true;
     </main>
 
     <script>
-      // Fallback for non-Safari browsers on iOS (Opera, Chrome, Brave)
       const vcardLink = document.getElementById("save-vcard-link") as HTMLAnchorElement;
 
       if (vcardLink) {
-        vcardLink.addEventListener("click", (e) => {
+        vcardLink.addEventListener("click", async (e) => {
           const userAgent = window.navigator.userAgent;
           const isIOS = /iPhone|iPad|iPod/i.test(userAgent);
           const isSafari = /^((?!chrome|android|crios|fxios|opera|opios).)*safari/i.test(userAgent);
 
+          const vcardData = [
+            "BEGIN:VCARD",
+            "VERSION:3.0",
+            "N:Visuals;AOSET;;;",
+            "FN:AOSET Visuals",
+            "ORG:AOSET Visuals",
+            "TEL;TYPE=CELL,VOICE:+13054821642",
+            "EMAIL;TYPE=INTERNET,WORK:hello@aosetvisuals.com",
+            "URL:https://aosetvisuals.com",
+            "END:VCARD"
+          ].join("\r\n");
+
+          // For iOS Non-Safari browsers (Opera, Chrome, in-app webviews)
           if (isIOS && !isSafari) {
             e.preventDefault();
 
-            const vcardData = [
-              "BEGIN:VCARD",
-              "VERSION:3.0",
-              "N:Visuals;AOSET;;;",
-              "FN:AOSET Visuals",
-              "ORG:AOSET Visuals",
-              "TEL;TYPE=CELL,VOICE:+13054821642",
-              "EMAIL;TYPE=INTERNET,WORK:hello@aosetvisuals.com",
-              "URL:https://aosetvisuals.com",
-              "END:VCARD"
-            ].join("\r\n");
+            try {
+              const file = new File([vcardData], "contact.vcf", { type: "text/vcard" });
 
-            window.location.href = "data:text/vcard;charset=utf-8," + encodeURIComponent(vcardData);
+              // 1. Web Share API: Opens native iOS share sheet directly to "Contacts"
+              if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                await navigator.share({
+                  files: [file],
+                  title: "AOSET Visuals Contact"
+                });
+                return;
+              }
+            } catch (err) {
+              console.warn("Web Share failed, falling back to direct endpoint navigation", err);
+            }
+
+            // 2. Blob URL Fallback if Web Share is disabled in Opera
+            const blob = new Blob([vcardData], { type: "text/vcard;charset=utf-8" });
+            const blobUrl = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = blobUrl;
+            a.download = "contact.vcf";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(blobUrl);
           }
+          // Native Safari or Android: standard link behavior handles /connect/contact.vcf directly
         });
       }
 
@@ -449,9 +474,7 @@ export const prerender = true;
           try {
             const response = await fetch('/api/connect', {
               method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
+              headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify(payload),
             });
 
