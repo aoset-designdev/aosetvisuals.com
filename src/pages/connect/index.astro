@@ -13,8 +13,23 @@ export const prerender = false;
     <section class="w-full max-w-md bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 sm:p-8 border border-slate-700/60 shadow-2xl text-slate-50 font-sans">
       
       <!-- Studio Header -->
-      <h1 class="text-2xl font-bold text-center tracking-tight text-white">AOSET Visuals</h1>
-      <p class="text-sm text-slate-400 text-center mt-1 mb-6">Creative Design & Visual Production Studio</p>
+      <div class="flex flex-col items-center justify-center text-center mb-6">
+        <!-- Studio Logo SVG -->
+        <svg 
+          class="w-12 h-12 text-white mb-2 bg-transparent" 
+          viewBox="0 0 100 100" 
+          fill="none" 
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+        >
+          <!-- Replace paths below with your actual logo SVG paths -->
+          <circle cx="50" cy="50" r="42" stroke="currentColor" stroke-width="6"/>
+          <path d="M32 65 L50 28 L68 65 Z" stroke="currentColor" stroke-width="6" stroke-linejoin="round"/>
+        </svg>
+
+        <h1 class="text-2xl font-bold tracking-tight text-white">AOSET Visuals</h1>
+        <p class="text-sm text-slate-400 mt-1">Creative Design & Visual Production Studio</p>
+      </div>
 
       <!-- Action Buttons Stack -->
       <div class="flex flex-col gap-3">
