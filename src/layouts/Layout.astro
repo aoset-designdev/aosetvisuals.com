@@ -1,43 +1,61 @@
 ---
 // src/layouts/Layout.astro
-import '../styles/global.css';
-import { locales, type Locale } from '../i18n/config';
-import { localizePath, switchLocalePath } from '../i18n/utils';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
+import '@/styles/global.css';
+import { locales, type Locale } from '@/i18n/config';
+import { localizePath, switchLocalePath } from '@/i18n/utils';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
 
+// TypeScript interface defining component props
 interface Props {
   title: string;
   description?: string;
-  locale: Locale;
+  locale?: Locale;
   ogImage?: string;
+  hideNav?: boolean;      // Controls header visibility
+  hideFooter?: boolean;   // Controls footer visibility
 }
 
+// Destructure props with sensible defaults
 const {
   title,
   description = 'AOSET — Elevating aesthetics across physical and digital environments.',
-  locale,
+  locale = 'en',
   ogImage = '/og-default.jpg',
+  hideNav = false,
+  hideFooter = false,
 } = Astro.props;
 
-// Determine fallback base domain
+// Determine fallback base URL for canonical and OG meta tags
 const siteBase = Astro.site ?? 'https://aosetvisuals.com';
 
-// Construct canonical and absolute OG URLs
+// Construct canonical and absolute OpenGraph image URLs
 const canonicalURL = new URL(Astro.url.pathname, siteBase);
 const absoluteOgImage = new URL(ogImage, siteBase).toString();
 ---
 
 <!doctype html>
-<html lang={locale}>
+<html lang={locale} class="font-sans">
   <head>
+    <!-- Character Set & Viewport -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+    <!-- Primary Metadata -->
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
 
-    <!-- PWA & Mobile Icons -->
+    <!-- Preload Self-Hosted Variable Font for Performance -->
+    <link 
+      rel="preload" 
+      href="/fonts/Poppins-Variable.woff2" 
+      as="font" 
+      type="font/woff2" 
+      crossorigin="anonymous" 
+    />
+
+    <!-- PWA & Web App Icons -->
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/icons/icon-192.png" />
     <link rel="manifest" href="/manifest.webmanifest" />
@@ -45,15 +63,17 @@ const absoluteOgImage = new URL(ogImage, siteBase).toString();
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-    <!-- Open Graph & Social Cards -->
+    <!-- Open Graph (Facebook, LinkedIn, Discord) -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={absoluteOgImage} />
+
+    <!-- Twitter Card Metadata -->
     <meta name="twitter:card" content="summary_large_image" />
 
-    <!-- Multi-language hreflang Alternates -->
+    <!-- Multi-language Alternates (i18n) -->
     {locales.map((l) => (
       <link
         rel="alternate"
@@ -63,15 +83,7 @@ const absoluteOgImage = new URL(ogImage, siteBase).toString();
     ))}
     <link rel="alternate" hreflang="x-default" href={new URL(localizePath('en', '/'), siteBase)} />
 
-    <!-- Google Fonts Preconnect -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-
-    <!-- Synchronous Theme Init Script (Prevents FOUC) -->
+    <!-- Synchronous Theme Switcher Script (Prevents FOUC on page load) -->
     <script is:inline>
       (function () {
         try {
@@ -85,11 +97,16 @@ const absoluteOgImage = new URL(ogImage, siteBase).toString();
       })();
     </script>
   </head>
-  <body class="bg-surface text-text min-h-screen">
-    <Header locale={locale} />
-    <main id="main-content">
+  <body class="bg-surface text-text min-h-dvh flex flex-col font-sans">
+    <!-- Render Header conditionally if hideNav is false -->
+    {!hideNav && <Header locale={locale} />}
+
+    <!-- Main Content Area -->
+    <main id="main-content" class="flex-1">
       <slot />
     </main>
-    <Footer locale={locale} />
+
+    <!-- Render Footer conditionally if hideFooter is false -->
+    {!hideFooter && <Footer locale={locale} />}
   </body>
 </html>

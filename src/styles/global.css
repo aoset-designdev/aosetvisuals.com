@@ -2,6 +2,17 @@
 @import "tailwindcss";
 
 /* ─────────────────────────────────────────
+   SELF-HOSTED FONTS
+   ───────────────────────────────────────── */
+@font-face {
+  font-family: 'Montserrat';
+  src: url('/fonts/montserrat-vf.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ─────────────────────────────────────────
    DARK MODE VARIANT
    ───────────────────────────────────────── */
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
@@ -11,7 +22,7 @@
    ───────────────────────────────────────── */
 @theme {
   /* Font Family */
-  --font-sans: "Poppins", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-sans: "Montserrat", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 
   /* Color Ramp Utilities (e.g., bg-ramp-50, text-ramp-900) */
   --color-ramp-50:  #f4f6fb;
