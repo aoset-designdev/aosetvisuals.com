@@ -1,15 +1,12 @@
-// src/pages/connect/contact.vcf.ts
 import type { APIRoute } from 'astro';
 
-// Set to false so Cloudflare Pages resolves request-time env vars (locals.runtime.env) dynamically
+// SSR required for Cloudflare environment variable evaluation
 export const prerender = false;
 
 export const GET: APIRoute = async ({ locals }) => {
-  // Safely extract environment variables from Cloudflare runtime or import.meta.env
   const cloudflareEnv = (locals as { runtime?: { env?: Record<string, string> } }).runtime?.env;
   const env = cloudflareEnv ?? import.meta.env;
 
-  // Extract contact fields from environment variables or fall back to defaults
   const fn = env.VCARD_FN || 'AOSET Visuals';
   const n = env.VCARD_N || 'Visuals;AOSET;;;';
   const org = env.VCARD_ORG || 'AOSET Visuals';
@@ -18,7 +15,6 @@ export const GET: APIRoute = async ({ locals }) => {
   const url = env.VCARD_URL || 'https://aosetvisuals.com';
   const rev = new Date().toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
 
-  // Construct vCard 3.0 string specification with strict CRLF line endings
   const vcardLines = [
     'BEGIN:VCARD',
     'VERSION:3.0',
@@ -37,11 +33,10 @@ export const GET: APIRoute = async ({ locals }) => {
   return new Response(vcardData, {
     status: 200,
     headers: {
-      // Standard MIME type for vCard files across iOS and Android
       'Content-Type': 'text/vcard; charset=utf-8',
-      // `inline` forces iOS Safari to trigger the native "Add to Contacts" prompt rather than downloading a raw text file
-      'Content-Disposition': 'inline; filename="contact.vcf"',
-      'Cache-Control': 'public, max-age=3600, s-maxage=86400',
+      'Content-Disposition': 'attachment; filename="contact.vcf"',
+      'X-Content-Type-Options': 'nosniff',
+      'Cache-Control': 'no-cache, no-store, must-revalidate',
     },
   });
 };

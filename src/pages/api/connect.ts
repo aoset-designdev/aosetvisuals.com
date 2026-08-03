@@ -1,7 +1,6 @@
-// src/pages/api/connect.ts
 import type { APIRoute } from 'astro';
 
-// Force dynamic execution for API endpoints on Cloudflare / SSR
+// Force dynamic execution for API endpoints on Cloudflare
 export const prerender = false;
 
 export interface ConnectPayload {
@@ -13,7 +12,6 @@ export interface ConnectPayload {
   message?: string;
 }
 
-// Helper for standardized JSON responses
 function jsonResponse(data: Record<string, unknown>, status: number) {
   return new Response(JSON.stringify(data), {
     status,
@@ -22,11 +20,9 @@ function jsonResponse(data: Record<string, unknown>, status: number) {
 }
 
 export const POST: APIRoute = async ({ request, locals }) => {
-  // Extract environment variables safely from Cloudflare runtime or import.meta.env
   const cloudflareEnv = (locals as { runtime?: { env?: Record<string, string> } }).runtime?.env;
   const env = cloudflareEnv ?? import.meta.env;
 
-  // Verify Content-Type header
   const contentType = request.headers.get('content-type');
   if (!contentType || !contentType.includes('application/json')) {
     return jsonResponse({ error: 'Content-Type must be application/json' }, 400);
@@ -34,14 +30,12 @@ export const POST: APIRoute = async ({ request, locals }) => {
 
   let payload: ConnectPayload;
 
-  // Safely parse JSON request payload
   try {
     payload = await request.json();
   } catch {
     return jsonResponse({ error: 'Invalid JSON request payload' }, 400);
   }
 
-  // Sanitize and validate mandatory input fields
   const firstName = payload.firstName?.trim();
   const lastName = payload.lastName?.trim();
   const email = payload.email?.trim();
@@ -50,13 +44,11 @@ export const POST: APIRoute = async ({ request, locals }) => {
     return jsonResponse({ error: 'Missing required form fields' }, 422);
   }
 
-  // Simple email format validation
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email)) {
     return jsonResponse({ error: 'Invalid email address format' }, 422);
   }
 
-  // Retrieve Google Webhook URL from environment variables
   const webhookUrl = env.GOOGLE_SHEET_WEBHOOK_URL;
 
   if (!webhookUrl) {
@@ -65,11 +57,10 @@ export const POST: APIRoute = async ({ request, locals }) => {
   }
 
   try {
-    // Forward JSON payload to Google Apps Script Webhook
     const webhookResponse = await fetch(webhookUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      redirect: 'follow', // Ensures Google Apps Script 302 redirects maintain payload
+      redirect: 'follow',
       body: JSON.stringify({
         firstName,
         lastName,

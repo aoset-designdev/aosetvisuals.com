@@ -59,10 +59,10 @@ export const prerender = true;
       }
 
       .logo-wrap {
-        width: 100px;
-        height: 100px;
+        width: 80px;
+        height: 80px;
         border-radius: 50%;
-        background: transparent;
+        background: #eef4fb;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -70,10 +70,10 @@ export const prerender = true;
         flex-shrink: 0;
       }
 
-      /* .logo-wrap svg {
+      .logo-wrap img {
         width: 48px;
         height: auto;
-      } */
+      }
 
       .tagline {
         font-size: 0.6875rem;
@@ -290,17 +290,12 @@ export const prerender = true;
     <main>
       <div class="card">
         <div class="logo-wrap">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 514 514">
-  <path d="M3254.34 901.89h626.67v626.67h-626.67z"/>
-  <path fill="#45a0d3" d="M64.477 409.962c-84.638-84.433-84.638-221.486 0-305.92s222.023-84.433 306.66 0c17.113 17.073 30.77 36.299 40.963 56.808l-.028.014 1.8 3.606 25.01-50.044 74.082 36.852-52.841 105.733L513 362.812l-74.085 36.849-100.928-201.947c-6.305-12.734-14.773-24.67-25.396-35.268-52.32-52.196-137.247-52.196-189.57 0-52.32 52.196-52.32 136.919 0 189.115 52.323 52.196 137.25 52.196 189.57 0 15.21-15.175 26.003-33.098 32.368-52.172l44.705 89.45.032.068a217.69 217.69 0 0 1-18.558 21.056c-84.638 84.433-222.023 84.433-306.66 0"/>
-</svg>
-
-          <!-- <img
+          <img
             src="/images/logo.svg"
             alt="AOSET Visuals Logo"
             width="48"
             height="48"
-          /> -->
+          />
         </div>
 
         <h1>AOSET Visuals</h1>
@@ -312,6 +307,7 @@ export const prerender = true;
         <div class="actions">
           <a
             href="/connect/contact.vcf"
+            id="save-vcard-link"
             class="btn btn-primary"
             aria-label="Save contact card for AOSET Visuals"
           >
@@ -398,6 +394,35 @@ export const prerender = true;
     </main>
 
     <script>
+      // Fallback for non-Safari browsers on iOS (Opera, Chrome, Brave)
+      const vcardLink = document.getElementById("save-vcard-link") as HTMLAnchorElement;
+
+      if (vcardLink) {
+        vcardLink.addEventListener("click", (e) => {
+          const userAgent = window.navigator.userAgent;
+          const isIOS = /iPhone|iPad|iPod/i.test(userAgent);
+          const isSafari = /^((?!chrome|android|crios|fxios|opera|opios).)*safari/i.test(userAgent);
+
+          if (isIOS && !isSafari) {
+            e.preventDefault();
+
+            const vcardData = [
+              "BEGIN:VCARD",
+              "VERSION:3.0",
+              "N:Visuals;AOSET;;;",
+              "FN:AOSET Visuals",
+              "ORG:AOSET Visuals",
+              "TEL;TYPE=CELL,VOICE:+13054821642",
+              "EMAIL;TYPE=INTERNET,WORK:hello@aosetvisuals.com",
+              "URL:https://aosetvisuals.com",
+              "END:VCARD"
+            ].join("\r\n");
+
+            window.location.href = "data:text/vcard;charset=utf-8," + encodeURIComponent(vcardData);
+          }
+        });
+      }
+
       // Form Handling
       const form = document.getElementById('connect-form') as HTMLFormElement;
       const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
