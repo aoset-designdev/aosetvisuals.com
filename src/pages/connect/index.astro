@@ -186,9 +186,9 @@ export const prerender = false;
           </h2>
         </div>
 
-        <!-- Streamlined Lead Capture Form -->
+        <!-- Streamlined lead capture form -->
         <form id="connect-form" class="mt-6 space-y-3">
-          <!-- Full Name -->
+          <!-- Full name -->
           <div>
             <input
               type="text"
@@ -200,7 +200,7 @@ export const prerender = false;
             />
           </div>
 
-          <!-- Email Address -->
+          <!-- Email address -->
           <div>
             <input
               type="email"
@@ -213,7 +213,7 @@ export const prerender = false;
             />
           </div>
 
-          <!-- Phone Number -->
+          <!-- Phone number -->
           <div>
             <input
               type="tel"
@@ -225,7 +225,7 @@ export const prerender = false;
             />
           </div>
 
-          <!-- Message Body -->
+          <!-- Message body -->
           <div>
             <textarea
               name="message"
@@ -236,7 +236,7 @@ export const prerender = false;
             ></textarea>
           </div>
 
-          <!-- Submit Button -->
+          <!-- Submit button -->
           <button
             type="submit"
             class="w-full rounded-xl bg-accent px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-hover active:bg-accent-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white disabled:cursor-not-allowed disabled:opacity-60"
@@ -244,7 +244,7 @@ export const prerender = false;
             Send
           </button>
 
-          <!-- Form Status Message Element -->
+          <!-- Form status message -->
           <p
             id="form-status"
             class="min-h-5 text-center text-xs font-medium text-white/50"
@@ -255,9 +255,9 @@ export const prerender = false;
     </dialog>
   </main>
 
-  <!-- Client-Side Behavior Script -->
+  <!-- Client-side behavior -->
   <script>
-    // 1. Non-Safari iOS vCard Download Fallback Handler
+    // 1. Non-Safari iOS vCard download fallback handler
     const vcardLink = document.getElementById(
       'save-vcard-link',
     ) as HTMLAnchorElement | null;
@@ -272,7 +272,7 @@ export const prerender = false;
             userAgent,
           );
 
-        // Force data-uri fallback on iOS non-Safari browsers
+        // Force data URI fallback on iOS non-Safari browsers
         if (isIOS && !isSafari) {
           event.preventDefault();
 
@@ -298,7 +298,7 @@ export const prerender = false;
       });
     }
 
-    // 2. Quick Message Dialog Controls
+    // 2. Quick message dialog controls
     const messageDialog = document.getElementById(
       'message-dialog',
     ) as HTMLDialogElement | null;
@@ -353,11 +353,17 @@ export const prerender = false;
       }, 320);
     }
 
-    messageOpen?.addEventListener('click', openMessageDialog);
+    messageOpen?.addEventListener(
+      'click',
+      openMessageDialog,
+    );
 
-    messageClose?.addEventListener('click', closeMessageDialog);
+    messageClose?.addEventListener(
+      'click',
+      closeMessageDialog,
+    );
 
-    // Close dialog when tapping outside the panel
+    // Close the dialog when tapping outside the panel
     messageDialog?.addEventListener('click', (event) => {
       if (event.target === messageDialog) {
         closeMessageDialog();
@@ -370,12 +376,12 @@ export const prerender = false;
       closeMessageDialog();
     });
 
-    // Reset animation state after native dialog closes
+    // Reset animation state after the native dialog closes
     messageDialog?.addEventListener('close', () => {
       messageDialog.classList.remove('is-visible');
     });
 
-    // 3. Contact Form Submission Handler
+    // 3. Contact form submission handler
     const form = document.getElementById(
       'connect-form',
     ) as HTMLFormElement | null;
@@ -397,7 +403,7 @@ export const prerender = false;
           'button[type="submit"]',
         ) as HTMLButtonElement | null;
 
-        // Reset status to neutral sending state
+        // Reset status to a neutral sending state
         statusText.textContent = 'Sending...';
         statusText.className =
           'min-h-5 text-center text-xs font-medium text-white/50';
@@ -529,9 +535,14 @@ export const prerender = false;
     will-change: opacity;
   }
 
+  /*
+   * The background begins slightly enlarged and vertically offset.
+   * The 1.07 scale makes the movement perceptible on small screens
+   * while remaining subtle enough for the overall visual style.
+   */
   .connect-background {
-    transform: scale(1.04) translateY(-5px);
-    animation: connect-background-settle 1500ms
+    transform: scale(1.07) translateY(-8px);
+    animation: connect-background-settle 1750ms
       cubic-bezier(0.22, 1, 0.36, 1) 450ms forwards;
     will-change: transform;
     backface-visibility: hidden;
@@ -595,7 +606,7 @@ export const prerender = false;
 
   @keyframes connect-background-settle {
     from {
-      transform: scale(1.04) translateY(-5px);
+      transform: scale(1.07) translateY(-8px);
     }
 
     to {
@@ -613,6 +624,10 @@ export const prerender = false;
     }
   }
 
+  /*
+   * Respect the user's operating-system motion preference.
+   * The page remains fully usable without entrance animations.
+   */
   @media (prefers-reduced-motion: reduce) {
     .connect-cover {
       display: none;
