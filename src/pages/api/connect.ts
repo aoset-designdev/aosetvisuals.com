@@ -14,7 +14,10 @@ export interface ConnectPayload {
   message?: string;
 }
 
-function jsonResponse(data: Record<string, unknown>, status: number) {
+function jsonResponse(
+  data: Record<string, unknown>,
+  status: number,
+) {
   return new Response(JSON.stringify(data), {
     status,
     headers: {
@@ -71,13 +74,16 @@ export const GET: APIRoute = async ({ locals }) => {
       },
     );
 
-    return new Response('Server configuration error', {
-      status: 500,
-    });
+    return new Response(
+      'Server configuration error',
+      {
+        status: 500,
+      },
+    );
   }
 
   // Dynamic vCard revision timestamp in ISO 8601 basic format
-  // Example: 20260808T002800Z
+  // Example: 20260808T162800Z
   const rev =
     new Date()
       .toISOString()
@@ -97,15 +103,25 @@ export const GET: APIRoute = async ({ locals }) => {
     'END:VCARD',
   ];
 
-  return new Response(vcardLines.join('\r\n'), {
-    status: 200,
-    headers: {
-      'Content-Type': 'text/x-vcard; charset=utf-8',
-      'Content-Disposition': 'inline; filename="contact.vcf"',
-      'Cache-Control': 'no-cache, no-store, must-revalidate',
-      'X-Content-Type-Options': 'nosniff',
+  return new Response(
+    vcardLines.join('\r\n'),
+    {
+      status: 200,
+      headers: {
+        'Content-Type':
+          'text/vcard; charset=utf-8',
+
+        'Content-Disposition':
+          'inline; filename="contact.vcf"',
+
+        'Cache-Control':
+          'no-cache, no-store, must-revalidate',
+
+        'X-Content-Type-Options':
+          'nosniff',
+      },
     },
-  });
+  );
 };
 
 /**
@@ -158,23 +174,28 @@ export const POST: APIRoute = async ({
   const email =
     payload.email?.trim();
 
-  if (!firstName || !lastName || !email) {
+  if (
+    !firstName ||
+    !lastName ||
+    !email
+  ) {
     return jsonResponse(
       {
-        error: 'Missing required form fields',
+        error:
+          'Missing required form fields',
       },
       422,
     );
   }
 
   try {
-    const webhookResponse = await fetch(
-      webhookUrl,
-      {
+    const webhookResponse =
+      await fetch(webhookUrl, {
         method: 'POST',
 
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type':
+            'application/json',
         },
 
         redirect: 'follow',
@@ -185,25 +206,22 @@ export const POST: APIRoute = async ({
           email,
 
           phone:
-            payload.phone?.trim() || '',
+            payload.phone?.trim() ||
+            '',
 
           subject:
             payload.subject?.trim() ||
             'General Inquiry',
 
           message:
-            payload.message?.trim() || '',
+            payload.message?.trim() ||
+            '',
 
           submittedAt:
             new Date().toISOString(),
         }),
-      },
-    );
+      });
 
-    /*
-     * Google Apps Script may answer with a redirect
-     * during successful execution.
-     */
     if (
       !webhookResponse.ok &&
       webhookResponse.status !== 302
@@ -228,7 +246,8 @@ export const POST: APIRoute = async ({
 
     return jsonResponse(
       {
-        error: 'Failed to process inquiry.',
+        error:
+          'Failed to process inquiry.',
       },
       500,
     );

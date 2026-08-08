@@ -100,7 +100,6 @@ export const prerender = false;
           <div class="space-y-3">
             <!-- Primary action -->
             <a
-              id="save-vcard-link"
               href="/api/connect"
               class="flex w-full items-center justify-center rounded-xl bg-accent px-5 py-3.5 text-sm font-semibold text-white shadow-md transition-colors hover:bg-accent-hover active:bg-accent-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
               aria-label="Save contact for AOSET Visuals"
@@ -126,7 +125,6 @@ export const prerender = false;
                 target="_blank"
                 rel="noopener noreferrer"
                 class="flex items-center justify-center rounded-xl border border-white/15 bg-white/5 px-3 py-3 text-sm font-medium text-white backdrop-blur-sm transition-colors hover:border-white/25 hover:bg-white/10 active:bg-white/15 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-                aria-label="Visit the AOSET Visuals website"
               >
                 Website
               </a>
@@ -134,7 +132,6 @@ export const prerender = false;
               <a
                 href="tel:+13054821642"
                 class="flex items-center justify-center rounded-xl border border-white/15 bg-white/5 px-3 py-3 text-sm font-medium text-white backdrop-blur-sm transition-colors hover:border-white/25 hover:bg-white/10 active:bg-white/15 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-                aria-label="Call AOSET Visuals"
               >
                 Call
               </a>
@@ -143,7 +140,6 @@ export const prerender = false;
                 id="message-open"
                 type="button"
                 class="flex items-center justify-center rounded-xl border border-white/15 bg-white/5 px-3 py-3 text-sm font-medium text-white backdrop-blur-sm transition-colors hover:border-white/25 hover:bg-white/10 active:bg-white/15 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-                aria-label="Send a message"
               >
                 Message
               </button>
@@ -189,57 +185,49 @@ export const prerender = false;
         <!-- Streamlined lead capture form -->
         <form id="connect-form" class="mt-6 space-y-3">
           <!-- Full name -->
-          <div>
-            <input
-              type="text"
-              name="name"
-              placeholder="Name *"
-              autocomplete="name"
-              required
-              class="w-full rounded-lg border border-white/15 bg-white/5 px-3.5 py-2.5 text-sm text-white outline-none transition-colors placeholder:text-white/35 focus:border-accent"
-            />
-          </div>
+          <input
+            type="text"
+            name="name"
+            placeholder="Name *"
+            autocomplete="name"
+            required
+            class="w-full rounded-lg border border-white/15 bg-white/5 px-3.5 py-2.5 text-sm text-white outline-none transition-colors placeholder:text-white/35 focus:border-accent"
+          />
 
           <!-- Email address -->
-          <div>
-            <input
-              type="email"
-              name="email"
-              placeholder="Email *"
-              autocomplete="email"
-              inputmode="email"
-              required
-              class="w-full rounded-lg border border-white/15 bg-white/5 px-3.5 py-2.5 text-sm text-white outline-none transition-colors placeholder:text-white/35 focus:border-accent"
-            />
-          </div>
+          <input
+            type="email"
+            name="email"
+            placeholder="Email *"
+            autocomplete="email"
+            inputmode="email"
+            required
+            class="w-full rounded-lg border border-white/15 bg-white/5 px-3.5 py-2.5 text-sm text-white outline-none transition-colors placeholder:text-white/35 focus:border-accent"
+          />
 
           <!-- Phone number -->
-          <div>
-            <input
-              type="tel"
-              name="phone"
-              placeholder="Phone (optional)"
-              autocomplete="tel"
-              inputmode="tel"
-              class="w-full rounded-lg border border-white/15 bg-white/5 px-3.5 py-2.5 text-sm text-white outline-none transition-colors placeholder:text-white/35 focus:border-accent"
-            />
-          </div>
+          <input
+            type="tel"
+            name="phone"
+            placeholder="Phone (optional)"
+            autocomplete="tel"
+            inputmode="tel"
+            class="w-full rounded-lg border border-white/15 bg-white/5 px-3.5 py-2.5 text-sm text-white outline-none transition-colors placeholder:text-white/35 focus:border-accent"
+          />
 
           <!-- Message body -->
-          <div>
-            <textarea
-              name="message"
-              placeholder="Message *"
-              rows="3"
-              required
-              class="w-full resize-none rounded-lg border border-white/15 bg-white/5 px-3.5 py-2.5 text-sm text-white outline-none transition-colors placeholder:text-white/35 focus:border-accent"
-            ></textarea>
-          </div>
+          <textarea
+            name="message"
+            placeholder="Message *"
+            rows="3"
+            required
+            class="w-full resize-none rounded-lg border border-white/15 bg-white/5 px-3.5 py-2.5 text-sm text-white outline-none transition-colors placeholder:text-white/35 focus:border-accent"
+          ></textarea>
 
           <!-- Submit button -->
           <button
             type="submit"
-            class="w-full rounded-xl bg-accent px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-hover active:bg-accent-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white disabled:cursor-not-allowed disabled:opacity-60"
+            class="w-full rounded-xl bg-accent px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-hover active:bg-accent-hover disabled:opacity-60"
           >
             Send
           </button>
@@ -257,48 +245,7 @@ export const prerender = false;
 
   <!-- Client-side behavior -->
   <script>
-    // 1. Non-Safari iOS vCard download fallback handler
-    const vcardLink = document.getElementById(
-      'save-vcard-link',
-    ) as HTMLAnchorElement | null;
-
-    if (vcardLink) {
-      vcardLink.addEventListener('click', async (event) => {
-        const userAgent = window.navigator.userAgent;
-        const isIOS = /iPhone|iPad|iPod/i.test(userAgent);
-
-        const isSafari =
-          /^((?!chrome|android|crios|fxios|opera|opios).)*safari/i.test(
-            userAgent,
-          );
-
-        // Force data URI fallback on iOS non-Safari browsers
-        if (isIOS && !isSafari) {
-          event.preventDefault();
-
-          try {
-            const response = await fetch('/api/connect');
-
-            if (!response.ok) {
-              throw new Error('vCard fetch failed');
-            }
-
-            const vcardText = await response.text();
-
-            window.location.href =
-              'data:text/vcard;charset=utf-8,' +
-              encodeURIComponent(vcardText);
-          } catch (error) {
-            console.error(
-              '[Client Error] vCard download failed:',
-              error,
-            );
-          }
-        }
-      });
-    }
-
-    // 2. Quick message dialog controls
+    // Quick message dialog controls
     const messageDialog = document.getElementById(
       'message-dialog',
     ) as HTMLDialogElement | null;
@@ -318,17 +265,8 @@ export const prerender = false;
         return;
       }
 
-      if (dialogCloseTimer !== undefined) {
-        window.clearTimeout(dialogCloseTimer);
-        dialogCloseTimer = undefined;
-      }
-
       messageDialog.showModal();
 
-      /*
-       * Wait two animation frames so the browser first paints
-       * the initial hidden state before activating the reveal.
-       */
       window.requestAnimationFrame(() => {
         window.requestAnimationFrame(() => {
           messageDialog.classList.add('is-visible');
@@ -343,10 +281,6 @@ export const prerender = false;
 
       messageDialog.classList.remove('is-visible');
 
-      /*
-       * Keep the native dialog in the top layer while the exit
-       * animation finishes, then close it completely.
-       */
       dialogCloseTimer = window.setTimeout(() => {
         messageDialog.close();
         dialogCloseTimer = undefined;
@@ -363,25 +297,24 @@ export const prerender = false;
       closeMessageDialog,
     );
 
-    // Close the dialog when tapping outside the panel
-    messageDialog?.addEventListener('click', (event) => {
-      if (event.target === messageDialog) {
+    messageDialog?.addEventListener(
+      'click',
+      (event) => {
+        if (event.target === messageDialog) {
+          closeMessageDialog();
+        }
+      },
+    );
+
+    messageDialog?.addEventListener(
+      'cancel',
+      (event) => {
+        event.preventDefault();
         closeMessageDialog();
-      }
-    });
+      },
+    );
 
-    // Preserve Escape-key support while allowing the exit animation
-    messageDialog?.addEventListener('cancel', (event) => {
-      event.preventDefault();
-      closeMessageDialog();
-    });
-
-    // Reset animation state after the native dialog closes
-    messageDialog?.addEventListener('close', () => {
-      messageDialog.classList.remove('is-visible');
-    });
-
-    // 3. Contact form submission handler
+    // Contact form submission handler
     const form = document.getElementById(
       'connect-form',
     ) as HTMLFormElement | null;
@@ -391,104 +324,128 @@ export const prerender = false;
     ) as HTMLParagraphElement | null;
 
     if (form && statusText) {
-      form.addEventListener('submit', async (event) => {
-        event.preventDefault();
+      form.addEventListener(
+        'submit',
+        async (event) => {
+          event.preventDefault();
 
-        if (!form.checkValidity()) {
-          form.reportValidity();
-          return;
-        }
+          if (!form.checkValidity()) {
+            form.reportValidity();
+            return;
+          }
 
-        const submitButton = form.querySelector(
-          'button[type="submit"]',
-        ) as HTMLButtonElement | null;
+          const submitButton =
+            form.querySelector(
+              'button[type="submit"]',
+            ) as HTMLButtonElement | null;
 
-        // Reset status to a neutral sending state
-        statusText.textContent = 'Sending...';
-        statusText.className =
-          'min-h-5 text-center text-xs font-medium text-white/50';
+          statusText.textContent =
+            'Sending...';
 
-        if (submitButton) {
-          submitButton.disabled = true;
-        }
+          statusText.className =
+            'min-h-5 text-center text-xs font-medium text-white/50';
 
-        const formData = new FormData(form);
+          if (submitButton) {
+            submitButton.disabled = true;
+          }
 
-        /*
-         * Keep one visible Name field while adapting the payload
-         * to the field names expected by /api/connect.
-         */
-        const fullName =
-          formData.get('name')?.toString().trim() || '';
+          const formData =
+            new FormData(form);
 
-        const nameParts = fullName
-          .split(/\s+/)
-          .filter(Boolean);
-
-        const firstName = nameParts.shift() || '';
-
-        /*
-         * Use an em dash when only one name is provided.
-         * This keeps lastName non-empty for backend validation.
-         */
-        const lastName =
-          nameParts.join(' ') || '—';
-
-        const payload = {
-          firstName,
-          lastName,
-
-          email:
+          const fullName =
             formData
-              .get('email')
+              .get('name')
               ?.toString()
-              .trim()
-              .toLowerCase() || '',
+              .trim() || '';
 
-          phone:
-            formData
-              .get('phone')
-              ?.toString()
-              .trim() || '',
+          const nameParts =
+            fullName
+              .split(/\s+/)
+              .filter(Boolean);
 
-          subject:
-            'Quick message from AOSET Connect',
+          const firstName =
+            nameParts.shift() || '';
 
-          message:
-            formData
-              .get('message')
-              ?.toString()
-              .trim() || '',
-        };
+          const lastName =
+            nameParts.join(' ') || '—';
 
-        try {
-          const response = await fetch('/api/connect', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(payload),
-          });
+          const payload = {
+            firstName,
+            lastName,
 
-          const data = await response.json();
+            email:
+              formData
+                .get('email')
+                ?.toString()
+                .trim()
+                .toLowerCase() || '',
 
-          if (response.ok && data.success) {
-            // Success state
-            statusText.textContent =
-              'Message sent successfully.';
+            phone:
+              formData
+                .get('phone')
+                ?.toString()
+                .trim() || '',
 
-            statusText.className =
-              'min-h-5 text-center text-xs font-medium text-green-400';
+            subject:
+              'Quick message from AOSET Connect',
 
-            form.reset();
-          } else {
-            /*
-             * Keep the technical backend error in the console,
-             * while presenting a simple message to the visitor.
-             */
+            message:
+              formData
+                .get('message')
+                ?.toString()
+                .trim() || '',
+          };
+
+          try {
+            const response =
+              await fetch(
+                '/api/connect',
+                {
+                  method: 'POST',
+
+                  headers: {
+                    'Content-Type':
+                      'application/json',
+                  },
+
+                  body:
+                    JSON.stringify(
+                      payload,
+                    ),
+                },
+              );
+
+            const data =
+              await response.json();
+
+            if (
+              response.ok &&
+              data.success
+            ) {
+              statusText.textContent =
+                'Message sent successfully.';
+
+              statusText.className =
+                'min-h-5 text-center text-xs font-medium text-green-400';
+
+              form.reset();
+            } else {
+              console.error(
+                '[Server Error] Message submission failed:',
+                data.error ||
+                  `HTTP ${response.status}`,
+              );
+
+              statusText.textContent =
+                'Unable to send message. Please try again.';
+
+              statusText.className =
+                'min-h-5 text-center text-xs font-medium text-red-400';
+            }
+          } catch (error) {
             console.error(
-              '[Server Error] Message submission failed:',
-              data.error || `HTTP ${response.status}`,
+              '[Client Error] Message submission failed:',
+              error,
             );
 
             statusText.textContent =
@@ -496,25 +453,14 @@ export const prerender = false;
 
             statusText.className =
               'min-h-5 text-center text-xs font-medium text-red-400';
+          } finally {
+            if (submitButton) {
+              submitButton.disabled =
+                false;
+            }
           }
-        } catch (error) {
-          console.error(
-            '[Client Error] Message submission failed:',
-            error,
-          );
-
-          // Failure state
-          statusText.textContent =
-            'Unable to send message. Please try again.';
-
-          statusText.className =
-            'min-h-5 text-center text-xs font-medium text-red-400';
-        } finally {
-          if (submitButton) {
-            submitButton.disabled = false;
-          }
-        }
-      });
+        },
+      );
     }
   </script>
 </Layout>
@@ -523,27 +469,30 @@ export const prerender = false;
   /*
    * Only compositor-friendly properties are animated:
    * opacity and transform.
-   *
-   * The image dimensions, card dimensions, and page dimensions
-   * never change, so this does not generate layout shift.
    */
 
   .connect-cover {
     opacity: 1;
-    animation: connect-cover-reveal 1000ms
-      cubic-bezier(0.22, 1, 0.36, 1) 450ms forwards;
-    will-change: opacity;
+    animation:
+      connect-cover-reveal
+      1000ms
+      cubic-bezier(0.22, 1, 0.36, 1)
+      450ms
+      forwards;
   }
 
-  /*
-   * The background begins slightly enlarged and vertically offset.
-   * The 1.07 scale makes the movement perceptible on small screens
-   * while remaining subtle enough for the overall visual style.
-   */
   .connect-background {
-    transform: scale(1.07) translateY(-8px);
-    animation: connect-background-settle 1750ms
-      cubic-bezier(0.22, 1, 0.36, 1) 450ms forwards;
+    transform:
+      scale(1.07)
+      translateY(-8px);
+
+    animation:
+      connect-background-settle
+      1750ms
+      cubic-bezier(0.22, 1, 0.36, 1)
+      450ms
+      forwards;
+
     will-change: transform;
     backface-visibility: hidden;
     transform-origin: center center;
@@ -551,46 +500,53 @@ export const prerender = false;
 
   .connect-interface {
     opacity: 0;
-    animation: connect-interface-reveal 1100ms
-      cubic-bezier(0.22, 1, 0.36, 1) 500ms forwards;
-    will-change: opacity;
-  }
 
-  /*
-   * Quick-message dialog reveal.
-   *
-   * The dialog remains in the browser top layer while only
-   * opacity and transform are animated, avoiding layout shift.
-   */
+    animation:
+      connect-interface-reveal
+      1100ms
+      cubic-bezier(0.22, 1, 0.36, 1)
+      500ms
+      forwards;
+  }
 
   #message-dialog {
     opacity: 0;
-    transform: translateY(10px) scale(0.985);
+
+    transform:
+      translateY(10px)
+      scale(0.985);
+
     transition:
-      opacity 260ms cubic-bezier(0.22, 1, 0.36, 1),
-      transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
-    will-change: opacity, transform;
+      opacity 260ms
+        cubic-bezier(0.22, 1, 0.36, 1),
+      transform 320ms
+        cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   #message-dialog.is-visible {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform:
+      translateY(0)
+      scale(1);
   }
 
   #message-dialog::backdrop {
-    background-color: rgb(0 0 0 / 0);
-    -webkit-backdrop-filter: blur(0);
+    background-color:
+      rgb(0 0 0 / 0);
+
     backdrop-filter: blur(0);
+
     transition:
       background-color 260ms ease,
-      -webkit-backdrop-filter 320ms ease,
       backdrop-filter 320ms ease;
   }
 
   #message-dialog.is-visible::backdrop {
-    background-color: rgb(0 0 0 / 0.7);
-    -webkit-backdrop-filter: blur(4px);
-    backdrop-filter: blur(4px);
+    background-color:
+      rgb(0 0 0 / 0.7);
+
+    backdrop-filter:
+      blur(4px);
   }
 
   @keyframes connect-cover-reveal {
@@ -606,11 +562,15 @@ export const prerender = false;
 
   @keyframes connect-background-settle {
     from {
-      transform: scale(1.07) translateY(-8px);
+      transform:
+        scale(1.07)
+        translateY(-8px);
     }
 
     to {
-      transform: scale(1) translateY(0);
+      transform:
+        scale(1)
+        translateY(0);
     }
   }
 
@@ -624,11 +584,10 @@ export const prerender = false;
     }
   }
 
-  /*
-   * Respect the user's operating-system motion preference.
-   * The page remains fully usable without entrance animations.
-   */
-  @media (prefers-reduced-motion: reduce) {
+  @media (
+    prefers-reduced-motion:
+    reduce
+  ) {
     .connect-cover {
       display: none;
     }
@@ -638,22 +597,11 @@ export const prerender = false;
       animation: none;
       transform: none;
       opacity: 1;
-      will-change: auto;
     }
 
     #message-dialog,
     #message-dialog::backdrop {
       transition: none;
-    }
-
-    #message-dialog {
-      transform: none;
-      will-change: auto;
-    }
-
-    #message-dialog.is-visible {
-      opacity: 1;
-      transform: none;
     }
   }
 </style>
