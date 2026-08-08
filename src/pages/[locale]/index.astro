@@ -1,5 +1,7 @@
 ---
 // src/pages/[locale]/index.astro
+// Localized home page component for pre-rendered SSG routes (/en/, /es/)
+
 import Layout from '../../layouts/Layout.astro';
 import Hero from '../../components/Hero.astro';
 import AboutIntro from '../../components/AboutIntro.astro';
@@ -10,15 +12,22 @@ import CtaBanner from '../../components/CtaBanner.astro';
 import { getLocalePaths, useTranslations } from '../../i18n/utils';
 import type { Locale } from '../../i18n/config';
 
+// Generate static build paths for all configured locales
 export function getStaticPaths() {
   return getLocalePaths();
 }
 
 const { locale } = Astro.params as { locale: Locale };
 const t = useTranslations(locale);
+
+// Safely strip HTML tags and normalize extra whitespace for SEO description
+const metaDescription = t.hero.title
+  .replace(/<[^>]*>/g, ' ')
+  .replace(/\s+/g, ' ')
+  .trim();
 ---
 
-<Layout title="AOSET" locale={locale} description={t.hero.title.replace(/<[^>]*>/g, ' ')}>
+<Layout title="AOSET" locale={locale} description={metaDescription}>
   <Hero locale={locale} />
   <AboutIntro locale={locale} />
   <WhyChooseUs locale={locale} />

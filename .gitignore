@@ -2,6 +2,7 @@ node_modules/
 dist/
 .astro/
 .env
+.dev.vars
 .env.local
 .wrangler/
 worker/node_modules/

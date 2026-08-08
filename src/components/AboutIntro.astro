@@ -1,9 +1,14 @@
 ---
 // src/components/AboutIntro.astro
+import { Image } from 'astro:assets';
+import aboutImage from '@/assets/about/about-remodeling.webp';
 import { useTranslations, localizePath } from '../i18n/utils';
 import type { Locale } from '../i18n/config';
 
-interface Props { locale: Locale; }
+interface Props {
+  locale: Locale;
+}
+
 const { locale } = Astro.props;
 const t = useTranslations(locale);
 ---
@@ -11,26 +16,39 @@ const t = useTranslations(locale);
 <section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
   <div class="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16">
 
-    <!-- Image placeholder — replace with <Image src={aboutImage} ... /> -->
-    <div class="relative aspect-[3/4] overflow-hidden rounded-lg bg-[var(--color-ramp-100)]">
-      <div class="absolute inset-0 flex items-center justify-center text-[var(--color-muted)] text-sm">
-        Place about-remodeling.jpg in src/assets/
-      </div>
+    <!-- Image Container -->
+    <div
+      class="relative aspect-3/4 overflow-hidden rounded-lg bg-surface-elevated"
+    >
+      <Image
+        src={aboutImage}
+        alt="AOSET team managing environment and design project"
+        class="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
+        widths={[400, 800]}
+        sizes="(min-width: 1024px) 50vw, 100vw"
+        format="avif"
+        quality={85}
+        loading="lazy"
+      />
     </div>
 
+    <!-- Content Block -->
     <div class="max-w-xl">
-      <h2 class="text-3xl font-semibold leading-snug text-[var(--color-text)] sm:text-4xl">
+      <h2 class="text-3xl font-semibold leading-snug text-text sm:text-4xl">
         {t.aboutIntro.heading}
       </h2>
-      <p class="mt-6 text-base leading-relaxed text-[var(--color-text)]/70">
+
+      <p class="mt-6 text-base leading-relaxed text-text-muted">
         {t.aboutIntro.body}
       </p>
+
       <a
         href={localizePath(locale, '/about')}
-        class="mt-8 inline-flex items-center justify-center rounded-md bg-[var(--color-accent)] px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-[var(--color-accent-dark)]"
+        class="mt-8 inline-flex items-center justify-center rounded-md bg-accent px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
       >
         {t.aboutIntro.cta}
       </a>
     </div>
+
   </div>
 </section>

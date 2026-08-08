@@ -1,2 +1,2 @@
-# Cloudflare Pages redirects
-/  /en/  302
+# Root fallback redirects based on Accept-Language header
+/ /es/ 302

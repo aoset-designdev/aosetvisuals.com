@@ -3,17 +3,45 @@
 import { useTranslations } from '../i18n/utils';
 import type { Locale } from '../i18n/config';
 
-interface Props { locale: Locale; }
+interface Props {
+  locale: Locale;
+}
+
 const { locale } = Astro.props;
 const t = useTranslations(locale);
 ---
 
-<section class="mx-auto max-w-3xl px-4 py-16 text-center sm:px-6 lg:px-8 lg:py-24">
-  <h2 class="text-3xl font-semibold leading-snug text-[var(--color-text)] sm:text-4xl">
-    {t.about.quality.heading}
-  </h2>
-  <div class="mt-6 space-y-6 text-base leading-loose text-[var(--color-text)]/70">
-    <p>{t.about.quality.body1}</p>
-    <p>{t.about.quality.body2}</p>
+<section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+  <div class="mx-auto max-w-2xl rounded-2xl border border-border bg-surface/50 p-8 text-center shadow-xs sm:p-12">
+
+    <!-- Optional Quality Badge / Icon -->
+    <div class="mx-auto mb-6 flex h-12 w-12 items-center justify-center rounded-full bg-accent/10 text-accent">
+      <svg
+        viewBox="0 0 24 24"
+        class="h-6 w-6"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        aria-hidden="true"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+        />
+      </svg>
+    </div>
+
+    <!-- Heading -->
+    <h2 class="text-3xl font-semibold leading-tight text-text sm:text-4xl">
+      {t.about.quality.heading}
+    </h2>
+
+    <!-- Body Copy -->
+    <div class="mt-6 space-y-4 text-base leading-relaxed text-text-muted">
+      <p set:html={t.about.quality.body1} />
+      {t.about.quality.body2 && <p set:html={t.about.quality.body2} />}
+    </div>
+
   </div>
 </section>

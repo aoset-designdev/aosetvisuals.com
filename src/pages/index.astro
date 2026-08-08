@@ -1,24 +1,47 @@
 ---
 // src/pages/index.astro
-// Detects browser language and redirects to the appropriate locale.
-// Cloudflare Pages also handles this via public/_redirects as fallback.
+import { locales, defaultLocale } from '@/i18n/config';
+
+export const prerender = true;
 ---
-<html>
+
+<!doctype html>
+<html lang={defaultLocale}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>AOSET</title>
-    <script is:inline>
+    <meta name="robots" content="noindex, follow" />
+    <link rel="canonical" href={`https://aosetvisuals.com/${defaultLocale}/`} />
+
+    {/* Hreflang annotations for SEO crawlers */}
+    {locales.map((l) => (
+      <link rel="alternate" hreflang={l} href={`https://aosetvisuals.com/${l}/`} />
+    ))}
+    <link rel="alternate" hreflang="x-default" href={`https://aosetvisuals.com/${defaultLocale}/`} />
+
+    <title>AOSET — Redirecting...</title>
+
+    <script is:inline define:vars={{ supportedLocales: locales, fallbackLocale: defaultLocale }}>
       (function () {
-        const supported = ['en', 'es', 'fr'];
-        const preferred = (navigator.language || 'en').slice(0, 2).toLowerCase();
-        const locale = supported.includes(preferred) ? preferred : 'en';
-        window.location.replace('/' + locale + '/');
+        const path = window.location.pathname;
+
+        // Prevent infinite redirect loops if pathname is already localized
+        if (path !== '/' && path !== '') return;
+
+        const userLang = (navigator.language || fallbackLocale).slice(0, 2).toLowerCase();
+        const locale = supportedLocales.includes(userLang) ? userLang : fallbackLocale;
+
+        // Preserve query parameters (?ref=...) and hash fragments (#section)
+        const targetUrl = '/' + locale + '/' + window.location.search + window.location.hash;
+
+        window.location.replace(targetUrl);
       })();
     </script>
+
+    <!-- Fallback for JavaScript-disabled clients -->
     <noscript>
-      <meta http-equiv="refresh" content="0; url=/en/" />
+      <meta http-equiv="refresh" content={`0; url=/${defaultLocale}/`} />
     </noscript>
   </head>
-  <body></body>
+  <body class="bg-ramp-900"></body>
 </html>

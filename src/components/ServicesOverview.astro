@@ -1,48 +1,85 @@
 ---
 // src/components/ServicesOverview.astro
-// NOTE: Add images to src/assets/services/ (kitchens.jpg, bathrooms.jpg, interiors.jpg)
+// Uncomment these top-level imports when your images exist in src/assets/services/
+// import kitchenImg from '@/assets/services/kitchens.jpg';
+// import bathroomImg from '@/assets/services/bathrooms.jpg';
+// import interiorImg from '@/assets/services/interiors.jpg';
+// import { Image } from 'astro:assets';
+
 import { useTranslations, localizePath } from '../i18n/utils';
 import type { Locale } from '../i18n/config';
 
-interface Props { locale: Locale; }
+interface Props { 
+  locale: Locale; 
+}
+
 const { locale } = Astro.props;
 const t = useTranslations(locale);
 
+// Map images for iteration (Uncomment when ready)
+// const serviceImages = [kitchenImg, bathroomImg, interiorImg];
+
 const bgColors = [
-  'from-[var(--color-ramp-600)] to-[var(--color-ramp-800)]',
-  'from-[var(--color-ramp-700)] to-[var(--color-ramp-900)]',
-  'from-[var(--color-ramp-500)] to-[var(--color-ramp-700)]',
+  'from-slate to-midnight',
+  'from-midnight to-slate',
+  'from-aoset-blue to-slate',
 ];
 ---
 
 <section class="mx-auto max-w-7xl px-4 py-16 text-center sm:px-6 lg:px-8 lg:py-24">
-  <h2 class="text-3xl font-semibold leading-snug text-[var(--color-text)] sm:text-4xl">
+  <!-- Section Heading -->
+  <h2 class="text-3xl font-semibold leading-snug text-text sm:text-4xl">
     {t.servicesOverview.heading}
   </h2>
 
+  <!-- Services Grid -->
   <div class="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-3">
-    {t.servicesOverview.items.map((service, index) => (
-      <a
-        href={localizePath(locale, service.href)}
-        class={`group relative isolate flex aspect-[306/726] items-end justify-center overflow-hidden rounded-lg bg-gradient-to-b ${bgColors[index]} sm:aspect-[2/3] lg:aspect-[306/726]`}
-      >
-        <!--
-          Replace the gradient div with:
-          <Image src={images[index]} alt={service.title}
-            class="absolute inset-0 -z-20 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-            widths={[306, 612]} sizes="(min-width:640px) 33vw, 100vw" format="avif" quality={80} />
-        -->
-        <div class="absolute inset-0 -z-10 bg-black/30 transition-colors group-hover:bg-black/40" aria-hidden="true"></div>
-        <span class="relative pb-8 text-xl font-semibold text-white sm:text-2xl">
-          {service.title}
-        </span>
-      </a>
-    ))}
+    {t.servicesOverview.items.map((service, index) => {
+      const bgGradient = bgColors[index % bgColors.length];
+      // const cardImage = serviceImages[index];
+
+      return (
+        <a
+          href={localizePath(locale, service.href)}
+          class={`group relative isolate flex aspect-4/3 items-end justify-center overflow-hidden rounded-xl bg-linear-to-b ${bgGradient} focus-visible:ring-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 sm:aspect-3/4 lg:aspect-306/550`}
+        >
+          <!-- 
+            Uncomment when images are ready:
+
+            {cardImage && (
+              <Image 
+                src={cardImage} 
+                alt={service.title}
+                class="absolute inset-0 -z-20 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                widths={[306, 612]} 
+                sizes="(min-width: 640px) 33vw, 100vw" 
+                format="avif" 
+                quality={80} 
+                loading="lazy"
+                decoding="async"
+              />
+            )}
+          -->
+
+          <!-- Dark Gradient Scrim Overlay for Readability -->
+          <div 
+            class="absolute inset-0 -z-10 bg-linear-to-t from-black/80 via-black/20 to-transparent transition-opacity duration-300 group-hover:opacity-90" 
+            aria-hidden="true" 
+          />
+
+          <!-- Title -->
+          <span class="relative p-6 text-xl font-semibold text-white drop-shadow-xs transition-transform duration-300 group-hover:-translate-y-1 sm:text-2xl">
+            {service.title}
+          </span>
+        </a>
+      );
+    })}
   </div>
 
+  <!-- Bottom CTA -->
   <a
     href={localizePath(locale, '/services')}
-    class="mt-12 inline-flex items-center justify-center rounded-md bg-[var(--color-accent)] px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-[var(--color-accent-dark)]"
+    class="bg-accent hover:bg-accent-hover focus-visible:ring-accent mt-12 inline-flex items-center justify-center rounded-md px-8 py-3.5 text-sm font-semibold text-white shadow-xs transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
   >
     {t.servicesOverview.cta}
   </a>

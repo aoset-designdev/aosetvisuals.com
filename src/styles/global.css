@@ -2,66 +2,309 @@
 @import "tailwindcss";
 
 /* ─────────────────────────────────────────
-   DESIGN TOKENS
-   Replace hex values with your aoset-tokens.css values
+   SELF-HOSTED FONTS
    ───────────────────────────────────────── */
-@theme {
-  /* Five-ramp luxury palette */
-  --color-ramp-50:  #f4f6fb;
-  --color-ramp-100: #d9e1f2;
-  --color-ramp-200: #b3c3e5;
-  --color-ramp-300: #7d96c4;
-  --color-ramp-400: #4f6fa3;
-  --color-ramp-500: #2f4b80;   /* cerulean base */
-  --color-ramp-600: #243b66;
-  --color-ramp-700: #1a2d52;
-  --color-ramp-800: #11203d;
-  --color-ramp-900: #0a1128;   /* midnight blue */
 
-  /* Semantic tokens — LIGHT defaults */
-  --color-surface:      var(--color-ramp-50);
-  --color-text:         var(--color-ramp-900);
-  --color-border:       var(--color-ramp-100);
-  --color-accent:       var(--color-ramp-500);
-  --color-accent-dark:  var(--color-ramp-700);
-  --color-muted:        var(--color-ramp-300);
+/* Elms Sans Variable - Normal (Latin) */
+@font-face {
+  font-family: "Elms Sans";
+  src: url("/fonts/elms-sans-latin-wght-normal.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range:
+    U+0000-00FF,
+    U+0131,
+    U+0152-0153,
+    U+02BB-02BC,
+    U+02C6,
+    U+02DA,
+    U+02DC,
+    U+0304,
+    U+0308,
+    U+0329,
+    U+2000-206F,
+    U+2074,
+    U+20AC,
+    U+2122,
+    U+2191,
+    U+2193,
+    U+2212,
+    U+2215,
+    U+FEFF,
+    U+FFFD;
+}
 
-  /* Typography */
-  --font-sans: "Poppins", system-ui, sans-serif;
+/* Elms Sans Variable - Italic (Latin) */
+@font-face {
+  font-family: "Elms Sans";
+  src: url("/fonts/elms-sans-latin-wght-italic.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+  unicode-range:
+    U+0000-00FF,
+    U+0131,
+    U+0152-0153,
+    U+02BB-02BC,
+    U+02C6,
+    U+02DA,
+    U+02DC,
+    U+0304,
+    U+0308,
+    U+0329,
+    U+2000-206F,
+    U+2074,
+    U+20AC,
+    U+2122,
+    U+2191,
+    U+2193,
+    U+2212,
+    U+2215,
+    U+FEFF,
+    U+FFFD;
+}
 
-  /* Spacing / layout */
-  --max-w-site: 80rem; /* 1280px */
+/* Elms Sans Variable - Normal (Latin Extended) */
+@font-face {
+  font-family: "Elms Sans";
+  src: url("/fonts/elms-sans-latin-ext-wght-normal.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range:
+    U+0100-02AF,
+    U+0304,
+    U+0308,
+    U+0329,
+    U+1E00-1E9F,
+    U+1EF2-1EFF,
+    U+2020,
+    U+20A0-20AB,
+    U+20AD-20C0,
+    U+2113,
+    U+2C60-2C7F,
+    U+A720-A7FF;
+}
+
+/* Elms Sans Variable - Italic (Latin Extended) */
+@font-face {
+  font-family: "Elms Sans";
+  src: url("/fonts/elms-sans-latin-ext-wght-italic.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+  unicode-range:
+    U+0100-02AF,
+    U+0304,
+    U+0308,
+    U+0329,
+    U+1E00-1E9F,
+    U+1EF2-1EFF,
+    U+2020,
+    U+20A0-20AB,
+    U+20AD-20C0,
+    U+2113,
+    U+2C60-2C7F,
+    U+A720-A7FF;
 }
 
 /* ─────────────────────────────────────────
-   DARK MODE via [data-theme="dark"]
-   Tailwind v4 custom variant
+   DARK MODE VARIANT
    ───────────────────────────────────────── */
-@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+@custom-variant dark (
+  &:where([data-theme="dark"], [data-theme="dark"] *)
+);
+
+/* ─────────────────────────────────────────
+   TAILWIND v4 THEME EXTENSIONS
+   ───────────────────────────────────────── */
+
+@theme {
+  /* Default Font Family */
+  --font-sans:
+    "Elms Sans",
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+
+  /* ───────────────────────────────────────
+     AOSET BRAND COLOR UTILITIES
+
+     Examples:
+     bg-aoset-blue
+     text-slate
+     border-midnight
+     text-brass
+     ─────────────────────────────────────── */
+
+  --color-aoset-blue: var(--brand-aoset-blue);
+  --color-slate: var(--brand-slate);
+  --color-midnight: var(--brand-midnight);
+  --color-cloud: var(--brand-cloud);
+  --color-brass: var(--brand-brass);
+
+  /* ───────────────────────────────────────
+     SEMANTIC COLOR UTILITIES
+
+     Examples:
+     bg-surface
+     bg-surface-elevated
+     text-text
+     text-text-muted
+     border-border
+     bg-accent
+     hover:bg-accent-hover
+     text-signature
+     ─────────────────────────────────────── */
+
+  --color-surface: var(--theme-surface);
+  --color-surface-elevated: var(--theme-surface-elevated);
+
+  --color-text: var(--theme-text);
+  --color-text-muted: var(--theme-text-muted);
+
+  --color-border: var(--theme-border);
+
+  --color-accent: var(--theme-accent);
+  --color-accent-hover: var(--theme-accent-hover);
+
+  --color-signature: var(--theme-signature);
+
+  /*
+   * Temporary compatibility aliases.
+   * These preserve existing components while you migrate them.
+   */
+  --color-muted: var(--theme-text-muted);
+  --color-accent-dark: var(--theme-accent-hover);
+
+  /* Custom Layout Breakpoint */
+  --breakpoint-site: 80rem; /* 1280px */
+}
+
+/* ─────────────────────────────────────────
+   BRAND PRIMITIVES
+   ───────────────────────────────────────── */
+
+:root {
+  /*
+   * Permanent AOSET identity values.
+   * Normal components should generally consume semantic tokens.
+   */
+
+  --brand-aoset-blue: #348eba;
+  --brand-slate: #4a6273;
+  --brand-midnight: #0d1b2a;
+  --brand-cloud: #f6f6f6;
+  --brand-brass: #c5a059;
+
+  /* ───────────────────────────────────────
+     LIGHT MODE SEMANTIC TOKENS
+     ─────────────────────────────────────── */
+
+  --theme-surface: var(--brand-cloud);
+  --theme-surface-elevated: #ffffff;
+
+  --theme-text: var(--brand-midnight);
+  --theme-text-muted: var(--brand-slate);
+
+  --theme-border: color-mix(
+    in srgb,
+    var(--brand-midnight) 10%,
+    transparent
+  );
+
+  --theme-accent: var(--brand-aoset-blue);
+
+  --theme-accent-hover: color-mix(
+    in srgb,
+    var(--brand-aoset-blue) 84%,
+    var(--brand-midnight)
+  );
+
+  /*
+   * Brass is a restrained signature detail,
+   * not the primary interactive color.
+   */
+  --theme-signature: var(--brand-brass);
+
+  color-scheme: light;
+}
+
+/* ─────────────────────────────────────────
+   DARK MODE SEMANTIC TOKENS
+   ───────────────────────────────────────── */
 
 [data-theme="dark"] {
-  --color-surface:     var(--color-ramp-900);
-  --color-text:        var(--color-ramp-50);
-  --color-border:      var(--color-ramp-700);
-  --color-accent:      var(--color-ramp-300);
-  --color-accent-dark: var(--color-ramp-100);
-  --color-muted:       var(--color-ramp-600);
+  --theme-surface: var(--brand-midnight);
+
+  /*
+   * Slightly lighter than the page background.
+   * Intended for cards, dropdowns, forms, and layered sections.
+   */
+  --theme-surface-elevated: color-mix(
+    in srgb,
+    var(--brand-midnight) 88%,
+    var(--brand-slate)
+  );
+
+  --theme-text: var(--brand-cloud);
+
+  /*
+   * Slate is lifted toward Cloud for readable
+   * secondary copy over Midnight.
+   */
+  --theme-text-muted: color-mix(
+    in srgb,
+    var(--brand-slate) 48%,
+    var(--brand-cloud)
+  );
+
+  --theme-border: color-mix(
+    in srgb,
+    var(--brand-cloud) 12%,
+    transparent
+  );
+
+  --theme-accent: var(--brand-aoset-blue);
+
+  --theme-accent-hover: color-mix(
+    in srgb,
+    var(--brand-aoset-blue) 82%,
+    white
+  );
+
+  --theme-signature: var(--brand-brass);
+
+  color-scheme: dark;
 }
 
 /* ─────────────────────────────────────────
-   BASE STYLES
+   BASE HTML STYLES
    ───────────────────────────────────────── */
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
 html {
   font-family: var(--font-sans);
-  color-scheme: light dark;
-  scroll-behavior: smooth;
 }
 
 body {
+  min-height: 100dvh; /* Mobile browser URL bar friendly */
   background-color: var(--color-surface);
   color: var(--color-text);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
 /* View transitions (Astro ClientRouter) */
