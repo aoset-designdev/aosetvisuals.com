@@ -17,18 +17,42 @@ export interface ConnectPayload {
 function jsonResponse(data: Record<string, unknown>, status: number) {
   return new Response(JSON.stringify(data), {
     status,
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+    },
   });
 }
 
 /**
+ * Merge Astro/Vite environment variables with Cloudflare runtime bindings.
+ *
+ * Cloudflare runtime values take precedence when both exist.
+ */
+function getEnvironment(
+  locals: unknown,
+): Record<string, string | undefined> {
+  const cloudflareEnv = (
+    locals as {
+      runtime?: {
+        env?: Record<string, string>;
+      };
+    }
+  ).runtime?.env;
+
+  return {
+    ...import.meta.env,
+    ...(cloudflareEnv ?? {}),
+  };
+}
+
+/**
  * GET /api/connect
- * Reads vCard details directly from Cloudflare environment variables.
+ *
+ * Reads vCard details directly from environment variables.
  * Generates REV dynamically on every request.
  */
 export const GET: APIRoute = async ({ locals }) => {
-  const cloudflareEnv = (locals as { runtime?: { env?: Record<string, string> } }).runtime?.env;
-  const env = cloudflareEnv ?? import.meta.env;
+  const env = getEnvironment(locals);
 
   const fn = env.VCARD_FN;
   const n = env.VCARD_N;
@@ -38,12 +62,27 @@ export const GET: APIRoute = async ({ locals }) => {
   const url = env.VCARD_URL;
 
   if (!fn || !tel || !email) {
-    console.error('[API Error] Required vCard environment variables are missing.');
-    return new Response('Server configuration error', { status: 500 });
+    console.error(
+      '[API Error] Required vCard environment variables are missing.',
+      {
+        VCARD_FN: Boolean(fn),
+        VCARD_TEL: Boolean(tel),
+        VCARD_EMAIL: Boolean(email),
+      },
+    );
+
+    return new Response('Server configuration error', {
+      status: 500,
+    });
   }
 
-  // Dynamic vCard revision timestamp in ISO 8601 basic format (e.g., 20260802T220000Z)
-  const rev = new Date().toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+  // Dynamic vCard revision timestamp in ISO 8601 basic format
+  // Example: 20260808T002800Z
+  const rev =
+    new Date()
+      .toISOString()
+      .replace(/[-:]/g, '')
+      .split('.')[0] + 'Z';
 
   const vcardLines = [
     'BEGIN:VCARD',
@@ -71,17 +110,30 @@ export const GET: APIRoute = async ({ locals }) => {
 
 /**
  * POST /api/connect
- * Receives the contact form payload and forwards it to the Google Sheets webhook.
+ *
+ * Receives the contact form payload and forwards it
+ * to the Google Sheets webhook.
  */
-export const POST: APIRoute = async ({ request, locals }) => {
-  const cloudflareEnv = (locals as { runtime?: { env?: Record<string, string> } }).runtime?.env;
-  const env = cloudflareEnv ?? import.meta.env;
+export const POST: APIRoute = async ({
+  request,
+  locals,
+}) => {
+  const env = getEnvironment(locals);
 
-  const webhookUrl = env.GOOGLE_SHEET_WEBHOOK_URL;
+  const webhookUrl =
+    env.GOOGLE_SHEET_WEBHOOK_URL;
 
   if (!webhookUrl) {
-    console.error('[API Error] GOOGLE_SHEET_WEBHOOK_URL variable is missing.');
-    return jsonResponse({ error: 'Server configuration error' }, 500);
+    console.error(
+      '[API Error] GOOGLE_SHEET_WEBHOOK_URL variable is missing.',
+    );
+
+    return jsonResponse(
+      {
+        error: 'Server configuration error',
+      },
+      500,
+    );
   }
 
   let payload: ConnectPayload;
@@ -89,40 +141,96 @@ export const POST: APIRoute = async ({ request, locals }) => {
   try {
     payload = await request.json();
   } catch {
-    return jsonResponse({ error: 'Invalid JSON request payload' }, 400);
+    return jsonResponse(
+      {
+        error: 'Invalid JSON request payload',
+      },
+      400,
+    );
   }
 
-  const firstName = payload.firstName?.trim();
-  const lastName = payload.lastName?.trim();
-  const email = payload.email?.trim();
+  const firstName =
+    payload.firstName?.trim();
+
+  const lastName =
+    payload.lastName?.trim();
+
+  const email =
+    payload.email?.trim();
 
   if (!firstName || !lastName || !email) {
-    return jsonResponse({ error: 'Missing required form fields' }, 422);
+    return jsonResponse(
+      {
+        error: 'Missing required form fields',
+      },
+      422,
+    );
   }
 
   try {
-    const webhookResponse = await fetch(webhookUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      redirect: 'follow',
-      body: JSON.stringify({
-        firstName,
-        lastName,
-        email,
-        phone: payload.phone?.trim() || '',
-        subject: payload.subject?.trim() || 'General Inquiry',
-        message: payload.message?.trim() || '',
-        submittedAt: new Date().toISOString(),
-      }),
-    });
+    const webhookResponse = await fetch(
+      webhookUrl,
+      {
+        method: 'POST',
 
-    if (!webhookResponse.ok && webhookResponse.status !== 302) {
-      throw new Error(`Google Apps Script status ${webhookResponse.status}`);
+        headers: {
+          'Content-Type': 'application/json',
+        },
+
+        redirect: 'follow',
+
+        body: JSON.stringify({
+          firstName,
+          lastName,
+          email,
+
+          phone:
+            payload.phone?.trim() || '',
+
+          subject:
+            payload.subject?.trim() ||
+            'General Inquiry',
+
+          message:
+            payload.message?.trim() || '',
+
+          submittedAt:
+            new Date().toISOString(),
+        }),
+      },
+    );
+
+    /*
+     * Google Apps Script may answer with a redirect
+     * during successful execution.
+     */
+    if (
+      !webhookResponse.ok &&
+      webhookResponse.status !== 302
+    ) {
+      throw new Error(
+        `Google Apps Script status ${webhookResponse.status}`,
+      );
     }
 
-    return jsonResponse({ success: true, message: 'Inquiry received' }, 200);
+    return jsonResponse(
+      {
+        success: true,
+        message: 'Inquiry received',
+      },
+      200,
+    );
   } catch (error) {
-    console.error('[API Error] Webhook submission failed:', error);
-    return jsonResponse({ error: 'Failed to process inquiry.' }, 500);
+    console.error(
+      '[API Error] Webhook submission failed:',
+      error,
+    );
+
+    return jsonResponse(
+      {
+        error: 'Failed to process inquiry.',
+      },
+      500,
+    );
   }
 };
