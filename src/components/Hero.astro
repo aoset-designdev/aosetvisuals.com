@@ -1,58 +1,95 @@
 ---
 // src/components/Hero.astro
-import { useTranslations, localizePath } from '../i18n/utils';
+
+import {
+  useTranslations,
+  localizePath,
+} from '../i18n/utils';
+
 import type { Locale } from '../i18n/config';
 
-interface Props { 
-  locale: Locale; 
+interface Props {
+  locale: Locale;
 }
 
 const { locale } = Astro.props;
 const t = useTranslations(locale);
 ---
 
-<section class="relative isolate flex min-h-152 items-center overflow-hidden bg-midnight sm:min-h-180 lg:min-h-216">
-
-  <!-- Fallback Gradient Background -->
+<section
+  class="relative isolate flex min-h-[calc(100svh-4rem)] items-center overflow-hidden bg-midnight"
+>
+  <!-- Background media -->
   <div
-    class="absolute inset-0 -z-20 bg-linear-to-br from-midnight to-slate"
+    class="absolute inset-0 -z-20"
+    aria-hidden="true"
+  >
+    <img
+      src="/images/hero.webp"
+      alt=""
+      class="h-full w-full object-cover"
+      loading="eager"
+      decoding="async"
+    />
+  </div>
+
+  <!-- Background overlay -->
+  <div
+    class="absolute inset-0 -z-10 bg-linear-to-r from-midnight/90 via-midnight/65 to-midnight/25"
     aria-hidden="true"
   ></div>
 
-  <!-- Readability Overlay (Stronger on the left) -->
+  <!-- Hero content -->
   <div
-    class="absolute inset-0 -z-10 bg-linear-to-r from-black/85 via-black/55 to-black/35"
-    aria-hidden="true"
-  ></div>
+    class="mx-auto w-full max-w-7xl px-4 py-24 sm:px-6 lg:px-8 lg:py-32"
+  >
+    <div class="max-w-3xl">
 
-  <!-- Hero Content -->
-  <div class="mx-auto w-full max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-    <div class="max-w-2xl">
+      <!-- Brand statement -->
+      {t.hero.eyebrow && (
+        <p
+          class="mb-6 font-editorial-body text-xs font-medium uppercase tracking-[0.22em] text-accent"
+        >
+          {t.hero.eyebrow}
+        </p>
+      )}
 
-      <!-- Main Heading -->
+      <!-- Main heading -->
       <h1
         class="text-4xl font-light leading-tight tracking-tight text-white sm:text-5xl lg:text-7xl lg:leading-[1.08]"
         set:html={t.hero.title}
       />
 
-      <!-- Subtitle -->
+      <!-- Supporting copy -->
       {t.hero.subtitle && (
-        <p class="mt-6 max-w-xl font-editorial-body text-base font-normal leading-relaxed text-white/85 sm:text-lg">
+        <p
+          class="mt-6 max-w-2xl font-editorial-body text-base font-normal leading-relaxed text-white/85 sm:text-lg"
+        >
           {t.hero.subtitle}
         </p>
       )}
 
-      <!-- CTA Button -->
-      <div class="mt-10 flex flex-wrap gap-4">
+      <!-- Calls to action -->
+      <div
+        class="mt-10 flex flex-wrap items-center gap-4"
+      >
+        <!-- Primary CTA -->
         <a
-          href={localizePath(locale, '/contact')}
+          href={localizePath(locale, '/work')}
           class="inline-flex items-center justify-center rounded-md bg-accent px-8 py-3.5 font-editorial-body text-xs font-semibold uppercase tracking-widest text-white shadow-xs transition-all hover:bg-accent/90 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent active:scale-[0.99]"
         >
-          {t.hero.cta}
+          {t.hero.primaryCta}
+        </a>
+
+        <!-- Secondary CTA -->
+        <a
+          href={localizePath(locale, '/contact')}
+          class="inline-flex items-center justify-center rounded-md border border-white/25 bg-white/5 px-8 py-3.5 font-editorial-body text-xs font-semibold uppercase tracking-widest text-white backdrop-blur-sm transition-colors hover:border-white/40 hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+        >
+          {t.hero.secondaryCta}
         </a>
       </div>
 
     </div>
   </div>
-
 </section>

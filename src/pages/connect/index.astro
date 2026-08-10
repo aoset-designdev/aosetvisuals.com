@@ -46,13 +46,13 @@ export const prerender = false;
         ></div>
       </div>
 
-      <!-- Entire interface fades in as one composition -->
+      <!-- Main interface -->
       <div
         class="connect-interface relative z-10 mx-auto flex min-h-[calc(100dvh-1.5rem)] w-full flex-col px-5 py-6 sm:min-h-[calc(100dvh-2.5rem)] sm:px-7 sm:py-8"
       >
         <!-- Brand block -->
         <header class="mt-8 text-center sm:mt-10">
-          <!-- AOSET Visuals Vertical Logo -->
+          <!-- AOSET Visuals vertical logo -->
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill-rule="evenodd"
@@ -89,25 +89,18 @@ export const prerender = false;
             class="mx-auto max-w-72 text-lg font-medium leading-snug text-white"
           >
             Design &amp; Presentation
+
             <span class="block text-white/75">
               for Premium Spaces
             </span>
           </p>
         </div>
 
-        <!-- Thumb-zone actions -->
-        <div class="pb-12 pt-8 sm:pb-14">
+        <!-- Action zone -->
+        <div class="pb-10 pt-8 sm:pb-12">
           <div class="space-y-3">
-            <!-- Primary action -->
-            <a
-              href="/api/connect"
-              class="flex w-full items-center justify-center rounded-xl bg-accent px-5 py-3.5 text-sm font-semibold text-white shadow-md transition-colors hover:bg-accent-hover active:bg-accent-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-              aria-label="Save contact for AOSET Visuals"
-            >
-              Save Contact
-            </a>
 
-            <!-- Preferred contact method -->
+            <!-- Primary action: WhatsApp -->
             <a
               href="https://wa.me/13054821642?text=Hello%20AOSET%20Visuals%2C%20I'd%20like%20to%20get%20in%20touch!"
               target="_blank"
@@ -120,14 +113,13 @@ export const prerender = false;
 
             <!-- Secondary actions -->
             <div class="grid grid-cols-3 gap-2.5">
-              <a
-                href="https://aosetvisuals.com"
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
+                id="message-open"
+                type="button"
                 class="flex items-center justify-center rounded-xl border border-white/15 bg-white/5 px-3 py-3 text-sm font-medium text-white backdrop-blur-sm transition-colors hover:border-white/25 hover:bg-white/10 active:bg-white/15 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
               >
-                Website
-              </a>
+                Message
+              </button>
 
               <a
                 href="tel:+13054821642"
@@ -136,31 +128,40 @@ export const prerender = false;
                 Call
               </a>
 
-              <button
-                id="message-open"
-                type="button"
+              <a
+                href="https://aosetvisuals.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 class="flex items-center justify-center rounded-xl border border-white/15 bg-white/5 px-3 py-3 text-sm font-medium text-white backdrop-blur-sm transition-colors hover:border-white/25 hover:bg-white/10 active:bg-white/15 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
               >
-                Message
-              </button>
+                Website
+              </a>
             </div>
+
+            <!-- Tertiary action -->
+            <button
+              id="save-contact-open"
+              type="button"
+              class="mx-auto flex items-center justify-center px-4 py-2 text-xs font-medium tracking-wide text-white/45 transition-colors hover:text-white/75 active:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            >
+              Save Contact
+            </button>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Quick message dialog -->
+    <!-- Message dialog -->
     <dialog
       id="message-dialog"
-      class="m-auto w-[calc(100%-2rem)] max-w-sm overflow-visible rounded-2xl border border-white/10 bg-midnight/95 p-0 text-white shadow-2xl backdrop:bg-transparent"
+      class="connect-dialog m-auto w-[calc(100%-2rem)] max-w-sm overflow-visible rounded-2xl border border-white/10 bg-midnight/95 p-0 text-white shadow-2xl backdrop:bg-transparent"
     >
       <div class="relative p-6 sm:p-7">
-        <!-- Close dialog -->
         <button
           id="message-close"
           type="button"
-          class="absolute right-4 top-4 flex size-9 items-center justify-center rounded-full text-white/50 transition-colors hover:bg-white/5 hover:text-white active:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-          aria-label="Close message form"
+          class="absolute right-4 top-4 flex size-9 items-center justify-center rounded-full text-white/50 transition-colors hover:bg-white/5 hover:text-white"
+          aria-label="Close"
         >
           <svg
             viewBox="0 0 24 24"
@@ -175,16 +176,14 @@ export const prerender = false;
           </svg>
         </button>
 
-        <!-- Form header -->
-        <div class="pr-10">
-          <h2 class="text-xl font-medium text-white">
-            Send a Message
-          </h2>
-        </div>
+        <h2 class="pr-10 text-xl font-medium text-white">
+          Send a Message
+        </h2>
 
-        <!-- Streamlined lead capture form -->
-        <form id="connect-form" class="mt-6 space-y-3">
-          <!-- Full name -->
+        <form
+          id="connect-form"
+          class="mt-6 space-y-3"
+        >
           <input
             type="text"
             name="name"
@@ -194,7 +193,6 @@ export const prerender = false;
             class="w-full rounded-lg border border-white/15 bg-white/5 px-3.5 py-2.5 text-sm text-white outline-none transition-colors placeholder:text-white/35 focus:border-accent"
           />
 
-          <!-- Email address -->
           <input
             type="email"
             name="email"
@@ -205,17 +203,15 @@ export const prerender = false;
             class="w-full rounded-lg border border-white/15 bg-white/5 px-3.5 py-2.5 text-sm text-white outline-none transition-colors placeholder:text-white/35 focus:border-accent"
           />
 
-          <!-- Phone number -->
           <input
             type="tel"
             name="phone"
-            placeholder="Phone (optional)"
+            placeholder="Phone"
             autocomplete="tel"
             inputmode="tel"
             class="w-full rounded-lg border border-white/15 bg-white/5 px-3.5 py-2.5 text-sm text-white outline-none transition-colors placeholder:text-white/35 focus:border-accent"
           />
 
-          <!-- Message body -->
           <textarea
             name="message"
             placeholder="Message *"
@@ -224,15 +220,13 @@ export const prerender = false;
             class="w-full resize-none rounded-lg border border-white/15 bg-white/5 px-3.5 py-2.5 text-sm text-white outline-none transition-colors placeholder:text-white/35 focus:border-accent"
           ></textarea>
 
-          <!-- Submit button -->
           <button
             type="submit"
-            class="w-full rounded-xl bg-accent px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-hover active:bg-accent-hover disabled:opacity-60"
+            class="w-full rounded-xl bg-accent px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-hover active:bg-accent-hover disabled:cursor-not-allowed disabled:opacity-60"
           >
             Send
           </button>
 
-          <!-- Form status message -->
           <p
             id="form-status"
             class="min-h-5 text-center text-xs font-medium text-white/50"
@@ -241,87 +235,353 @@ export const prerender = false;
         </form>
       </div>
     </dialog>
+
+    <!-- Save Contact dialog -->
+    <dialog
+      id="save-contact-dialog"
+      class="connect-dialog m-auto w-[calc(100%-2rem)] max-w-sm overflow-visible rounded-2xl border border-white/10 bg-midnight/95 p-0 text-white shadow-2xl backdrop:bg-transparent"
+    >
+      <div class="relative p-6 sm:p-7">
+        <!-- Close -->
+        <button
+          id="save-contact-close"
+          type="button"
+          class="absolute right-4 top-4 flex size-9 items-center justify-center rounded-full text-white/50 transition-colors hover:bg-white/5 hover:text-white"
+          aria-label="Close"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            class="size-4"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.75"
+            stroke-linecap="round"
+            aria-hidden="true"
+          >
+            <path d="M6 6l12 12M18 6L6 18"></path>
+          </svg>
+        </button>
+
+        <!-- Minimal heading -->
+        <h2 class="pr-10 text-xl font-medium text-white">
+          Save Contact
+        </h2>
+
+        <!-- Contact actions -->
+        <div class="mt-6 space-y-3">
+          <a
+            href="/api/connect"
+            class="flex w-full items-center justify-center rounded-xl bg-accent px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-hover active:bg-accent-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+          >
+            Save Contact Card
+          </a>
+
+          <button
+            id="copy-contact"
+            type="button"
+            class="flex w-full items-center justify-center rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-sm font-medium text-white/80 transition-colors hover:border-white/25 hover:bg-white/10 hover:text-white active:bg-white/15"
+          >
+            Copy Contact Details
+          </button>
+
+          <p
+            id="copy-status"
+            class="min-h-5 text-center text-xs font-medium text-white/45"
+            aria-live="polite"
+          ></p>
+
+          <button
+            id="save-contact-cancel"
+            type="button"
+            class="mx-auto flex items-center justify-center px-4 py-2 text-xs font-medium text-white/40 transition-colors hover:text-white/70 active:text-white"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </dialog>
   </main>
 
-  <!-- Client-side behavior -->
   <script>
-    // Quick message dialog controls
-    const messageDialog = document.getElementById(
-      'message-dialog',
-    ) as HTMLDialogElement | null;
-
-    const messageOpen = document.getElementById(
-      'message-open',
-    ) as HTMLButtonElement | null;
-
-    const messageClose = document.getElementById(
-      'message-close',
-    ) as HTMLButtonElement | null;
-
-    let dialogCloseTimer: number | undefined;
-
-    function openMessageDialog(): void {
-      if (!messageDialog || messageDialog.open) {
+    /**
+     * Open a dialog and trigger its entrance animation.
+     */
+    function openDialog(
+      dialog: HTMLDialogElement | null,
+    ): void {
+      if (!dialog || dialog.open) {
         return;
       }
 
-      messageDialog.showModal();
+      dialog.showModal();
 
       window.requestAnimationFrame(() => {
         window.requestAnimationFrame(() => {
-          messageDialog.classList.add('is-visible');
+          dialog.classList.add('is-visible');
         });
       });
     }
 
-    function closeMessageDialog(): void {
-      if (!messageDialog || !messageDialog.open) {
+    /**
+     * Close a dialog after its exit animation.
+     */
+    function closeDialog(
+      dialog: HTMLDialogElement | null,
+    ): void {
+      if (!dialog || !dialog.open) {
         return;
       }
 
-      messageDialog.classList.remove('is-visible');
+      dialog.classList.remove('is-visible');
 
-      dialogCloseTimer = window.setTimeout(() => {
-        messageDialog.close();
-        dialogCloseTimer = undefined;
+      window.setTimeout(() => {
+        if (dialog.open) {
+          dialog.close();
+        }
       }, 320);
     }
 
-    messageOpen?.addEventListener(
-      'click',
-      openMessageDialog,
+    /**
+     * Shared dialog behavior.
+     */
+    function configureDialog(
+      dialog: HTMLDialogElement | null,
+      closeButton: HTMLButtonElement | null,
+    ): void {
+      closeButton?.addEventListener('click', () => {
+        closeDialog(dialog);
+      });
+
+      dialog?.addEventListener('click', (event) => {
+        if (event.target === dialog) {
+          closeDialog(dialog);
+        }
+      });
+
+      dialog?.addEventListener('cancel', (event) => {
+        event.preventDefault();
+        closeDialog(dialog);
+      });
+
+      dialog?.addEventListener('close', () => {
+        dialog.classList.remove('is-visible');
+      });
+    }
+
+    // ---------------------------------------------------------
+    // Message dialog
+    // ---------------------------------------------------------
+
+    const messageDialog =
+      document.getElementById(
+        'message-dialog',
+      ) as HTMLDialogElement | null;
+
+    const messageOpen =
+      document.getElementById(
+        'message-open',
+      ) as HTMLButtonElement | null;
+
+    const messageClose =
+      document.getElementById(
+        'message-close',
+      ) as HTMLButtonElement | null;
+
+    messageOpen?.addEventListener('click', () => {
+      openDialog(messageDialog);
+    });
+
+    configureDialog(
+      messageDialog,
+      messageClose,
     );
 
-    messageClose?.addEventListener(
+    // ---------------------------------------------------------
+    // Save Contact dialog
+    // ---------------------------------------------------------
+
+    const saveContactDialog =
+      document.getElementById(
+        'save-contact-dialog',
+      ) as HTMLDialogElement | null;
+
+    const saveContactOpen =
+      document.getElementById(
+        'save-contact-open',
+      ) as HTMLButtonElement | null;
+
+    const saveContactClose =
+      document.getElementById(
+        'save-contact-close',
+      ) as HTMLButtonElement | null;
+
+    const saveContactCancel =
+      document.getElementById(
+        'save-contact-cancel',
+      ) as HTMLButtonElement | null;
+
+    const copyContactButton =
+      document.getElementById(
+        'copy-contact',
+      ) as HTMLButtonElement | null;
+
+    const copyStatus =
+      document.getElementById(
+        'copy-status',
+      ) as HTMLParagraphElement | null;
+
+    saveContactOpen?.addEventListener(
       'click',
-      closeMessageDialog,
+      () => {
+        if (copyStatus) {
+          copyStatus.textContent = '';
+
+          copyStatus.className =
+            'min-h-5 text-center text-xs font-medium text-white/45';
+        }
+
+        if (copyContactButton) {
+          copyContactButton.textContent =
+            'Copy Contact Details';
+        }
+
+        openDialog(saveContactDialog);
+      },
     );
 
-    messageDialog?.addEventListener(
+    configureDialog(
+      saveContactDialog,
+      saveContactClose,
+    );
+
+    saveContactCancel?.addEventListener(
       'click',
-      (event) => {
-        if (event.target === messageDialog) {
-          closeMessageDialog();
+      () => {
+        closeDialog(saveContactDialog);
+      },
+    );
+
+    // ---------------------------------------------------------
+    // Copy contact details
+    // ---------------------------------------------------------
+
+    const contactDetails = [
+      'AOSET Visuals',
+      '+1 305 482 1642',
+      'hello@aosetvisuals.com',
+      'https://aosetvisuals.com',
+    ].join('\n');
+
+    /**
+     * Fallback for browsers without the modern Clipboard API.
+     */
+    function legacyCopyText(
+      text: string,
+    ): boolean {
+      const textarea =
+        document.createElement('textarea');
+
+      textarea.value = text;
+      textarea.setAttribute(
+        'readonly',
+        '',
+      );
+
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      textarea.style.pointerEvents = 'none';
+
+      document.body.appendChild(textarea);
+
+      textarea.select();
+      textarea.setSelectionRange(
+        0,
+        textarea.value.length,
+      );
+
+      let copied = false;
+
+      try {
+        copied =
+          document.execCommand('copy');
+      } catch {
+        copied = false;
+      }
+
+      textarea.remove();
+
+      return copied;
+    }
+
+    copyContactButton?.addEventListener(
+      'click',
+      async () => {
+        if (!copyStatus) {
+          return;
+        }
+
+        try {
+          if (
+            navigator.clipboard &&
+            window.isSecureContext
+          ) {
+            await navigator.clipboard.writeText(
+              contactDetails,
+            );
+          } else {
+            const copied =
+              legacyCopyText(
+                contactDetails,
+              );
+
+            if (!copied) {
+              throw new Error(
+                'Clipboard copy failed',
+              );
+            }
+          }
+
+          copyContactButton.textContent =
+            'Copied';
+
+          copyStatus.textContent =
+            '✓ Contact details copied';
+
+          copyStatus.className =
+            'min-h-5 text-center text-xs font-medium text-green-400';
+
+          window.setTimeout(() => {
+            copyContactButton.textContent =
+              'Copy Contact Details';
+          }, 1800);
+        } catch (error) {
+          console.error(
+            '[Client Error] Unable to copy contact details:',
+            error,
+          );
+
+          copyStatus.textContent =
+            'Unable to copy';
+
+          copyStatus.className =
+            'min-h-5 text-center text-xs font-medium text-red-400';
         }
       },
     );
 
-    messageDialog?.addEventListener(
-      'cancel',
-      (event) => {
-        event.preventDefault();
-        closeMessageDialog();
-      },
-    );
+    // ---------------------------------------------------------
+    // Message form
+    // ---------------------------------------------------------
 
-    // Contact form submission handler
-    const form = document.getElementById(
-      'connect-form',
-    ) as HTMLFormElement | null;
+    const form =
+      document.getElementById(
+        'connect-form',
+      ) as HTMLFormElement | null;
 
-    const statusText = document.getElementById(
-      'form-status',
-    ) as HTMLParagraphElement | null;
+    const statusText =
+      document.getElementById(
+        'form-status',
+      ) as HTMLParagraphElement | null;
 
     if (form && statusText) {
       form.addEventListener(
@@ -423,7 +683,7 @@ export const prerender = false;
               data.success
             ) {
               statusText.textContent =
-                'Message sent successfully.';
+                'Message sent';
 
               statusText.className =
                 'min-h-5 text-center text-xs font-medium text-green-400';
@@ -437,7 +697,7 @@ export const prerender = false;
               );
 
               statusText.textContent =
-                'Unable to send message. Please try again.';
+                'Unable to send';
 
               statusText.className =
                 'min-h-5 text-center text-xs font-medium text-red-400';
@@ -449,14 +709,13 @@ export const prerender = false;
             );
 
             statusText.textContent =
-              'Unable to send message. Please try again.';
+              'Unable to send';
 
             statusText.className =
               'min-h-5 text-center text-xs font-medium text-red-400';
           } finally {
             if (submitButton) {
-              submitButton.disabled =
-                false;
+              submitButton.disabled = false;
             }
           }
         },
@@ -467,20 +726,25 @@ export const prerender = false;
 
 <style>
   /*
-   * Only compositor-friendly properties are animated:
-   * opacity and transform.
+   * Page entrance
    */
 
   .connect-cover {
     opacity: 1;
+
     animation:
       connect-cover-reveal
       1000ms
       cubic-bezier(0.22, 1, 0.36, 1)
       450ms
       forwards;
+
+    will-change: opacity;
   }
 
+  /*
+   * Slightly visible background movement.
+   */
   .connect-background {
     transform:
       scale(1.07)
@@ -507,9 +771,15 @@ export const prerender = false;
       cubic-bezier(0.22, 1, 0.36, 1)
       500ms
       forwards;
+
+    will-change: opacity;
   }
 
-  #message-dialog {
+  /*
+   * Shared dialog animation.
+   */
+
+  .connect-dialog {
     opacity: 0;
 
     transform:
@@ -517,37 +787,59 @@ export const prerender = false;
       scale(0.985);
 
     transition:
-      opacity 260ms
+      opacity
+        260ms
         cubic-bezier(0.22, 1, 0.36, 1),
-      transform 320ms
+      transform
+        320ms
         cubic-bezier(0.22, 1, 0.36, 1);
+
+    will-change:
+      opacity,
+      transform;
   }
 
-  #message-dialog.is-visible {
+  .connect-dialog.is-visible {
     opacity: 1;
+
     transform:
       translateY(0)
       scale(1);
   }
 
-  #message-dialog::backdrop {
+  .connect-dialog::backdrop {
     background-color:
       rgb(0 0 0 / 0);
 
-    backdrop-filter: blur(0);
+    -webkit-backdrop-filter:
+      blur(0);
+
+    backdrop-filter:
+      blur(0);
 
     transition:
-      background-color 260ms ease,
-      backdrop-filter 320ms ease;
+      background-color
+        260ms ease,
+      -webkit-backdrop-filter
+        320ms ease,
+      backdrop-filter
+        320ms ease;
   }
 
-  #message-dialog.is-visible::backdrop {
+  .connect-dialog.is-visible::backdrop {
     background-color:
       rgb(0 0 0 / 0.7);
+
+    -webkit-backdrop-filter:
+      blur(4px);
 
     backdrop-filter:
       blur(4px);
   }
+
+  /*
+   * Keyframes
+   */
 
   @keyframes connect-cover-reveal {
     from {
@@ -584,10 +876,11 @@ export const prerender = false;
     }
   }
 
-  @media (
-    prefers-reduced-motion:
-    reduce
-  ) {
+  /*
+   * Accessibility: reduced motion
+   */
+
+  @media (prefers-reduced-motion: reduce) {
     .connect-cover {
       display: none;
     }
@@ -597,11 +890,22 @@ export const prerender = false;
       animation: none;
       transform: none;
       opacity: 1;
+      will-change: auto;
     }
 
-    #message-dialog,
-    #message-dialog::backdrop {
+    .connect-dialog,
+    .connect-dialog::backdrop {
       transition: none;
+    }
+
+    .connect-dialog {
+      transform: none;
+      will-change: auto;
+    }
+
+    .connect-dialog.is-visible {
+      opacity: 1;
+      transform: none;
     }
   }
 </style>

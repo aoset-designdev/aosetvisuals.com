@@ -1,7 +1,16 @@
 ---
 // src/components/Header.astro
-import { useTranslations, localizePath, switchLocalePath } from '../i18n/utils';
-import { locales, localeNames, type Locale } from '../i18n/config';
+import {
+  useTranslations,
+  localizePath,
+  switchLocalePath,
+} from '../i18n/utils';
+
+import {
+  locales,
+  localeNames,
+  type Locale,
+} from '../i18n/config';
 
 interface Props {
   locale: Locale;
@@ -21,43 +30,121 @@ const navItems = [
 const currentPath = Astro.url.pathname;
 
 function isActive(path: string): boolean {
-  const target = localizePath(locale, path).replace(/\/$/, '') || '/';
-  const current = currentPath.replace(/\/$/, '') || '/';
+  const target =
+    localizePath(locale, path).replace(/\/$/, '') || '/';
+
+  const current =
+    currentPath.replace(/\/$/, '') || '/';
+
   return current === target;
 }
 ---
 
-<header class="sticky top-0 z-50 w-full border-b border-border bg-surface/90 backdrop-blur-sm">
-  <div class="mx-auto flex max-w-7xl items-center justify-between gap-6 px-4 py-3 sm:px-6 lg:px-8">
-
-    <!-- Logo -->
+<header
+  class="sticky top-0 z-50 w-full border-b border-border bg-surface/90 backdrop-blur-sm"
+>
+  <div
+    class="mx-auto flex max-w-7xl items-center justify-between gap-6 px-4 py-3 sm:px-6 lg:px-8"
+  >
+    <!-- Brand -->
     <a
       href={localizePath(locale, '/')}
-      class="flex shrink-0 items-center gap-2 rounded-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-      aria-label="AOSET — Home"
+      class="brand-link group flex shrink-0 items-center rounded-xs text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+      aria-label="AOSET Visuals — Home"
     >
+      <!--
+        Desktop brand lockup.
+
+        The full SVG width is preserved at all times so revealing
+        "visuals" never moves the navigation or changes the layout.
+
+        Color behavior:
+        - Symbol: AOSET Blue.
+        - AOSET wordmark: follows the active text color.
+        - VISUALS: AOSET Blue.
+
+        Interaction:
+        - AOSET is always visible.
+        - VISUALS is revealed softly on hover or keyboard focus.
+      -->
       <svg
-        viewBox="0 0 160 136"
-        class="h-8 w-8 fill-current text-accent"
-        aria-hidden="true"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 2573 512"
+        class="hidden h-8 w-auto md:block lg:h-9"
+        role="img"
+        aria-label="AOSET Visuals"
       >
-        <path d="M71.22 10.63L60.6 0 0 61.05v74.93h15.03V68.36L71.22 10.63Z" />
-        <path d="M109.85 10.66l.03-.03L99.25 0 32.06 68.34l.02.02h-.02v67.62h99.16v-15.03l-.5-52.59h-.02l.02-.02L98.5 38.49l-10.25 10.25 27.41 26.71v46.5H47.09V43.5l52.15-53.04 45.82 44.5-.17.09.08 69.94h15.03V61.05L109.85 10.66Z" />
+        <!-- Brand symbol -->
+        <path
+          fill="#348eba"
+          d="M75.13 437.045c-100.175-99.937-100.175-262.156 0-362.093 100.184-99.937 262.791-99.937 362.97 0a255.574 255.574 0 0 1 48.484 67.239l-.033.017 2.13 4.268 29.604-59.234 87.684 43.62-62.545 125.147 62.587 125.227-87.689 43.615-119.46-239.029a157.855 157.855 0 0 0-30.055-41.743c-61.93-61.781-162.452-61.781-224.379 0-61.93 61.776-61.93 162.06 0 223.836 61.927 61.784 162.448 61.784 224.38 0 17.998-17.957 30.772-39.172 38.306-61.747l52.91 105.875.042.08a258.08 258.08 0 0 1-21.966 24.922c-100.183 99.933-262.79 99.933-362.97 0"
+        />
+
+        <!-- AOSET wordmark -->
+        <path
+          fill="currentColor"
+          d="M880.32 325.522a159.795 79.898 0 0 1-22.721 18.102q-22.97 13.458-51.434 13.458-28.04 0-51.185-13.445-23.095-13.446-36.553-36.578-13.433-23.108-13.433-51.185 0-28.463 13.433-51.397 13.433-22.92 36.553-36.366t51.185-13.445q28.463 0 51.434 13.445 22.896 13.446 36.353 36.366 13.433 22.934 13.433 51.397v94.879H880.32zm0-69.66v-.1q0-21.435-9.912-38.638-9.938-17.228-26.666-27.378-16.754-10.174-37.552-10.174-20.549 0-37.377 10.187t-26.791 27.427q-9.962 17.228-9.962 38.588t9.987 38.65q9.937 17.316 26.766 27.528t37.527 10.224 37.352-10.187q16.654-10.162 26.64-27.49 9.963-17.265 9.988-38.625M1027.57 357.072a99.872 99.872 0 0 1-87.763-50.01 99.872 99.872 0 0 1-13.458-51.185 99.872 99.872 0 0 1 50.011-87.763 99.872 99.872 0 0 1 51.185-13.433 99.872 99.872 0 0 1 87.787 49.811 99.872 99.872 0 0 1 13.433 51.385q0 28.089-13.433 51.184a99.722 99.722 0 0 1-87.762 50.011m.125-24.893q20.723 0 37.377-10.187a76.402 76.402 0 0 0 36.603-66.24 75.903 75.903 0 0 0-36.553-66.016 70.91 70.91 0 0 0-37.552-10.162 70.91 70.91 0 0 0-37.377 10.187 75.903 75.903 0 0 0-36.753 66.016 76.153 76.153 0 0 0 36.753 66.165q16.828 10.237 37.502 10.237M1230.03 357.072a89.885 89.885 0 0 1-41.147-9.288 76.402 76.402 0 0 1-29.412-25.093 60.672 60.672 0 0 1-10.886-35.205h28.463q0 12.085 7.29 22.122a49.936 49.936 0 0 0 19.676 15.805q12.384 5.767 27.614 5.767 13.633 0 24.719-4.694a43.444 43.444 0 0 0 17.577-12.958 28.713 28.713 0 0 0 6.517-18.227q0-10.062-6.417-15.655a47.44 47.44 0 0 0-16.978-8.913 247.184 247.184 0 0 0-23.245-5.968q-12.56-2.846-25.817-5.992a119.847 119.847 0 0 1-24.244-8.39 47.44 47.44 0 0 1-17.852-14.33q-6.817-9.04-6.817-23.546 0-16.18 8.74-29.237a62.42 62.42 0 0 1 23.769-20.849 71.409 71.409 0 0 1 33.307-7.74q20.25 0 36.603 7.69a67.414 67.414 0 0 1 26.067 20.774 47.44 47.44 0 0 1 9.687 29.237h-28.463q0-8.888-5.893-16.179a39.949 39.949 0 0 0-15.73-11.46 57.426 57.426 0 0 0-22.271-4.17q-10.661 0-19.5 3.795a34.955 34.955 0 0 0-13.957 10.137 22.471 22.471 0 0 0-5.069 14.332q0 7.415 4.594 12.035a32.458 32.458 0 0 0 12.235 7.415q7.69 2.796 17.502 4.844l20.4 4.37q11.86 2.546 23.694 6.166 11.81 3.596 21.622 9.538 9.838 5.918 15.58 15.855 5.743 9.962 5.743 25.218 0 17.427-10.412 31.834a70.91 70.91 0 0 1-27.964 22.696 91.383 91.383 0 0 1-39.325 8.264M1357.355 265.964q1.873 14.606 9.388 27.465a77.4 77.4 0 0 0 27.215 27.664q17.228 10.487 38.077 10.487 12.06 0 24.893-3.995a99.872 99.872 0 0 0 23.72-10.836 62.42 62.42 0 0 0 17.227-15.23l17.178 17.602a79.898 79.898 0 0 1-22.546 19.175 144.815 144.815 0 0 1-30.436 13.633 104.866 104.866 0 0 1-31.61 5.143q-28.064 0-51.01-13.433a99.872 99.872 0 0 1-36.378-36.578 99.872 99.872 0 0 1-13.432-51.184q0-28.464 11.86-51.385a92.382 92.382 0 0 1 33.207-36.378q21.348-13.433 49.312-13.433 30.236 0 52.183 13.583a93.13 93.13 0 0 1 34.006 36.603q12.06 23.046 12.36 52.008 0 2.148-.2 4.545a17.478 17.478 0 0 1-.999 4.544zm137.274-23.345q-1.498-13.858-7.19-26.092a62.42 62.42 0 0 0-23.046-26.466q-15.28-9.887-38.3-9.887-22.622 0-38.152 9.887a62.42 62.42 0 0 0-23.37 26.915 84.891 84.891 0 0 0-7.066 25.643zM1572.957 118.108v50.66h61.676v22.322h-61.676v89.885q0 11.91 5.417 21.722a44.246 41.197 0 0 0 14.56 15.655 34.86 32.458 0 0 0 20.247 5.792h27.888v26.691h-29.9q-18.744 0-33.894-9.338a72.402 67.414 0 0 1-24.161-25.218 80.446 74.904 0 0 1-9.01-35.33V118.11z"
+        />
+
+        <!--
+          VISUALS reveal.
+
+          The word starts slightly offset and transparent.
+          Only opacity and transform are animated.
+        -->
+        <path
+          class="brand-visuals"
+          fill="#348eba"
+          fill-rule="nonzero"
+          d="M1779.738 335.302h-33.341l-56.638-155.648h27.761l45.538 125.31 45.537-125.29h27.781zm81.72-155.262h26.097v155.262h-26.097zm13.292-25.224q-6.108 0-10.329-4.059a13.596 13.596 0 0 1-4.2-10.147q0-6.047 4.2-10.126a14.205 14.205 0 0 1 10.309-4.058q5.926 0 10.126 4.058a13.596 13.596 0 0 1 4.2 10.147q0 6.088-4.119 10.146a14.002 14.002 0 0 1-10.187 4.039m96.067 183.408a79.143 79.143 0 0 1-24.473-4.728 68.996 68.996 0 0 1-20.8-11.669 44.645 44.645 0 0 1-12.988-16.945l22.323-9.598a26.38 26.38 0 0 0 8.38 9.903q6.088 4.606 14.003 7.468 7.914 2.84 16.031 2.84 8.483 0 15.95-2.698 7.448-2.72 12.176-7.915a17.858 17.858 0 0 0 4.708-12.378q0-7.793-5.174-12.237a37.542 37.542 0 0 0-12.988-6.98 420.066 420.066 0 0 0-15.95-4.83 178.579 178.579 0 0 1-28.593-9.741q-12.582-5.642-19.826-14.47-7.245-8.847-7.245-22.362 0-14.449 8.036-25.001a52.762 52.762 0 0 1 21.064-16.336 67.982 67.982 0 0 1 27.883-5.783q18.791 0 34.376 8.117 15.565 8.056 23.073 21.795l-20.881 12.378a26.38 26.38 0 0 0-8.117-9.923 44.645 44.645 0 0 0-12.4-6.737 46.674 46.674 0 0 0-14.205-2.7q-9.131-.202-16.924 2.436a28.41 28.41 0 0 0-12.52 7.955 19.075 19.075 0 0 0-4.729 13.19q0 7.854 4.992 11.851a38.557 38.557 0 0 0 13.17 6.413q8.199 2.395 17.858 5.54a200.9 200.9 0 0 1 26.32 10.43 60.88 60.88 0 0 1 19.847 14.754q7.549 8.786 7.346 21.875 0 14.246-8.564 24.88a54.791 54.791 0 0 1-22.12 16.254 66.967 66.967 0 0 1-29.039 4.952m80.219-61.833V180.04h26.076v90.466q0 11.77 5.743 21.41a43.427 43.427 0 0 0 15.443 15.361 40.586 40.586 0 0 0 21.308 5.723q11.79 0 21.368-5.723a43.833 43.833 0 0 0 15.281-15.362 40.586 40.586 0 0 0 5.743-21.409V180.04h26.077l.162 155.241h-26.077l-.162-19.684a58.85 58.85 0 0 1-20.699 17.31 58.85 58.85 0 0 1-27.314 6.413q-17.371 0-31.698-8.462a63.923 63.923 0 0 1-22.789-22.77 60.88 60.88 0 0 1-8.462-31.717m291.692-96.331h26.076v155.262h-26.097l-1.014-26.26a58.85 58.85 0 0 1-20.09 21.937q-12.826 8.361-30.48 8.361-17.148 0-32.063-6.453a83.81 83.81 0 0 1-44.057-44.137 81.172 81.172 0 0 1-6.392-32.084q0-16.741 6.25-31.454a81.578 81.578 0 0 1 43.022-43.224q14.61-6.29 31.332-6.29 18.325 0 32.164 8.603a68.996 68.996 0 0 1 22.363 22.323zm-52.214 134.055q15.402 0 26.644-7.59t17.371-20.454a64.938 64.938 0 0 0 6.129-28.37q0-15.89-6.19-28.694a50.733 50.733 0 0 0-17.452-20.334q-11.222-7.508-26.502-7.508-15.24 0-27.842 7.59a56.82 56.82 0 0 0-19.969 20.454 56.212 56.212 0 0 0-7.407 28.492q0 15.747 7.61 28.552 7.61 12.785 20.172 20.334a52.762 52.762 0 0 0 27.436 7.528m111.084-211.676h26.076v232.883h-26.076zm110.739 235.805a79.143 79.143 0 0 1-24.453-4.728 68.996 68.996 0 0 1-20.821-11.669 44.645 44.645 0 0 1-12.988-16.945l22.343-9.598a26.38 26.38 0 0 0 8.381 9.903 52.762 52.762 0 0 0 14.002 7.468q7.915 2.84 16.011 2.84 8.524 0 15.971-2.698 7.448-2.72 12.176-7.915a17.858 17.858 0 0 0 4.708-12.378q0-7.793-5.175-12.237a37.542 37.542 0 0 0-12.987-6.98q-7.854-2.537-15.95-4.83a178.579 178.579 0 0 1-28.594-9.741q-12.581-5.642-19.826-14.47-7.244-8.847-7.244-22.362 0-14.449 8.036-25.001a52.762 52.762 0 0 1 21.064-16.336 67.982 67.982 0 0 1 27.882-5.783q18.792 0 34.377 8.117 15.544 8.056 23.073 21.795l-20.882 12.378a26.38 26.38 0 0 0-8.117-9.923 44.645 44.645 0 0 0-12.42-6.737 46.674 46.674 0 0 0-14.184-2.7q-9.132-.202-16.945 2.436a28.41 28.41 0 0 0-12.5 7.955 19.075 19.075 0 0 0-4.728 13.19q0 7.854 4.971 11.851a38.557 38.557 0 0 0 13.19 6.413q8.179 2.395 17.859 5.54a200.9 200.9 0 0 1 26.32 10.43 60.88 60.88 0 0 1 19.846 14.754q7.55 8.786 7.326 21.875 0 14.246-8.523 24.88a54.791 54.791 0 0 1-22.16 16.254 66.967 66.967 0 0 1-29.019 4.952"
+        />
       </svg>
 
-      <span class="text-lg font-semibold tracking-tight text-text">
-        AOSET
-      </span>
+      <!--
+        Mobile brand lockup.
+
+        Mobile intentionally uses AOSET without the hover reveal.
+        This keeps the header compact and avoids hover-dependent
+        behavior on touch devices.
+      -->
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 1642 512"
+        class="h-8 w-auto text-text md:hidden"
+        role="img"
+        aria-label="AOSET Visuals"
+      >
+        <!-- Brand symbol -->
+        <path
+          fill="#348eba"
+          d="M75.13 437.045c-100.175-99.937-100.175-262.156 0-362.093 100.184-99.937 262.791-99.937 362.97 0a255.574 255.574 0 0 1 48.484 67.239l-.033.017 2.13 4.268 29.604-59.234 87.684 43.62-62.545 125.147 62.587 125.227-87.689 43.615-119.46-239.029a157.855 157.855 0 0 0-30.055-41.743c-61.93-61.781-162.452-61.781-224.379 0-61.93 61.776-61.93 162.06 0 223.836 61.927 61.784 162.448 61.784 224.38 0 17.998-17.957 30.772-39.172 38.306-61.747l52.91 105.875.042.08a258.08 258.08 0 0 1-21.966 24.922c-100.183 99.933-262.79 99.933-362.97 0"
+        />
+
+        <!-- AOSET wordmark -->
+        <path
+          fill="currentColor"
+          d="M880.32 325.522a159.795 79.898 0 0 1-22.721 18.102q-22.97 13.458-51.434 13.458-28.04 0-51.185-13.445-23.095-13.446-36.553-36.578-13.433-23.108-13.433-51.185 0-28.463 13.433-51.397 13.433-22.92 36.553-36.366t51.185-13.445q28.463 0 51.434 13.445 22.896 13.446 36.353 36.366 13.433 22.934 13.433 51.397v94.879H880.32zm0-69.66v-.1q0-21.435-9.912-38.638-9.938-17.228-26.666-27.378-16.754-10.174-37.552-10.174-20.549 0-37.377 10.187t-26.791 27.427q-9.962 17.228-9.962 38.588t9.987 38.65q9.937 17.316 26.766 27.528t37.527 10.224 37.352-10.187q16.654-10.162 26.64-27.49 9.963-17.265 9.988-38.625M1027.57 357.072a99.872 99.872 0 0 1-87.763-50.01 99.872 99.872 0 0 1-13.458-51.185 99.872 99.872 0 0 1 50.011-87.763 99.872 99.872 0 0 1 51.185-13.433 99.872 99.872 0 0 1 87.787 49.811 99.872 99.872 0 0 1 13.433 51.385q0 28.089-13.433 51.184a99.722 99.722 0 0 1-87.762 50.011m.125-24.893q20.723 0 37.377-10.187a76.402 76.402 0 0 0 36.603-66.24 75.903 75.903 0 0 0-36.553-66.016 70.91 70.91 0 0 0-37.552-10.162 70.91 70.91 0 0 0-37.377 10.187 75.903 75.903 0 0 0-36.753 66.016 76.153 76.153 0 0 0 36.753 66.165q16.828 10.237 37.502 10.237M1230.03 357.072a89.885 89.885 0 0 1-41.147-9.288 76.402 76.402 0 0 1-29.412-25.093 60.672 60.672 0 0 1-10.886-35.205h28.463q0 12.085 7.29 22.122a49.936 49.936 0 0 0 19.676 15.805q12.384 5.767 27.614 5.767 13.633 0 24.719-4.694a43.444 43.444 0 0 0 17.577-12.958 28.713 28.713 0 0 0 6.517-18.227q0-10.062-6.417-15.655a47.44 47.44 0 0 0-16.978-8.913 247.184 247.184 0 0 0-23.245-5.968q-12.56-2.846-25.817-5.992a119.847 119.847 0 0 1-24.244-8.39 47.44 47.44 0 0 1-17.852-14.33q-6.817-9.04-6.817-23.546 0-16.18 8.74-29.237a62.42 62.42 0 0 1 23.769-20.849 71.409 71.409 0 0 1 33.307-7.74q20.25 0 36.603 7.69a67.414 67.414 0 0 1 26.067 20.774 47.44 47.44 0 0 1 9.687 29.237h-28.463q0-8.888-5.893-16.179a39.949 39.949 0 0 0-15.73-11.46 57.426 57.426 0 0 0-22.271-4.17q-10.661 0-19.5 3.795a34.955 34.955 0 0 0-13.957 10.137 22.471 22.471 0 0 0-5.069 14.332q0 7.415 4.594 12.035a32.458 32.458 0 0 0 12.235 7.415q7.69 2.796 17.502 4.844l20.4 4.37q11.86 2.546 23.694 6.166 11.81 3.596 21.622 9.538 9.838 5.918 15.58 15.855 5.743 9.962 5.743 25.218 0 17.427-10.412 31.834a70.91 70.91 0 0 1-27.964 22.696 91.383 91.383 0 0 1-39.325 8.264M1357.355 265.964q1.873 14.606 9.388 27.465a77.4 77.4 0 0 0 27.215 27.664q17.228 10.487 38.077 10.487 12.06 0 24.893-3.995a99.872 99.872 0 0 0 23.72-10.836 62.42 62.42 0 0 0 17.227-15.23l17.178 17.602a79.898 79.898 0 0 1-22.546 19.175 144.815 144.815 0 0 1-30.436 13.633 104.866 104.866 0 0 1-31.61 5.143q-28.064 0-51.01-13.433a99.872 99.872 0 0 1-36.378-36.578 99.872 99.872 0 0 1-13.432-51.184q0-28.464 11.86-51.385a92.382 92.382 0 0 1 33.207-36.378q21.348-13.433 49.312-13.433 30.236 0 52.183 13.583a93.13 93.13 0 0 1 34.006 36.603q12.06 23.046 12.36 52.008 0 2.148-.2 4.545a17.478 17.478 0 0 1-.999 4.544zm137.274-23.345q-1.498-13.858-7.19-26.092a62.42 62.42 0 0 0-23.046-26.466q-15.28-9.887-38.3-9.887-22.622 0-38.152 9.887a62.42 62.42 0 0 0-23.37 26.915 84.891 84.891 0 0 0-7.066 25.643zM1572.957 118.108v50.66h61.676v22.322h-61.676v89.885q0 11.91 5.417 21.722a44.246 41.197 0 0 0 14.56 15.655 34.86 32.458 0 0 0 20.247 5.792h27.888v26.691h-29.9q-18.744 0-33.894-9.338a72.402 67.414 0 0 1-24.161-25.218 80.446 74.904 0 0 1-9.01-35.33V118.11z"
+        />
+      </svg>
     </a>
 
     <!-- Desktop nav -->
-    <nav aria-label="Main navigation" class="hidden md:block">
-      <ul class="flex items-center gap-8 text-sm font-medium">
+    <nav
+      aria-label="Main navigation"
+      class="hidden md:block"
+    >
+      <ul
+        class="flex items-center gap-5 text-sm font-medium lg:gap-8"
+      >
         {navItems.map((item) => (
           <li>
             <a
               href={localizePath(locale, item.path)}
-              aria-current={isActive(item.path) ? 'page' : undefined}
+              aria-current={
+                isActive(item.path)
+                  ? 'page'
+                  : undefined
+              }
               class={`rounded-xs transition-colors hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
                 isActive(item.path)
                   ? 'text-accent'
@@ -72,10 +159,13 @@ function isActive(path: string): boolean {
     </nav>
 
     <!-- Desktop controls -->
-    <div class="hidden items-center gap-3 md:flex">
-
+    <div
+      class="hidden items-center gap-3 md:flex"
+    >
       <!-- Language switcher -->
-      <details class="js-dropdown relative">
+      <details
+        class="js-dropdown relative"
+      >
         <summary
           class="flex cursor-pointer list-none items-center gap-1 rounded-md px-2 py-1 text-sm font-medium text-text-muted hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent [&::-webkit-details-marker]:hidden"
           aria-label="Select language"
@@ -88,15 +178,22 @@ function isActive(path: string): boolean {
             fill="currentColor"
             aria-hidden="true"
           >
-            <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414Z" />
+            <path
+              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414Z"
+            />
           </svg>
         </summary>
 
-        <ul class="absolute right-0 mt-2 min-w-32 rounded-md border border-border bg-surface py-1 shadow-lg">
+        <ul
+          class="absolute right-0 mt-2 min-w-32 rounded-md border border-border bg-surface py-1 shadow-lg"
+        >
           {locales.map((l) => (
             <li>
               <a
-                href={switchLocalePath(Astro.url, l)}
+                href={switchLocalePath(
+                  Astro.url,
+                  l
+                )}
                 class={`block px-3 py-1.5 text-sm transition-colors hover:text-accent ${
                   l === locale
                     ? 'font-medium text-accent'
@@ -126,8 +223,15 @@ function isActive(path: string): boolean {
           stroke-width="2"
           aria-hidden="true"
         >
-          <circle cx="12" cy="12" r="4" />
-          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+          <circle
+            cx="12"
+            cy="12"
+            r="4"
+          />
+
+          <path
+            d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"
+          />
         </svg>
 
         <svg
@@ -139,13 +243,17 @@ function isActive(path: string): boolean {
           stroke-width="2"
           aria-hidden="true"
         >
-          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z" />
+          <path
+            d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"
+          />
         </svg>
       </button>
     </div>
 
     <!-- Mobile menu -->
-    <details class="js-dropdown md:hidden">
+    <details
+      class="js-dropdown md:hidden"
+    >
       <summary
         class="flex h-9 w-9 cursor-pointer list-none items-center justify-center rounded-md text-text hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent [&::-webkit-details-marker]:hidden"
         aria-label="Toggle menu"
@@ -159,17 +267,30 @@ function isActive(path: string): boolean {
           stroke-linecap="round"
           aria-hidden="true"
         >
-          <path d="M4 6h16M4 12h16M4 18h16" />
+          <path
+            d="M4 6h16M4 12h16M4 18h16"
+          />
         </svg>
       </summary>
 
-      <div class="absolute inset-x-0 top-full border-t border-border bg-surface px-4 py-4 shadow-lg">
-        <ul class="flex flex-col gap-3 text-sm font-medium">
+      <div
+        class="absolute inset-x-0 top-full border-t border-border bg-surface px-4 py-4 shadow-lg"
+      >
+        <ul
+          class="flex flex-col gap-3 text-sm font-medium"
+        >
           {navItems.map((item) => (
             <li>
               <a
-                href={localizePath(locale, item.path)}
-                aria-current={isActive(item.path) ? 'page' : undefined}
+                href={localizePath(
+                  locale,
+                  item.path
+                )}
+                aria-current={
+                  isActive(item.path)
+                    ? 'page'
+                    : undefined
+                }
                 class={`block py-1 transition-colors hover:text-accent ${
                   isActive(item.path)
                     ? 'text-accent'
@@ -182,10 +303,15 @@ function isActive(path: string): boolean {
           ))}
         </ul>
 
-        <div class="mt-4 flex items-center gap-3 border-t border-border pt-4">
+        <div
+          class="mt-4 flex items-center gap-3 border-t border-border pt-4"
+        >
           {locales.map((l) => (
             <a
-              href={switchLocalePath(Astro.url, l)}
+              href={switchLocalePath(
+                Astro.url,
+                l
+              )}
               class={`text-sm transition-colors hover:text-accent ${
                 l === locale
                   ? 'font-semibold text-accent'
@@ -211,8 +337,15 @@ function isActive(path: string): boolean {
               stroke-width="2"
               aria-hidden="true"
             >
-              <circle cx="12" cy="12" r="4" />
-              <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+              <circle
+                cx="12"
+                cy="12"
+                r="4"
+              />
+
+              <path
+                d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"
+              />
             </svg>
 
             <svg
@@ -224,13 +357,14 @@ function isActive(path: string): boolean {
               stroke-width="2"
               aria-hidden="true"
             >
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z" />
+              <path
+                d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"
+              />
             </svg>
           </button>
         </div>
       </div>
     </details>
-
   </div>
 </header>
 
@@ -239,36 +373,59 @@ function isActive(path: string): boolean {
     // 1. Theme sync & toggle logic
     function syncIcons() {
       const isDark =
-        document.documentElement.getAttribute('data-theme') === 'dark';
+        document.documentElement.getAttribute(
+          'data-theme'
+        ) === 'dark';
 
       document
         .getElementById('icon-sun')
-        ?.classList.toggle('hidden', isDark);
+        ?.classList.toggle(
+          'hidden',
+          isDark
+        );
 
       document
         .getElementById('icon-moon')
-        ?.classList.toggle('hidden', !isDark);
+        ?.classList.toggle(
+          'hidden',
+          !isDark
+        );
 
       document
         .getElementById('icon-sun-mobile')
-        ?.classList.toggle('hidden', isDark);
+        ?.classList.toggle(
+          'hidden',
+          isDark
+        );
 
       document
         .getElementById('icon-moon-mobile')
-        ?.classList.toggle('hidden', !isDark);
+        ?.classList.toggle(
+          'hidden',
+          !isDark
+        );
     }
 
     function toggleTheme() {
-      const html = document.documentElement;
+      const html =
+        document.documentElement;
+
       const next =
-        html.getAttribute('data-theme') === 'dark'
+        html.getAttribute('data-theme') ===
+        'dark'
           ? 'light'
           : 'dark';
 
-      html.setAttribute('data-theme', next);
+      html.setAttribute(
+        'data-theme',
+        next
+      );
 
       try {
-        localStorage.setItem('aoset-theme', next);
+        localStorage.setItem(
+          'aoset-theme',
+          next
+        );
       } catch (_) {}
 
       syncIcons();
@@ -276,11 +433,19 @@ function isActive(path: string): boolean {
 
     document
       .getElementById('theme-toggle')
-      ?.addEventListener('click', toggleTheme);
+      ?.addEventListener(
+        'click',
+        toggleTheme
+      );
 
     document
-      .getElementById('theme-toggle-mobile')
-      ?.addEventListener('click', toggleTheme);
+      .getElementById(
+        'theme-toggle-mobile'
+      )
+      ?.addEventListener(
+        'click',
+        toggleTheme
+      );
 
     syncIcons();
 
@@ -290,26 +455,108 @@ function isActive(path: string): boolean {
         'details.js-dropdown'
       );
 
-    document.addEventListener('click', (e) => {
-      const target = e.target as Node;
+    document.addEventListener(
+      'click',
+      (e) => {
+        const target =
+          e.target as Node;
 
-      dropdowns.forEach((details) => {
-        if (!details.contains(target)) {
-          details.removeAttribute('open');
-        }
-      });
-    });
+        dropdowns.forEach(
+          (details) => {
+            if (
+              !details.contains(target)
+            ) {
+              details.removeAttribute(
+                'open'
+              );
+            }
+          }
+        );
+      }
+    );
 
-    dropdowns.forEach((details) => {
-      details.querySelectorAll('a').forEach((link) => {
-        link.addEventListener('click', () => {
-          details.removeAttribute('open');
-        });
-      });
-    });
+    dropdowns.forEach(
+      (details) => {
+        details
+          .querySelectorAll('a')
+          .forEach((link) => {
+            link.addEventListener(
+              'click',
+              () => {
+                details.removeAttribute(
+                  'open'
+                );
+              }
+            );
+          });
+      }
+    );
   }
 
   // Support initial page load + Astro client router view transitions
   initHeader();
-  document.addEventListener('astro:page-load', initHeader);
+
+  document.addEventListener(
+    'astro:page-load',
+    initHeader
+  );
 </script>
+
+<style>
+  /*
+   * Brand reveal microinteraction.
+   *
+   * VISUALS begins slightly displaced, transparent,
+   * and subtly compressed.
+   *
+   * The combination of opacity, translation, and scale
+   * creates a refined reveal without affecting layout.
+   */
+  .brand-visuals {
+    opacity: 0;
+
+    transform:
+      translateX(-14px)
+      scale(0.975);
+
+    transform-box: fill-box;
+    transform-origin: left center;
+
+    transition:
+      opacity 520ms ease-out,
+      transform 620ms cubic-bezier(0.16, 1, 0.3, 1);
+
+    will-change:
+      opacity,
+      transform;
+  }
+
+  /*
+   * Reveal VISUALS when the brand is hovered
+   * or receives keyboard focus.
+   */
+  .brand-link:hover .brand-visuals,
+  .brand-link:focus-visible .brand-visuals {
+    opacity: 1;
+
+    transform:
+      translateX(0)
+      scale(1);
+  }
+
+  /*
+   * Respect reduced-motion preferences.
+   * The word remains available without movement.
+   */
+  @media (prefers-reduced-motion: reduce) {
+    .brand-visuals {
+      transition: none;
+      transform: none;
+    }
+
+    .brand-link:hover .brand-visuals,
+    .brand-link:focus-visible .brand-visuals {
+      opacity: 1;
+    }
+  }
+</style>

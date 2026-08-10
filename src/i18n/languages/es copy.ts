@@ -12,13 +12,11 @@ export const es: TranslationSchema = {
   },
 
   hero: {
-  eyebrow: 'Elevando lo Visible',
-  title: 'Espacios premium, presentación precisa',
-  subtitle:
-    'Diseño y experiencias visuales para proyectos de alta gama.',
-  primaryCta: 'Ver Nuestro Trabajo',
-  secondaryCta: 'Iniciar un Proyecto',
-},
+    title: 'Remodelaciones y Renovaciones Excepcionales',
+    subtitle:
+      'Transformamos espacios con precisión, experiencia y materiales de calidad.',
+    cta: 'Solicitar Presupuesto Gratis',
+  },
 
   aboutIntro: {
     heading: 'La Empresa Líder en Remodelación del Área de la Bahía',

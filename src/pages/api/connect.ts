@@ -83,7 +83,7 @@ export const GET: APIRoute = async ({ locals }) => {
   }
 
   // Dynamic vCard revision timestamp in ISO 8601 basic format
-  // Example: 20260808T162800Z
+  // Example: 20260808T163900Z
   const rev =
     new Date()
       .toISOString()
@@ -109,7 +109,7 @@ export const GET: APIRoute = async ({ locals }) => {
       status: 200,
       headers: {
         'Content-Type':
-          'text/vcard; charset=utf-8',
+          'text/x-vcard; charset=utf-8',
 
         'Content-Disposition':
           'inline; filename="contact.vcf"',

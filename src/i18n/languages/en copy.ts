@@ -8,15 +8,13 @@ export const en = {
     work: 'Work',
     contact: 'Contact',
   },
-  
-hero: {
-  eyebrow: 'Elevating the Visible Layer',
-  title: 'Premium spaces, seen with clarity.',
-  subtitle:
-    'Design and visual experiences for high-end projects.',
-  primaryCta: 'Explore Our Work',
-  secondaryCta: 'Start a Project',
-},
+
+  hero: {
+    title: 'Exceptional HomeRemodeling & Renovations',
+    subtitle:
+      'Transforming spaces with precision craftsmanship and quality materials.',
+    cta: 'Get A Free Estimate',
+  },
 
   aboutIntro: {
     heading: 'The Leading Bay Area Remodeling Company',
