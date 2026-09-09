@@ -1,280 +1,360 @@
 // src/i18n/languages/es.ts
 
+/**
+ * Spanish translation source.
+ *
+ * This file implements the canonical schema defined by en.ts.
+ * Its structure should remain synchronized with the English file.
+ */
+
 import type { TranslationSchema } from './en';
 
 export const es: TranslationSchema = {
+  /**
+   * Main navigation.
+   */
   nav: {
     home: 'Inicio',
-    about: 'Nosotros',
-    services: 'Servicios',
+    about: 'Acerca de',
     work: 'Proyectos',
     contact: 'Contacto',
   },
 
+
+  /**
+   * Portfolio hero.
+   */
   hero: {
-  eyebrow: 'Elevando lo Visible',
-  title: 'Espacios premium, presentación precisa',
-  subtitle:
-    'Diseño y experiencias visuales para proyectos de alta gama.',
-  primaryCta: 'Ver Nuestro Trabajo',
-  secondaryCta: 'Iniciar un Proyecto',
+    eyebrow:
+      'Diseño + Código. En Ambos Sentidos.',
+
+    statement: {
+      line1:
+        'Elevando',
+
+      line2:
+        'lo Visible.',
+    },
+
+    subtitle:
+      'Creatividad, ejecución visual y tecnología hablando un mismo lenguaje.',
+
+    primaryCta:
+      'Explorar Proyectos',
+
+    /**
+     * Project information displayed inside the hero bento.
+     */
+    projects: {
+      jco: {
+        label:
+          'Proyecto Destacado',
+
+        title:
+          'J&CO',
+
+        subtitle:
+          'Estate Renovations',
+
+        meta:
+          'Identidad · Impresos · Digital · Web',
+
+        cta:
+          'Ver Proyecto',
+
+        alt:
+          'Proyecto de identidad de J&CO Estate Renovations',
+      },
+
+
+      campaign: {
+        label:
+          'Concepto de Campaña',
+
+        title:
+          'Del Inbox a la Acción.',
+
+        description:
+          'Email, redes sociales, publicidad digital y estrategia de campaña.',
+
+        cta:
+          'Ver Caso de Estudio',
+
+        alt:
+          'Concepto integrado de campaña de email y publicidad digital',
+      },
+
+
+      seabiza: {
+        title:
+          'Seabiza',
+
+        subtitle:
+          'High-End Yacht Charter',
+
+        meta:
+          'Concepto de Marca · Digital · Web',
+
+        cta:
+          'Ver Proyecto',
+
+        alt:
+          'Concepto de identidad para Seabiza, servicio premium de alquiler de yates',
+      },
+
+
+      /**
+       * Technical card showing the implementation behind AOSET.
+       */
+      built: {
+        label:
+          'La Base Técnica',
+
+        title:
+          'AOSET Visuals es una iniciativa independiente diseñada y desarrollada por Abel T. Oset.',
+
+        stack: [
+          'Astro · TypeScript',
+          'Tailwind CSS · Cloudflare',
+          'Git · CI/CD',
+          'AI Integrada',
+        ],
+
+        cta:
+          'Detalles Técnicos',
+      },
+
+
+      jd: {
+        title:
+          'J&D',
+
+        subtitle:
+          'Good Corp',
+
+        meta:
+          'Identidad · Gráfica Vehicular · Digital',
+
+        cta:
+          'Ver Proyecto',
+
+        alt:
+          'Proyecto de identidad y gráfica vehicular de J&D Good Corp',
+      },
+    },
+  },
+
+
+  /**
+   * Homepage About section.
+   *
+   * AOSET is presented as an independent creative venture.
+   * The copy focuses on approach, intent and practical value
+   * without overstating business outcomes.
+   */
+  about: {
+    eyebrow:
+      'Acerca de AOSET Visuals',
+
+    heading:
+      'Claridad. Coherencia. Implementación.',
+
+    intro:
+      'AOSET Visuals integra dirección creativa e implementación para dar forma a ideas que comuniquen y funcionen.',
+
+    purpose:
+      'El propósito es simple: contribuir a que ideas, emprendimientos y negocios comuniquen de manera efectiva, operen con mayor consistencia y presenten su valor con confianza.',
+
+    philosophy:
+      'Un buen diseño debería ir más allá de la apariencia. Siempre que sea posible, debería contribuir a mejores experiencias, una percepción más sólida y resultados tangibles.',
+  },
+
+
+  /**
+   * Selected Projects page.
+   */
+  work: {
+    eyebrow:
+      'Proyectos Seleccionados',
+
+    heading:
+      'Necesidades diferentes. Una perspectiva integrada.',
+
+    intro:
+      'Sistemas de identidad, comunicación digital, aplicaciones físicas y experiencias web desarrolladas para diferentes industrias y contextos.',
+
+    viewProject:
+      'Explorar Proyecto',
+  },
+
+
+  /**
+   * Homepage closing section.
+   *
+   * The copy invites ideas, projects and collaboration without
+   * framing the site as a request for employment.
+   */
+ closing: {
+  eyebrow:
+    'Ideas · Proyectos · Colaboración',
+
+  title:
+    'Una conversación puede empezar aquí...',
+
+  description:
+    'Si una idea, proyecto o desafío puede beneficiarse de una combinación cuidadosa de dirección creativa e implementación, vale la pena explorarlo.',
+
+  cta:
+    'Continuar',
 },
 
-  aboutIntro: {
-    heading: 'La Empresa Líder en Remodelación del Área de la Bahía',
-    body:
-      'Somos una empresa de remodelación y diseño de interiores con más de dos décadas de experiencia en el Área de la Bahía. Nuestra filosofía combina precisión artesanal con una sensibilidad de diseño que respeta tu visión.',
-    cta: 'Más Sobre Nosotros',
-  },
 
-  whyChooseUs: {
-    heading: 'Por Qué Elegirnos',
-    subheading:
-      'Trabajo dedicado y un servicio integral en el que puedes confiar.',
-
-    features: [
-      {
-        title: 'Financiamiento Fácil',
-        text:
-          'Ofrecemos opciones flexibles de financiamiento para hacer realidad tu proyecto sin comprometer tu presupuesto.',
-      },
-      {
-        title: 'Consultas Gratis en Casa',
-        text:
-          'Nuestro equipo visita tu espacio sin costo para comprender tu visión y ofrecerte la mejor solución.',
-      },
-      {
-        title: 'Servicio Galardonado',
-        text:
-          'Reconocidos por la excelencia en cada proyecto, con premios regionales que respaldan nuestra calidad.',
-      },
-      {
-        title: 'Licenciados y Asegurados',
-        text:
-          'Trabajamos con todas las licencias y seguros vigentes para tu tranquilidad y protección.',
-      },
-    ],
-  },
-
-  servicesOverview: {
-    heading: 'Nuestros Servicios Incluyen',
-    cta: 'Ver Todos los Servicios',
-
-    items: [
-      {
-        title: 'Cocinas',
-        href: '/services/kitchens',
-      },
-      {
-        title: 'Baños',
-        href: '/services/bathrooms',
-      },
-      {
-        title: 'Interiores',
-        href: '/services/interiors',
-      },
-    ],
-  },
-
-  testimonials: {
-    heading: 'Clientes Satisfechos',
-    subheading:
-      'Conoce lo que propietarios de toda el Área de la Bahía opinan sobre trabajar con nosotros.',
-
-    items: [
-      {
-        quote:
-          'Un servicio excepcional de principio a fin. El equipo transformó nuestra cocina más allá de lo que imaginábamos. Totalmente recomendados.',
-        name: 'Dave Reddington',
-        role: 'Propietario, San Francisco',
-      },
-      {
-        quote:
-          'Puntualidad, profesionalismo y resultados impecables. Nuestro baño fue renovado en tiempo récord con una calidad excelente.',
-        name: 'Amelia Banks',
-        role: 'Propietaria, San Mateo',
-      },
-      {
-        quote:
-          'Atención personalizada, materiales de primera calidad y un acabado que habla por sí solo. Los contrataría nuevamente sin dudarlo.',
-        name: 'Kenny Stutes',
-        role: 'Propietario, Santa Clara',
-      },
-    ],
-  },
-
-  cta: {
-    heading:
-      'Crea la casa de tus sueños.Cuéntanos sobre tu proyecto hoy.',
-    button: 'Solicitar Presupuesto Gratis',
-  },
-
-  about: {
-    hero: {
-      heading: 'Acerca de AOSET',
-      body:
-        'Somos una empresa de remodelación y diseño de interiores con más de dos décadas de experiencia en el Área de la Bahía. Nuestra filosofía combina precisión artesanal con una sensibilidad de diseño que respeta tu visión.',
-    },
-
-    process: {
-      heading: 'Nuestro Proceso',
-      intro:
-        'Cada proyecto sigue un proceso claro y transparente para garantizar resultados excepcionales.',
-
-      steps: [
-        {
-          title: 'Diseño Previo a la Construcción',
-          text:
-            'Desarrollamos planos detallados y especificaciones técnicas antes de iniciar cualquier trabajo.',
-        },
-        {
-          title: 'Diseño y Presupuesto de Construcción',
-          text:
-            'Presupuestos precisos y sin sorpresas para que puedas planificar con confianza.',
-        },
-        {
-          title: 'Consultas en el Lugar',
-          text:
-            'Nuestros especialistas visitan tu espacio para evaluar las condiciones reales y perfeccionar cada detalle.',
-        },
-        {
-          title: 'Toques Finales',
-          text:
-            'Instalación final, inspección de calidad y entrega impecable: la fase que marca la diferencia.',
-        },
-      ],
-    },
-
-    quality: {
-      heading: 'Nuestra Garantía de Calidad',
-      body1:
-        'Cada proyecto que entregamos está respaldado por nuestro compromiso de satisfacción. Utilizamos materiales de primera calidad y técnicas de construcción comprobadas a lo largo del tiempo.',
-      body2:
-        'Nuestro compromiso continúa después de la entrega: permanecemos contigo para asegurarnos de que cada detalle quede perfecto.',
-    },
-
-    cta: {
-      heading:
-        'Crea la casa de tus sueños.Cuéntanos sobre tu proyecto hoy.',
-      button: 'Solicitar Presupuesto Gratis',
-    },
-  },
-
-  services: {
-    heading: 'Nuestros Servicios',
-    subtitle:
-      'Permítenos ayudarte a convertir tus ideas en realidad.',
-
-    items: [
-      {
-        title: 'Cocinas',
-        description:
-          'Cocinas funcionales y elegantes que se convierten en el corazón de tu hogar.',
-        href: '/services/kitchens',
-      },
-      {
-        title: 'Baños',
-        description:
-          'Renovaciones de baños que combinan comodidad, estética y durabilidad.',
-        href: '/services/bathrooms',
-      },
-      {
-        title: 'Interiores',
-        description:
-          'Espacios interiores redefinidos con materiales premium y diseño contemporáneo.',
-        href: '/services/interiors',
-      },
-      {
-        title: 'Ampliaciones',
-        description:
-          'Ampliamos tu hogar con estructuras sólidas que se integran de manera natural.',
-        href: '/services/additions',
-      },
-      {
-        title: 'Exteriores',
-        description:
-          'Fachadas y espacios exteriores que elevan la primera impresión de tu propiedad.',
-        href: '/services/exteriors',
-      },
-      {
-        title: 'Sunrooms',
-        description:
-          'Espacios llenos de luz natural que amplían tu hogar y te conectan con el exterior.',
-        href: '/services/sunrooms',
-      },
-    ],
-  },
-
-  work: {
-    heading: 'Nuestros Proyectos',
-    subtitle:
-      'Te invitamos a explorar una selección de nuestros proyectos realizados recientemente.',
-  },
-
+  /**
+   * Dedicated Contact page.
+   */
   contact: {
-    heading: 'Hablemos de Tu Próximo Proyecto',
-    intro:
-      'Completa el formulario o llámanos para coordinar una consulta gratuita en tu hogar.',
-    serviceAreasLabel: 'Áreas de Servicio:',
-    serviceAreas: 'San Francisco, Santa Clara, Alameda, San Mateo',
+  eyebrow: 'Contacto',
+  heading: '¿Algo en mente?',
+  intro: 'Unos pocos detalles bastan para empezar.',
 
-    form: {
-      firstName: 'Nombre',
-      lastName: 'Apellido',
-      email: 'Correo Electrónico',
-      phone: 'Teléfono',
-      address: 'Dirección',
-      subject: 'Asunto',
-      message: 'Mensaje',
-      submit: 'Enviar',
-      success: '¡Gracias! Tu mensaje ha sido enviado.',
-      error:
-        'Algo salió mal. Inténtalo nuevamente o llámanos directamente.',
-    },
+  form: {
+    firstName:
+      'Nombre',
+
+    lastName:
+      'Apellido',
+
+    email:
+      'Email',
+
+    phone:
+      'Teléfono (opcional)',
+
+    subject:
+      'Asunto',
+
+    message:
+      'Mensaje',
+
+    submit:
+      'Enviar Mensaje',
+
+    sending:
+      'Enviando...',
+
+    success:
+      'Gracias. Tu mensaje ha sido enviado.',
+
+    error:
+      'Algo salió mal. Inténtalo nuevamente.',
+
+    invalidEmail:
+      'Introduce una dirección de email válida.',
+
+    invalidEmailSubmit:
+      'Introduce una dirección de email válida antes de enviar.',
+
+    ariaLabel:
+      'Contactar a AOSET Visuals',
   },
+},
 
+
+  /**
+   * AOSET Connect experience.
+   *
+   * This remains separate from the standard Contact page because
+   * it supports the QR / digital-card interaction flow.
+   */
   connect: {
-    slogan: 'Elevando lo Visible',
+    slogan:
+      'Elevando la Capa Visible',
 
     descriptor: {
-      line1: 'Diseño y Presentación',
-      line2: 'de Espacios Premium',
+      line1:
+        'Diseño y Presentación',
+
+      line2:
+        'para Espacios Premium',
     },
 
     actions: {
-      saveContact: 'Guardar Contacto',
-      whatsapp: 'WhatsApp',
-      website: 'Sitio Web',
-      call: 'Llamar',
-      message: 'Mensaje',
+      saveContact:
+        'Guardar Contacto',
+
+      whatsapp:
+        'WhatsApp',
+
+      website:
+        'Sitio Web',
+
+      call:
+        'Llamar',
+
+      message:
+        'Mensaje',
     },
 
     form: {
-      heading: 'Enviar un Mensaje',
-      name: 'Nombre',
-      email: 'Correo',
-      phone: 'Teléfono (opcional)',
-      message: 'Mensaje',
-      send: 'Enviar',
-      sending: 'Enviando...',
-      success: 'Mensaje enviado correctamente.',
+      heading:
+        'Enviar un Mensaje',
+
+      name:
+        'Nombre',
+
+      email:
+        'Email',
+
+      phone:
+        'Teléfono (opcional)',
+
+      message:
+        'Mensaje',
+
+      send:
+        'Enviar',
+
+      sending:
+        'Enviando...',
+
+      success:
+        'Mensaje enviado correctamente.',
+
       error:
         'No fue posible enviar el mensaje. Inténtalo de nuevo.',
     },
 
     accessibility: {
-      languageSelector: 'Selector de idioma',
-      saveContact: 'Guardar el contacto de AOSET Visuals',
-      whatsapp: 'Contactar con AOSET Visuals por WhatsApp',
-      website: 'Visitar el sitio web de AOSET Visuals',
-      call: 'Llamar a AOSET Visuals',
-      message: 'Enviar un mensaje',
-      closeMessage: 'Cerrar el formulario de mensaje',
+      languageSelector:
+        'Selector de idioma',
+
+      saveContact:
+        'Guardar contacto de AOSET Visuals',
+
+      whatsapp:
+        'Contactar a AOSET Visuals por WhatsApp',
+
+      website:
+        'Visitar el sitio web de AOSET Visuals',
+
+      call:
+        'Llamar a AOSET Visuals',
+
+      message:
+        'Enviar un mensaje',
+
+      closeMessage:
+        'Cerrar formulario de mensaje',
     },
   },
 
+
+  /**
+   * Global footer.
+   */
   footer: {
-    rights: 'Todos los derechos reservados.',
+    rights:
+      'Todos los derechos reservados.',
   },
 };
 

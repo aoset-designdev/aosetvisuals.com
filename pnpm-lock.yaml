@@ -14,6 +14,9 @@ importers:
       '@fontsource-variable/sen':
         specifier: ^5.2.8
         version: 5.2.8
+      '@phosphor-icons/web':
+        specifier: ^2.1.2
+        version: 2.1.2
       astro:
         specifier: ^5.4.0
         version: 5.18.2(jiti@2.7.0)(lightningcss@1.33.0)(rollup@4.62.0)(supports-color@10.2.2)(terser@5.48.0)(typescript@5.9.3)(yaml@2.9.0)
@@ -1701,6 +1704,9 @@ packages:
 
   '@oxc-project/types@0.142.0':
     resolution: {integrity: sha512-7W+2q5AKQVU36fkaryontrHn3YDt1RyUYXatw9i5H8ocYe2sPKSFB6eS8WNPeRKiN1qAWWZUPm7gwFzJGrccqQ==}
+
+  '@phosphor-icons/web@2.1.2':
+    resolution: {integrity: sha512-rPAR9o/bEcp4Cw4DEeZHXf+nlGCMNGkNDRizYHM47NLxz9vvEHp/Tt6FMK1NcWadzw/pFDPnRBGi/ofRya958A==}
 
   '@poppinss/colors@4.1.6':
     resolution: {integrity: sha512-H9xkIdFswbS8n1d6vmRd8+c10t2Qe+rZITbbDHHkQixH5+2x1FDGmi/0K+WgWiqQFKPSlIYB7jlH6Kpfn6Fleg==}
@@ -5944,6 +5950,8 @@ snapshots:
   '@oslojs/encoding@1.1.0': {}
 
   '@oxc-project/types@0.142.0': {}
+
+  '@phosphor-icons/web@2.1.2': {}
 
   '@poppinss/colors@4.1.6':
     dependencies:

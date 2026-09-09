@@ -1,287 +1,388 @@
 // src/i18n/languages/en.ts
 
+/**
+ * English translation source.
+ *
+ * This file defines the canonical translation schema used by
+ * all other language files.
+ */
+
 export const en = {
+  /**
+   * Main navigation.
+   */
   nav: {
     home: 'Home',
     about: 'About',
-    services: 'Services',
-    work: 'Work',
+    work: 'Projects',
     contact: 'Contact',
   },
-  
-hero: {
-  eyebrow: 'Elevating the Visible Layer',
-  title: 'Premium spaces, seen with clarity.',
-  subtitle:
-    'Design and visual experiences for high-end projects.',
-  primaryCta: 'Explore Our Work',
-  secondaryCta: 'Start a Project',
+
+
+  /**
+   * Portfolio hero.
+   *
+   * The hero introduces AOSET's core relationship between
+   * design and implementation without over-explaining
+   * capabilities that are demonstrated by the project cards.
+   */
+  hero: {
+    eyebrow: 'Design + Code. In Both Directions.',
+
+    statement: {
+      line1: 'Elevating',
+      line2: 'the Visible Layer',
+    },
+
+    subtitle:
+      'Creative thinking, visual craft and technology speaking the same language.',
+
+    primaryCta:
+      'Explore Selected Work',
+
+    /**
+     * Project information displayed inside the hero bento.
+     */
+    projects: {
+      jco: {
+        label:
+          'Featured Project',
+
+        title:
+          'J&CO',
+
+        subtitle:
+          'Estate Renovations',
+
+        meta:
+          'Brand Identity · Print · Digital · Web',
+
+        cta:
+          'View Project',
+
+        alt:
+          'J&CO Estate Renovations brand identity project',
+      },
+
+
+      campaign: {
+        label:
+          'Campaign Concept',
+
+        title:
+          'From Inbox to Action.',
+
+        description:
+          'Email, social media, display advertising and campaign strategy.',
+
+        cta:
+          'View Case Study',
+
+        alt:
+          'Integrated email and digital advertising campaign concept',
+      },
+
+
+      seabiza: {
+        title:
+          'Seabiza',
+
+        subtitle:
+          'High-End Yacht Charter',
+
+        meta:
+          'Brand Concept · Digital · Web',
+
+        cta:
+          'View Project',
+
+        alt:
+          'Seabiza high-end yacht charter identity concept',
+      },
+
+
+      /**
+       * Technical card showing the implementation behind AOSET.
+       */
+      built: {
+        label:
+          'Behind the Interface',
+
+        title:
+          'AOSET Visuals is an independent venture designed and developed by Abel T. Oset.',
+
+        stack: [
+          'Astro · TypeScript',
+          'Tailwind CSS · Cloudflare',
+          'Git · CI/CD',
+          'AI-Augmented',
+        ],
+
+        cta:
+          'Technical Overview',
+      },
+
+
+      jd: {
+        title:
+          'J&D',
+
+        subtitle:
+          'Good Corp',
+
+        meta:
+          'Brand Identity · Vehicle Graphics · Digital',
+
+        cta:
+          'View Project',
+
+        alt:
+          'J&D Good Corp brand identity and vehicle graphics project',
+      },
+    },
+  },
+
+
+  /**
+   * Homepage About section.
+   *
+   * AOSET is presented as an independent creative venture.
+   * The copy focuses on approach, intent and practical value
+   * without overstating business outcomes.
+   */
+  about: {
+    eyebrow:
+      'About AOSET Visuals',
+
+    heading:
+      'Clarity. Coherence. Implementation.',
+
+    intro:
+      'AOSET Visuals brings creative direction and implementation together, connecting ideas with how they take shape, communicate and function.',
+
+    purpose:
+      'The purpose is simple: to help ideas, ventures and businesses communicate effectively, operate with greater consistency and present their value with confidence.',
+
+    philosophy:
+      'Good design should go beyond appearance. Whenever possible, it should contribute to better experiences, stronger perception and tangible results.',
+  },
+
+
+  /**
+   * Selected Projects page.
+   */
+  work: {
+    eyebrow:
+      'Selected Projects',
+
+    heading:
+      'Different needs. One integrated perspective.',
+
+    intro:
+      'Identity systems, digital communication, physical applications and web experiences developed across different industries and contexts.',
+
+    viewProject:
+      'Explore Project',
+  },
+
+
+  /**
+   * Homepage closing section.
+   *
+   * The copy invites ideas, projects and collaboration without
+   * making the site feel like an employment request.
+   */
+ closing: {
+  eyebrow:
+    'Ideas · Projects · Collaboration',
+
+  title:
+    'A conversation can start here...',
+
+  description:
+    'If an idea, project or challenge could benefit from a thoughtful mix of creative direction and implementation, there’s room to explore it.',
+
+  cta:
+    'Continue',
 },
 
-  aboutIntro: {
-    heading: 'The Leading Bay Area Remodeling Company',
-    body:
-      "We're a remodeling and interior design company with over two decades of experience in the Bay Area. Our philosophy blends precision craftsmanship with a design sensibility that honors your vision.",
-    cta: 'More About Us',
-  },
 
-  whyChooseUs: {
-    heading: 'Why Choose Us',
-    subheading:
-      'Dedicated craftsmanship and end-to-end service you can depend on.',
-
-    features: [
-      {
-        title: 'EasyFinancing',
-        text:
-          'We offer flexible financing options to bring your project to life without straining your budget.',
-      },
-      {
-        title: 'Free, At HomeConsultations',
-        text:
-          'Our team visits your space at no cost to understand your vision and offer the best solution.',
-      },
-      {
-        title: 'Award WinningService',
-        text:
-          'Recognized for excellence in every project, with regional awards that validate our quality.',
-      },
-      {
-        title: 'Licensed &Insured',
-        text:
-          'We operate with all current licenses and insurance for your peace of mind and protection.',
-      },
-    ],
-  },
-
-  servicesOverview: {
-    heading: 'Our Services Include',
-    cta: 'See All Services',
-
-    items: [
-      {
-        title: 'Kitchens',
-        href: '/services/kitchens',
-      },
-      {
-        title: 'Bathrooms',
-        href: '/services/bathrooms',
-      },
-      {
-        title: 'Interiors',
-        href: '/services/interiors',
-      },
-    ],
-  },
-
-  testimonials: {
-    heading: 'Satisfied Customers',
-    subheading:
-      'Read what home owners across the Bay Area have to say about working with us.',
-
-    items: [
-      {
-        quote:
-          'Exceptional service from start to finish. The team transformed our kitchen beyond what we imagined. Highly recommended.',
-        name: 'Dave Reddington',
-        role: 'Homeowner, San Francisco',
-      },
-      {
-        quote:
-          'Punctuality, professionalism, and impeccable results. Our bathroom was renovated in record time with premium quality.',
-        name: 'Amelia Banks',
-        role: 'Homeowner, San Mateo',
-      },
-      {
-        quote:
-          'Personal approach, top-tier materials, and a finish that speaks for itself. I would hire them again without hesitation.',
-        name: 'Kenny Stutes',
-        role: 'Homeowner, Santa Clara',
-      },
-    ],
-  },
-
-  cta: {
-    heading: 'Create your dream home.Tell us about your project today.',
-    button: 'Get A Free Estimate',
-  },
-
-  about: {
-    hero: {
-      heading: 'About AOSET',
-      body:
-        "We're a remodeling and interior design company with over two decades of experience in the Bay Area. Our philosophy blends precision craftsmanship with a design sensibility that honors your vision.",
-    },
-
-    process: {
-      heading: 'Our Process',
-      intro:
-        'Every project follows a clear, transparent path to ensure exceptional results.',
-
-      steps: [
-        {
-          title: 'Preconstruction Design',
-          text:
-            'We develop detailed plans and technical specs before a single piece moves.',
-        },
-        {
-          title: 'Design & Construction Estimate',
-          text:
-            'Precise, no-surprise budgets so you can plan with confidence.',
-        },
-        {
-          title: 'On-Site Consultations',
-          text:
-            'Our specialists visit your space to assess real conditions and refine every detail.',
-        },
-        {
-          title: 'The Finishing Touches',
-          text:
-            'Finish installation, quality inspection, and flawless handover — the phase that makes the difference.',
-        },
-      ],
-    },
-
-    quality: {
-      heading: 'Our Quality Guarantee',
-      body1:
-        'Every project we deliver is backed by our satisfaction guarantee. We use only first-class materials and construction techniques that have stood the test of time.',
-      body2:
-        'Our commitment goes beyond the build: we stay with you after handover to make sure every detail is perfect.',
-    },
-
-    cta: {
-      heading: 'Create your dream home.Tell us about your project today.',
-      button: 'Get A Free Estimate',
-    },
-  },
-
-  services: {
-    heading: 'Our Services',
-    subtitle: 'Let us help you make your dreams a reality.',
-
-    items: [
-      {
-        title: 'Kitchens',
-        description:
-          'Functional, elegant kitchens that become the heart of your home.',
-        href: '/services/kitchens',
-      },
-      {
-        title: 'Bathrooms',
-        description:
-          'Bathroom renovations combining comfort, aesthetics, and durability.',
-        href: '/services/bathrooms',
-      },
-      {
-        title: 'Interiors',
-        description:
-          'Interior spaces redefined with premium materials and contemporary design.',
-        href: '/services/interiors',
-      },
-      {
-        title: 'Additions',
-        description:
-          'We expand your home with solid structures that integrate seamlessly.',
-        href: '/services/additions',
-      },
-      {
-        title: 'Exteriors',
-        description:
-          "Facades and outdoor spaces that elevate your property's first impression.",
-        href: '/services/exteriors',
-      },
-      {
-        title: 'Sunrooms',
-        description:
-          'Sun-filled spaces that extend your home and connect you with nature.',
-        href: '/services/sunrooms',
-      },
-    ],
-  },
-
-  work: {
-    heading: 'Our Work',
-    subtitle:
-      "You're invited to browse a selection of recently completed projects below.",
-  },
-
+  /**
+   * Dedicated Contact page.
+   */
   contact: {
-    heading: "Let's DiscussYour Next Project",
-    intro:
-      'Fill out the form, or call us to set up a free in-home consultation.',
-    serviceAreasLabel: 'Service Areas:',
-    serviceAreas: 'San Francisco, Santa Clara, Alameda, San Mateo',
+  eyebrow: 'Get in Touch',
 
-    form: {
-      firstName: 'First Name',
-      lastName: 'Last Name',
-      email: 'Email',
-      phone: 'Phone',
-      address: 'Address',
-      subject: 'Subject',
-      message: 'Message',
-      submit: 'Submit',
-      success: 'Thanks! Your message has been sent.',
-      error:
-        'Something went wrong. Please try again or call us directly.',
-    },
+  heading: 'Something in mind?',
+
+  intro: 'A few details are enough to get started.',
+
+  form: {
+    firstName:
+      'First Name',
+
+    lastName:
+      'Last Name',
+
+    email:
+      'Email',
+
+    phone:
+      'Phone (optional)',
+
+    subject:
+      'Subject',
+
+    message:
+      'Message',
+
+    submit:
+      'Send Message',
+
+    sending:
+      'Sending...',
+
+    success:
+      'Thanks. Your message has been sent.',
+
+    error:
+      'Something went wrong. Please try again.',
+
+    invalidEmail:
+      'Please enter a valid email address.',
+
+    invalidEmailSubmit:
+      'Please provide a valid email address before submitting.',
+
+    ariaLabel:
+      'Contact AOSET Visuals',
   },
+},
 
+
+  /**
+   * AOSET Connect experience.
+   *
+   * This is separate from the standard Contact page because it
+   * supports the QR / digital-card interaction flow.
+   */
   connect: {
-    slogan: 'Elevating the Visible Layer',
+    slogan:
+      'Elevating the Visible Layer',
 
     descriptor: {
-      line1: 'Design & Presentation',
-      line2: 'for Premium Spaces',
+      line1:
+        'Design & Presentation',
+
+      line2:
+        'for Premium Spaces',
     },
 
     actions: {
-      saveContact: 'Save Contact',
-      whatsapp: 'WhatsApp',
-      website: 'Website',
-      call: 'Call',
-      message: 'Message',
+      saveContact:
+        'Save Contact',
+
+      whatsapp:
+        'WhatsApp',
+
+      website:
+        'Website',
+
+      call:
+        'Call',
+
+      message:
+        'Message',
     },
 
     form: {
-      heading: 'Send a Message',
-      name: 'Name',
-      email: 'Email',
-      phone: 'Phone (optional)',
-      message: 'Message',
-      send: 'Send',
-      sending: 'Sending...',
-      success: 'Message sent successfully.',
-      error: 'Unable to send message. Please try again.',
+      heading:
+        'Send a Message',
+
+      name:
+        'Name',
+
+      email:
+        'Email',
+
+      phone:
+        'Phone (optional)',
+
+      message:
+        'Message',
+
+      send:
+        'Send',
+
+      sending:
+        'Sending...',
+
+      success:
+        'Message sent successfully.',
+
+      error:
+        'Unable to send message. Please try again.',
     },
 
     accessibility: {
-      languageSelector: 'Language selector',
-      saveContact: 'Save contact for AOSET Visuals',
-      whatsapp: 'Contact AOSET Visuals on WhatsApp',
-      website: 'Visit the AOSET Visuals website',
-      call: 'Call AOSET Visuals',
-      message: 'Send a message',
-      closeMessage: 'Close message form',
+      languageSelector:
+        'Language selector',
+
+      saveContact:
+        'Save contact for AOSET Visuals',
+
+      whatsapp:
+        'Contact AOSET Visuals on WhatsApp',
+
+      website:
+        'Visit the AOSET Visuals website',
+
+      call:
+        'Call AOSET Visuals',
+
+      message:
+        'Send a message',
+
+      closeMessage:
+        'Close message form',
     },
   },
 
+
+  /**
+   * Global footer.
+   */
   footer: {
-    rights: 'All rights reserved.',
+    rights:
+      'All rights reserved.',
   },
 } as const;
 
 
-// Deeply convert all literal string types to general `string`
-// while preserving structure
+/**
+ * Recursively converts literal string values into general
+ * string types while preserving the complete object structure.
+ *
+ * Arrays are handled explicitly because `as const` generates
+ * readonly tuples and arrays.
+ */
 type DeepStringify<T> =
   T extends string
     ? string
-    : T extends object
-      ? { [K in keyof T]: DeepStringify<T[K]> }
-      : T;
+    : T extends readonly (infer U)[]
+      ? readonly DeepStringify<U>[]
+      : T extends object
+        ? {
+            [K in keyof T]:
+              DeepStringify<T[K]>;
+          }
+        : T;
 
-export type TranslationSchema = DeepStringify<typeof en>;
+
+/**
+ * Canonical schema used by all localized dictionaries.
+ */
+export type TranslationSchema =
+  DeepStringify<typeof en>;
 
 export default en;

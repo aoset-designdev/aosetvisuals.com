@@ -1,0 +1,177 @@
+---
+// src/components/Closing.astro
+
+/**
+ * AOSET Visuals — Homepage Closing
+ *
+ * Final editorial section of the homepage.
+ *
+ * Purpose:
+ * - Provide a natural transition from the About section
+ *   into the dedicated Contact page.
+ * - Avoid aggressive sales language or employment-seeking copy.
+ * - Create a subtle visual separation through an elevated
+ *   semantic surface rather than decorative effects.
+ * - Keep the section simple, calm and lightweight.
+ *
+ * Theme behavior:
+ * - Background and typography follow semantic design tokens.
+ * - Theme changes transition smoothly between light and dark.
+ * - No glows, gradients or decorative effects are used.
+ */
+
+import { useTranslations, localizePath } from "../i18n/utils";
+
+import type { Locale } from "../i18n/config";
+
+/* ============================================================
+   COMPONENT PROPS
+   ============================================================ */
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+const t = useTranslations(locale);
+const closing = t.closing;
+---
+
+<section
+  class="relative
+    overflow-hidden
+    border-t
+    border-border
+    bg-surface-elevated
+    transition-colors
+    duration-200
+    motion-reduce:transition-none"
+  aria-labelledby="closing-title"
+>
+  <!-- ===================================================== -->
+  <!-- CONTENT                                               -->
+  <!-- ===================================================== -->
+
+  <div
+    class="mx-auto
+      w-full
+      max-w-7xl
+      px-4
+      py-20
+      sm:px-6
+      sm:py-24
+      lg:px-8
+      lg:py-28"
+  >
+    <div
+      class="grid
+        grid-cols-1
+        gap-10
+        lg:grid-cols-[1.35fr_0.65fr]
+        lg:items-end
+        lg:gap-16"
+    >
+      <!-- ================================================= -->
+      <!-- MAIN MESSAGE                                      -->
+      <!-- ================================================= -->
+
+      <div>
+        <!-- Section eyebrow -->
+        <p
+          class="font-editorial-body
+            text-[0.64rem]
+            font-medium
+            uppercase
+            tracking-[0.22em]
+            text-text-muted
+            transition-colors
+            duration-200
+            motion-reduce:transition-none"
+        >
+          {closing.eyebrow}
+        </p>
+
+        <!-- Closing statement -->
+        <h2
+          id="closing-title"
+          class="mt-6
+    max-w-[19ch]
+    text-3xl
+    font-light
+    leading-[1.08]
+    tracking-[-0.03em]
+    text-text
+    transition-colors
+    duration-300
+    sm:text-4xl
+    lg:text-[2.65rem]
+    xl:text-5xl"
+        >
+          {closing.title}
+        </h2>
+
+        <!-- Supporting copy -->
+        <p
+          class="mt-6
+            max-w-2xl
+            font-editorial-body
+            text-base
+            leading-relaxed
+            text-text-muted
+            transition-colors
+            duration-200
+            sm:text-lg
+            motion-reduce:transition-none"
+        >
+          {closing.description}
+        </p>
+      </div>
+
+      <!-- ================================================= -->
+      <!-- CONTACT ACTION                                    -->
+      <!-- ================================================= -->
+
+      <div class="flex
+          lg:justify-end">
+        <a
+          href={localizePath(locale, "/contact")}
+          class="group
+            inline-flex
+            items-center
+            gap-5
+            rounded-full
+            bg-accent
+            px-6
+            py-3.5
+            font-editorial-body
+            text-sm
+            font-medium
+            text-brand-light
+            transition
+            duration-300
+            hover:bg-accent-hover
+            focus-visible:outline-2
+            focus-visible:outline-offset-4
+            focus-visible:outline-accent
+            active:scale-[0.99]
+            motion-reduce:transition-none"
+        >
+          <span>
+            {closing.cta}
+          </span>
+
+          <span
+            class="transition-transform
+              duration-300
+              group-hover:translate-x-1
+              motion-reduce:transition-none"
+            aria-hidden="true"
+          >
+            →
+          </span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

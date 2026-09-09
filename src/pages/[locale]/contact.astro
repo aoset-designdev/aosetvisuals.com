@@ -1,7 +1,7 @@
 ---
 // src/pages/[locale]/contact.astro
 import Layout from '@/layouts/Layout.astro';
-import ContactSection from '@/components/ContactSection.astro';
+import Contact from '@/components/Contact.astro';
 import { getLocalePaths, useTranslations } from '@/i18n/utils';
 import { locales, type Locale } from '@/i18n/config';
 
@@ -23,8 +23,6 @@ const t = useTranslations(locale);
 // Strip HTML tags from translation string for clean meta description snippet
 const metaDescription = t.contact.intro.replace(/<[^>]*>/g, '');
 
-// Add your real Google Maps Embed URL here or leave empty to hide
-const GOOGLE_MAPS_EMBED_URL = ""; 
 ---
 
 <Layout
@@ -32,19 +30,6 @@ const GOOGLE_MAPS_EMBED_URL = "";
   locale={locale}
   description={metaDescription}
 >
-  <ContactSection locale={locale} />
-
-  {GOOGLE_MAPS_EMBED_URL && (
-    <section class="h-112.5 w-full">
-      <iframe
-        title="AOSET office location"
-        src={GOOGLE_MAPS_EMBED_URL}
-        width="100%"
-        height="100%"
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade"
-        class="block border-none"
-      />
-    </section>
-  )}
+  <Contact locale={locale} />
+  
 </Layout>

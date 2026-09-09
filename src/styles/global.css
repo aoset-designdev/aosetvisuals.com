@@ -1,11 +1,109 @@
-/* src/styles/global.css */
+/* src/styles/global.css
+ * ─────────────────────────────────────────────────────────────────────────────
+ * CSS BLUEPRINT — reusable across projects
+ *
+ * HOW TO CUSTOMIZE A NEW PROJECT:
+ * 1. Edit the "PROJECT CONFIG" block only (Section 1).
+ * 2. Everything below Section 1 is framework code — do not touch it.
+ *
+ * SECTIONS:
+ *   1. PROJECT CONFIG     ← edit here per project
+ *   2. FONTS              ← auto-reads from config
+ *   3. DARK MODE VARIANT  ← fixed
+ *   4. TAILWIND THEME     ← auto-reads from config
+ *   5. BRAND PRIMITIVES   ← auto-reads from config
+ *   6. LIGHT TOKENS       ← auto-reads from config
+ *   7. DARK TOKENS        ← auto-reads from config
+ *   8. BASE STYLES        ← fixed
+ * ─────────────────────────────────────────────────────────────────────────────
+ */
+
 @import "tailwindcss";
 
-/* ─────────────────────────────────────────
-   SELF-HOSTED FONTS
-   ───────────────────────────────────────── */
+/* ══════════════════════════════════════════════════════════════════════════════
+   §1  PROJECT CONFIG
+   Edit ONLY this section when starting a new project.
+   ══════════════════════════════════════════════════════════════════════════════ */
 
-/* Elms Sans Variable - Normal (Latin) */
+:root {
+
+  /* ── Brand primitives ──────────────────────────────────────────────────────
+   * Raw color values. Give them project-specific names so they read clearly
+   * in design handoff (e.g. "aoset-blue", "lumina-gold", "mb-terracotta").
+   * Reference these in the token blocks below — never use raw hex elsewhere.
+   * ───────────────────────────────────────────────────────────────────────── */
+
+  --brand-primary:    #348eba;   /* AOSET Blue   — main brand color          */
+  --brand-secondary:  #c5a059;   /* Brass        — signature accent           */
+  --brand-neutral:    #4a6273;   /* Slate        — mid-tone neutral           */
+  --brand-dark:       #0d1b2a;   /* Midnight     — darkest tone               */
+  --brand-light:      #f6f6f6;   /* Cloud        — lightest tone              */
+
+  /* ── Font family ───────────────────────────────────────────────────────────
+   * List your font stack here. The @font-face block in §2 reads this.
+   * If you switch fonts, update the file paths in §2 and the family name here.
+   * ───────────────────────────────────────────────────────────────────────── */
+
+  --config-font-family:
+    "Elms Sans",
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+
+  /* ── Light mode semantic tokens ────────────────────────────────────────────
+   * Map brand primitives → semantic roles.
+   * These are the values used throughout all components.
+   * ───────────────────────────────────────────────────────────────────────── */
+
+  /* --config-surface:           var(--brand-light);
+  --config-surface-elevated:  #ffffff; */
+
+
+  --config-surface: color-mix( in srgb,    var(--brand-light) 88%,    var(--brand-neutral) );
+  --config-surface-elevated:  color-mix(  in srgb,  var(--brand-light) 96%,  var(--brand-neutral));
+
+
+  --config-text:              var(--brand-dark);
+  --config-text-muted:        var(--brand-neutral);
+  --config-border:            color-mix(in srgb, var(--brand-dark)  10%, transparent);
+  --config-accent:            var(--brand-primary);
+  --config-accent-hover:      color-mix(in srgb, var(--brand-primary) 84%, var(--brand-dark));
+  --config-signature:         var(--brand-secondary);
+
+  /* ── Dark mode semantic tokens ─────────────────────────────────────────────
+   * Override only the values that change in dark mode.
+   * Any token not listed here keeps its light value in dark mode.
+   * ───────────────────────────────────────────────────────────────────────── */
+
+  --config-dark-surface:          var(--brand-dark);
+  --config-dark-surface-elevated: color-mix(in srgb, var(--brand-dark) 88%, var(--brand-neutral));
+  --config-dark-text:             var(--brand-light);
+  --config-dark-text-muted:       color-mix(in srgb, var(--brand-neutral) 48%, var(--brand-light));
+  --config-dark-border:           color-mix(in srgb, var(--brand-light) 12%, transparent);
+  --config-dark-accent:           var(--brand-primary);
+  --config-dark-accent-hover:     color-mix(in srgb, var(--brand-primary) 82%, white);
+  --config-dark-signature:        var(--brand-secondary);
+
+  /* ── Miscellaneous ─────────────────────────────────────────────────────────
+   * Global layout cap, focus ring radius, transition speed.
+   * ───────────────────────────────────────────────────────────────────────── */
+
+  --config-max-width:       80rem;      /* 1280px — site-wide content cap      */
+  --config-radius-focus:    3px;        /* focus ring border-radius            */
+  --config-theme-duration:  0.2s;       /* light/dark crossfade speed          */
+  --config-transition-ease: ease;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   §2  SELF-HOSTED FONTS
+   Update file paths and font-family name if you change the typeface.
+   unicode-range splits downloads by script — browser fetches only the subset
+   it needs. Keep latin and latin-ext separate; do NOT overlap their ranges.
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+/* Latin — Normal */
 @font-face {
   font-family: "Elms Sans";
   src: url("/fonts/elms-sans-latin-wght-normal.woff2") format("woff2");
@@ -13,29 +111,13 @@
   font-style: normal;
   font-display: swap;
   unicode-range:
-    U+0000-00FF,
-    U+0131,
-    U+0152-0153,
-    U+02BB-02BC,
-    U+02C6,
-    U+02DA,
-    U+02DC,
-    U+0304,
-    U+0308,
-    U+0329,
-    U+2000-206F,
-    U+2074,
-    U+20AC,
-    U+2122,
-    U+2191,
-    U+2193,
-    U+2212,
-    U+2215,
-    U+FEFF,
-    U+FFFD;
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329,
+    U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
 }
 
-/* Elms Sans Variable - Italic (Latin) */
+/* Latin — Italic */
 @font-face {
   font-family: "Elms Sans";
   src: url("/fonts/elms-sans-latin-wght-italic.woff2") format("woff2");
@@ -43,29 +125,13 @@
   font-style: italic;
   font-display: swap;
   unicode-range:
-    U+0000-00FF,
-    U+0131,
-    U+0152-0153,
-    U+02BB-02BC,
-    U+02C6,
-    U+02DA,
-    U+02DC,
-    U+0304,
-    U+0308,
-    U+0329,
-    U+2000-206F,
-    U+2074,
-    U+20AC,
-    U+2122,
-    U+2191,
-    U+2193,
-    U+2212,
-    U+2215,
-    U+FEFF,
-    U+FFFD;
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329,
+    U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
 }
 
-/* Elms Sans Variable - Normal (Latin Extended) */
+/* Latin Extended — Normal (no overlap with latin ranges above) */
 @font-face {
   font-family: "Elms Sans";
   src: url("/fonts/elms-sans-latin-ext-wght-normal.woff2") format("woff2");
@@ -74,20 +140,12 @@
   font-display: swap;
   unicode-range:
     U+0100-02AF,
-    U+0304,
-    U+0308,
-    U+0329,
-    U+1E00-1E9F,
-    U+1EF2-1EFF,
-    U+2020,
-    U+20A0-20AB,
-    U+20AD-20C0,
-    U+2113,
-    U+2C60-2C7F,
-    U+A720-A7FF;
+    U+1E00-1E9F, U+1EF2-1EFF,
+    U+2020, U+20A0-20AB, U+20AD-20C0,
+    U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
-/* Elms Sans Variable - Italic (Latin Extended) */
+/* Latin Extended — Italic */
 @font-face {
   font-family: "Elms Sans";
   src: url("/fonts/elms-sans-latin-ext-wght-italic.woff2") format("woff2");
@@ -96,195 +154,88 @@
   font-display: swap;
   unicode-range:
     U+0100-02AF,
-    U+0304,
-    U+0308,
-    U+0329,
-    U+1E00-1E9F,
-    U+1EF2-1EFF,
-    U+2020,
-    U+20A0-20AB,
-    U+20AD-20C0,
-    U+2113,
-    U+2C60-2C7F,
-    U+A720-A7FF;
+    U+1E00-1E9F, U+1EF2-1EFF,
+    U+2020, U+20A0-20AB, U+20AD-20C0,
+    U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
-/* ─────────────────────────────────────────
-   DARK MODE VARIANT
-   ───────────────────────────────────────── */
+/* ══════════════════════════════════════════════════════════════════════════════
+   §3  DARK MODE VARIANT  — do not edit
+   ══════════════════════════════════════════════════════════════════════════════ */
 
 @custom-variant dark (
   &:where([data-theme="dark"], [data-theme="dark"] *)
 );
 
-/* ─────────────────────────────────────────
-   TAILWIND v4 THEME EXTENSIONS
-   ───────────────────────────────────────── */
+/* ══════════════════════════════════════════════════════════════════════════════
+   §4  TAILWIND v4 THEME  — do not edit
+   Exposes CSS custom properties as Tailwind utilities.
+   All values cascade from §1 config tokens.
+   ══════════════════════════════════════════════════════════════════════════════ */
 
 @theme {
-  /* Default Font Family */
-  --font-sans:
-    "Elms Sans",
-    ui-sans-serif,
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    sans-serif;
+  /* Font */
+  --font-sans: var(--config-font-family);
 
-  /* ───────────────────────────────────────
-     AOSET BRAND COLOR UTILITIES
+  /* Brand utilities  →  bg-brand-primary, text-brand-secondary, etc. */
+  --color-brand-primary:   var(--brand-primary);
+  --color-brand-secondary: var(--brand-secondary);
+  --color-brand-neutral:   var(--brand-neutral);
+  --color-brand-dark:      var(--brand-dark);
+  --color-brand-light:     var(--brand-light);
 
-     Examples:
-     bg-aoset-blue
-     text-slate
-     border-midnight
-     text-brass
-     ─────────────────────────────────────── */
-
-  --color-aoset-blue: var(--brand-aoset-blue);
-  --color-slate: var(--brand-slate);
-  --color-midnight: var(--brand-midnight);
-  --color-cloud: var(--brand-cloud);
-  --color-brass: var(--brand-brass);
-
-  /* ───────────────────────────────────────
-     SEMANTIC COLOR UTILITIES
-
-     Examples:
-     bg-surface
-     bg-surface-elevated
-     text-text
-     text-text-muted
-     border-border
-     bg-accent
-     hover:bg-accent-hover
-     text-signature
-     ─────────────────────────────────────── */
-
-  --color-surface: var(--theme-surface);
+  /* Semantic utilities  →  bg-surface, text-text, text-text-muted, etc. */
+  --color-surface:          var(--theme-surface);
   --color-surface-elevated: var(--theme-surface-elevated);
+  --color-text:             var(--theme-text);
+  --color-text-muted:       var(--theme-text-muted);
+  --color-border:           var(--theme-border);
+  --color-accent:           var(--theme-accent);
+  --color-accent-hover:     var(--theme-accent-hover);
+  --color-signature:        var(--theme-signature);
 
-  --color-text: var(--theme-text);
-  --color-text-muted: var(--theme-text-muted);
-
-  --color-border: var(--theme-border);
-
-  --color-accent: var(--theme-accent);
-  --color-accent-hover: var(--theme-accent-hover);
-
-  --color-signature: var(--theme-signature);
-
-  /*
-   * Temporary compatibility aliases.
-   * These preserve existing components while you migrate them.
-   */
-  --color-muted: var(--theme-text-muted);
-  --color-accent-dark: var(--theme-accent-hover);
-
-  /* Custom Layout Breakpoint */
-  --breakpoint-site: 80rem; /* 1280px */
+  /* Layout */
+  --breakpoint-site: var(--config-max-width);
 }
 
-/* ─────────────────────────────────────────
-   BRAND PRIMITIVES
-   ───────────────────────────────────────── */
+/* ══════════════════════════════════════════════════════════════════════════════
+   §5  LIGHT MODE THEME TOKENS  — do not edit
+   Reads from §1 config. Components reference these, never config directly.
+   ══════════════════════════════════════════════════════════════════════════════ */
 
 :root {
-  /*
-   * Permanent AOSET identity values.
-   * Normal components should generally consume semantic tokens.
-   */
-
-  --brand-aoset-blue: #348eba;
-  --brand-slate: #4a6273;
-  --brand-midnight: #0d1b2a;
-  --brand-cloud: #f6f6f6;
-  --brand-brass: #c5a059;
-
-  /* ───────────────────────────────────────
-     LIGHT MODE SEMANTIC TOKENS
-     ─────────────────────────────────────── */
-
-  --theme-surface: var(--brand-cloud);
-  --theme-surface-elevated: #ffffff;
-
-  --theme-text: var(--brand-midnight);
-  --theme-text-muted: var(--brand-slate);
-
-  --theme-border: color-mix(
-    in srgb,
-    var(--brand-midnight) 10%,
-    transparent
-  );
-
-  --theme-accent: var(--brand-aoset-blue);
-
-  --theme-accent-hover: color-mix(
-    in srgb,
-    var(--brand-aoset-blue) 84%,
-    var(--brand-midnight)
-  );
-
-  /*
-   * Brass is a restrained signature detail,
-   * not the primary interactive color.
-   */
-  --theme-signature: var(--brand-brass);
+  --theme-surface:          var(--config-surface);
+  --theme-surface-elevated: var(--config-surface-elevated);
+  --theme-text:             var(--config-text);
+  --theme-text-muted:       var(--config-text-muted);
+  --theme-border:           var(--config-border);
+  --theme-accent:           var(--config-accent);
+  --theme-accent-hover:     var(--config-accent-hover);
+  --theme-signature:        var(--config-signature);
 
   color-scheme: light;
 }
 
-/* ─────────────────────────────────────────
-   DARK MODE SEMANTIC TOKENS
-   ───────────────────────────────────────── */
+/* ══════════════════════════════════════════════════════════════════════════════
+   §6  DARK MODE THEME TOKENS  — do not edit
+   ══════════════════════════════════════════════════════════════════════════════ */
 
 [data-theme="dark"] {
-  --theme-surface: var(--brand-midnight);
-
-  /*
-   * Slightly lighter than the page background.
-   * Intended for cards, dropdowns, forms, and layered sections.
-   */
-  --theme-surface-elevated: color-mix(
-    in srgb,
-    var(--brand-midnight) 88%,
-    var(--brand-slate)
-  );
-
-  --theme-text: var(--brand-cloud);
-
-  /*
-   * Slate is lifted toward Cloud for readable
-   * secondary copy over Midnight.
-   */
-  --theme-text-muted: color-mix(
-    in srgb,
-    var(--brand-slate) 48%,
-    var(--brand-cloud)
-  );
-
-  --theme-border: color-mix(
-    in srgb,
-    var(--brand-cloud) 12%,
-    transparent
-  );
-
-  --theme-accent: var(--brand-aoset-blue);
-
-  --theme-accent-hover: color-mix(
-    in srgb,
-    var(--brand-aoset-blue) 82%,
-    white
-  );
-
-  --theme-signature: var(--brand-brass);
+  --theme-surface:          var(--config-dark-surface);
+  --theme-surface-elevated: var(--config-dark-surface-elevated);
+  --theme-text:             var(--config-dark-text);
+  --theme-text-muted:       var(--config-dark-text-muted);
+  --theme-border:           var(--config-dark-border);
+  --theme-accent:           var(--config-dark-accent);
+  --theme-accent-hover:     var(--config-dark-accent-hover);
+  --theme-signature:        var(--config-dark-signature);
 
   color-scheme: dark;
 }
 
-/* ─────────────────────────────────────────
-   BASE HTML STYLES
-   ───────────────────────────────────────── */
+/* ══════════════════════════════════════════════════════════════════════════════
+   §7  BASE STYLES  — do not edit
+   ══════════════════════════════════════════════════════════════════════════════ */
 
 @media (prefers-reduced-motion: no-preference) {
   html {
@@ -294,20 +245,34 @@
 
 html {
   font-family: var(--font-sans);
+  scrollbar-gutter: stable; /* prevent layout shift when scrollbar appears */
 }
 
 body {
-  min-height: 100dvh; /* Mobile browser URL bar friendly */
+  min-height: 100dvh;
   background-color: var(--color-surface);
   color: var(--color-text);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   transition:
-    background-color 0.2s ease,
-    color 0.2s ease;
+    background-color var(--config-theme-duration) var(--config-transition-ease),
+    color            var(--config-theme-duration) var(--config-transition-ease);
 }
 
-/* View transitions (Astro ClientRouter) */
+/* Focus ring — accessible, uses project accent color */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: var(--config-radius-focus);
+}
+
+/* Selection — brand-tinted highlight */
+::selection {
+  background-color: color-mix(in srgb, var(--brand-primary) 25%, transparent);
+  color: var(--color-text);
+}
+
+/* Astro view transitions */
 @view-transition {
   navigation: auto;
 }

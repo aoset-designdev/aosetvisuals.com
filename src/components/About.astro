@@ -1,0 +1,314 @@
+---
+// src/components/About.astro
+
+/**
+ * AOSET Visuals — About Section
+ *
+ * Editorial About section displayed directly below the hero.
+ *
+ * The section explains AOSET's approach and purpose while
+ * providing a quieter editorial counterpoint to the visually
+ * dense project bento above.
+ *
+ * Visual direction:
+ * - Flat semantic background.
+ * - No ambient glow.
+ * - No border around the conceptual image.
+ * - No unnecessary image overlay.
+ * - Theme-aware colors transition smoothly between modes.
+ */
+
+import { Image } from 'astro:assets';
+
+import aboutVisual from '@/assets/about/about-visual.webp';
+
+import { useTranslations } from '../i18n/utils';
+
+import type { Locale } from '../i18n/config';
+
+
+/* ============================================================
+   COMPONENT PROPS
+   ============================================================ */
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+const t = useTranslations(locale);
+const about = t.about;
+---
+
+<section
+  id="about"
+  class="
+    relative
+    scroll-mt-24
+    overflow-hidden
+
+    border-t
+    border-border
+
+    bg-surface
+
+    transition-colors
+    duration-200
+
+    motion-reduce:transition-none
+  "
+  aria-labelledby="about-heading"
+>
+  <!-- ===================================================== -->
+  <!-- CONTENT CONTAINER                                     -->
+  <!--                                                       -->
+  <!-- The section remains intentionally flat.               -->
+  <!-- Spacing, typography and imagery create the hierarchy  -->
+  <!-- rather than glows or decorative background effects.   -->
+  <!-- ===================================================== -->
+
+  <div
+    class="
+      relative
+
+      mx-auto
+      w-full
+      max-w-7xl
+
+      px-4
+      py-20
+
+      sm:px-6
+      sm:py-24
+
+      lg:px-8
+      lg:py-28
+
+      xl:py-32
+    "
+  >
+    <div
+      class="
+        grid
+        grid-cols-1
+        gap-12
+
+        lg:grid-cols-12
+        lg:items-start
+        lg:gap-x-12
+
+        xl:gap-x-16
+      "
+    >
+      <!-- ================================================= -->
+      <!-- CONCEPTUAL VISUAL                                 -->
+      <!-- ================================================= -->
+
+      <div class="lg:col-span-5">
+        <div
+          class="
+            relative
+
+            aspect-4/3
+            overflow-hidden
+
+            rounded-2xl
+
+            bg-surface-elevated
+
+            transition-colors
+            duration-200
+
+            motion-reduce:transition-none
+          "
+        >
+          <Image
+            src={aboutVisual}
+            alt=""
+            widths={[480, 800, 1200, 1600]}
+            sizes="
+              (min-width: 1024px) 42vw,
+              100vw
+            "
+            format="avif"
+            quality={88}
+            loading="lazy"
+            class="
+              h-full
+              w-full
+              object-cover
+              object-center
+            "
+          />
+        </div>
+      </div>
+
+
+      <!-- ================================================= -->
+      <!-- EDITORIAL COPY                                    -->
+      <!-- ================================================= -->
+
+      <div class="lg:col-span-7">
+        <!-- Section eyebrow -->
+        <p
+          class="
+            font-editorial-body
+            text-[0.64rem]
+            font-medium
+            uppercase
+            tracking-[0.22em]
+
+            text-text-muted
+
+            transition-colors
+            duration-200
+
+            motion-reduce:transition-none
+          "
+        >
+          {about.eyebrow}
+        </p>
+
+
+        <!-- Accent marker -->
+        <span
+          class="
+            mt-5
+            block
+
+            h-px
+            w-10
+
+            bg-accent
+
+            transition-colors
+            duration-200
+
+            motion-reduce:transition-none
+          "
+          aria-hidden="true"
+        ></span>
+
+
+        <!-- Main heading -->
+        <h2
+          id="about-heading"
+          class="
+            mt-6
+            max-w-[18ch]
+
+            text-3xl
+            font-light
+            leading-[1.08]
+            tracking-[-0.03em]
+
+            text-text
+
+            transition-colors
+            duration-200
+
+            sm:text-4xl
+
+            lg:text-[2.65rem]
+
+            xl:text-5xl
+
+            motion-reduce:transition-none
+          "
+        >
+          {about.heading}
+        </h2>
+
+
+        <!-- Main introductory statement -->
+        <p
+          class="
+            mt-8
+            max-w-[45rem]
+
+            font-editorial-body
+            text-lg
+            leading-[1.7]
+
+            text-text
+
+            transition-colors
+            duration-200
+
+            sm:text-xl
+
+            motion-reduce:transition-none
+          "
+        >
+          {about.intro}
+        </p>
+
+
+        <!-- ================================================= -->
+        <!-- PURPOSE + PHILOSOPHY                              -->
+        <!-- ================================================= -->
+
+        <div
+          class="
+            mt-10
+
+            grid
+            grid-cols-1
+            gap-7
+
+            border-t
+            border-border
+
+            pt-8
+
+            transition-colors
+            duration-200
+
+            md:grid-cols-2
+            md:gap-10
+
+            motion-reduce:transition-none
+          "
+        >
+          <!-- Practical purpose -->
+          <p
+            class="
+              font-editorial-body
+              text-base
+              leading-[1.75]
+
+              text-text-muted
+
+              transition-colors
+              duration-200
+
+              motion-reduce:transition-none
+            "
+          >
+            {about.purpose}
+          </p>
+
+
+          <!-- Working philosophy -->
+          <p
+            class="
+              font-editorial-body
+              text-base
+              leading-[1.75]
+
+              text-text-muted
+
+              transition-colors
+              duration-200
+
+              motion-reduce:transition-none
+            "
+          >
+            {about.philosophy}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

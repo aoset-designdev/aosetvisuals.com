@@ -1,121 +1,526 @@
 ---
 // src/pages/[locale]/work.astro
-// Add project images to src/assets/work/ (project-1.jpg, project-2.jpg, project-3.jpg)
-import Layout from '@/layouts/Layout.astro';
-import { getLocalePaths, useTranslations } from '@/i18n/utils';
-import { locales, type Locale } from '@/i18n/config';
 
-// REQUIRED: Static page pre-rendering for Cloudflare SSR adapter
+/**
+ * Selected Work
+ *
+ * Portfolio index for the localized /work route.
+ *
+ * Project imagery is managed through Astro's asset pipeline
+ * rather than the public directory.
+ */
+
+import { Image } from 'astro:assets';
+
+import Layout from '@/layouts/Layout.astro';
+
+import {
+  getLocalePaths,
+  localizePath,
+  useTranslations,
+} from '@/i18n/utils';
+
+import {
+  locales,
+  type Locale,
+} from '@/i18n/config';
+
+
+/* ============================================================
+   PROJECT ASSETS
+   ============================================================ */
+
+import jcoHero from '@/assets/projects/jco-estate-renovations/hero.webp';
+import jdHero from '@/assets/projects/jd-good-corp/hero.webp';
+import seabizaHero from '@/assets/projects/seabiza/hero.webp';
+import campaignHero from '@/assets/projects/email-campaign/hero.webp';
+
+
+/* ============================================================
+   STATIC GENERATION
+   ============================================================ */
+
 export const prerender = true;
 
 export function getStaticPaths() {
   return getLocalePaths();
 }
 
-// Safely extract and validate locale parameter
+
+/* ============================================================
+   LOCALE
+   ============================================================ */
+
 const rawLocale = Astro.params.locale;
+
 const locale: Locale = locales.includes(rawLocale as Locale)
   ? (rawLocale as Locale)
   : 'en';
 
 const t = useTranslations(locale);
 
-// Strip HTML tags for clean meta description snippet
-const metaDescription = t.work.subtitle.replace(/<[^>]*>/g, '');
+
+/* ============================================================
+   SEO
+   ============================================================ */
+
+const metaDescription = t.work.intro;
+
+
+/* ============================================================
+   PROJECTS
+   ------------------------------------------------------------
+   Content comes from the same localized project data already
+   used by the homepage bento.
+   ============================================================ */
 
 const projects = [
-  { id: 'project-1', color: 'bg-aoset-blue' },
-  { id: 'project-2', color: 'bg-slate' },
-  { id: 'project-3', color: 'bg-midnight' },
+  {
+    slug: 'jco-estate-renovations',
+
+    image: jcoHero,
+
+    alt: t.hero.projects.jco.alt,
+
+    label: t.hero.projects.jco.label,
+
+    title: t.hero.projects.jco.title,
+
+    subtitle: t.hero.projects.jco.subtitle,
+
+    meta: t.hero.projects.jco.meta,
+  },
+
+  {
+    slug: 'email-campaign',
+
+    image: campaignHero,
+
+    alt: t.hero.projects.campaign.alt,
+
+    label: t.hero.projects.campaign.label,
+
+    title: t.hero.projects.campaign.title,
+
+    subtitle: '',
+
+    meta: t.hero.projects.campaign.description,
+  },
+
+  {
+    slug: 'seabiza',
+
+    image: seabizaHero,
+
+    alt: t.hero.projects.seabiza.alt,
+
+    label: 'Brand Concept',
+
+    title: t.hero.projects.seabiza.title,
+
+    subtitle: t.hero.projects.seabiza.subtitle,
+
+    meta: t.hero.projects.seabiza.meta,
+  },
+
+  {
+    slug: 'jd-good-corp',
+
+    image: jdHero,
+
+    alt: t.hero.projects.jd.alt,
+
+    label: 'Brand Identity',
+
+    title: t.hero.projects.jd.title,
+
+    subtitle: t.hero.projects.jd.subtitle,
+
+    meta: t.hero.projects.jd.meta,
+  },
 ];
 ---
 
-<Layout title={`${t.work.heading} — AOSET`} locale={locale} description={metaDescription}>
+<Layout
+  title={`${t.work.eyebrow} — AOSET`}
+  locale={locale}
+  description={metaDescription}
+>
+  <main class="bg-midnight">
 
-  <section class="mx-auto max-w-3xl px-4 py-16 text-center sm:px-6 lg:px-8 lg:pt-24">
-    <h1 class="text-3xl font-semibold leading-snug text-text sm:text-4xl">
-      {t.work.heading}
-    </h1>
+    <!-- ===================================================== -->
+    <!-- PAGE INTRO                                            -->
+    <!-- ===================================================== -->
 
-    <p class="mt-4 text-base text-text-muted">
-      {t.work.subtitle}
-    </p>
-  </section>
+    <section
+      class="
+        mx-auto
+        max-w-7xl
 
-  <section class="mx-auto max-w-7xl px-4 pb-24 sm:px-6 lg:px-8">
-    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      {projects.map((project) => (
-        <a
-          href={`#${project.id}`}
-          class="group relative isolate block aspect-square overflow-hidden rounded-lg"
-          aria-label={`View ${project.id}`}
-        >
-          {/*
-            Replace with Image component once you add images:
-            <Image src={projectImages[index]} alt=""
-              class="absolute inset-0 size-full object-cover transition-transform duration-500 group-hover:scale-105"
-              widths={[480, 960]} sizes="(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw"
-              format="avif" quality={90} />
-          */}
+        px-4
+        pt-20
+        pb-14
 
-          <div class={`absolute inset-0 ${project.color} flex items-center justify-center`}>
-            <span class="text-sm text-white/50">{project.id}.jpg</span>
-          </div>
+        sm:px-6
+        sm:pt-24
+        sm:pb-16
 
-          <div
-            class="absolute inset-0 bg-black/0 transition-colors group-hover:bg-black/20"
-            aria-hidden="true"
-          />
-        </a>
-      ))}
-    </div>
+        lg:px-8
+        lg:pt-28
+        lg:pb-20
+      "
+    >
+      <p
+        class="
+          font-editorial-body
+          text-[0.65rem]
+          font-medium
+          uppercase
+          tracking-[0.24em]
+          text-white/40
+        "
+      >
+        {t.work.eyebrow}
+      </p>
 
-    <!-- CSS-only lightbox -->
-    {projects.map((project) => (
-      <div id={project.id} class="lightbox-overlay">
-        <a href="#" class="lightbox-backdrop" aria-label="Close lightbox" />
+      <h1
+        class="
+          mt-5
+          max-w-[13ch]
 
-        <div class={`lightbox-image ${project.color} flex items-center justify-center rounded-lg`}>
-          <span class="text-sm text-white/60">{project.id}</span>
-        </div>
+          text-4xl
+          font-light
+          leading-[1.03]
+          tracking-[-0.035em]
+          text-white
+
+          sm:text-5xl
+          lg:text-6xl
+        "
+      >
+        {t.work.heading}
+      </h1>
+
+      <p
+        class="
+          mt-6
+          max-w-2xl
+
+          font-editorial-body
+          text-base
+          leading-relaxed
+          text-white/60
+
+          sm:text-lg
+        "
+      >
+        {t.work.intro}
+      </p>
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- PROJECT GRID                                          -->
+    <!-- ===================================================== -->
+
+    <section
+      class="
+        mx-auto
+        max-w-7xl
+
+        px-4
+        pb-24
+
+        sm:px-6
+
+        lg:px-8
+        lg:pb-32
+      "
+      aria-label={t.work.eyebrow}
+    >
+      <div
+        class="
+          grid
+          grid-cols-1
+          gap-4
+
+          md:grid-cols-2
+        "
+      >
+        {
+          projects.map((project, index) => (
+            <a
+              href={localizePath(
+                locale,
+                `/work/${project.slug}`,
+              )}
+              class="
+                work-card
+                group
+                relative
+                isolate
+
+                min-h-[28rem]
+                overflow-hidden
+
+                rounded-2xl
+
+                border
+                border-white/10
+
+                bg-white/[0.03]
+
+                sm:min-h-[32rem]
+
+                lg:min-h-[36rem]
+              "
+            >
+              <Image
+                src={project.image}
+                alt={project.alt}
+                widths={[640, 960, 1280]}
+                sizes="
+                  (min-width: 768px) 50vw,
+                  100vw
+                "
+                loading={index < 2 ? 'eager' : 'lazy'}
+                quality={85}
+                class="
+                  work-card-image
+                  absolute
+                  inset-0
+                  size-full
+                  object-cover
+                "
+              />
+
+              <!-- Image protection -->
+              <div
+                class="
+                  absolute
+                  inset-0
+
+                  bg-linear-to-t
+
+                  from-midnight/95
+                  via-midnight/30
+                  to-transparent
+                "
+                aria-hidden="true"
+              />
+
+              <!-- Project information -->
+              <div
+                class="
+                  relative
+                  z-10
+
+                  flex
+                  h-full
+                  flex-col
+                  justify-between
+
+                  p-6
+
+                  sm:p-8
+                "
+              >
+                <p
+                  class="
+                    font-editorial-body
+
+                    text-[0.62rem]
+                    font-medium
+                    uppercase
+                    tracking-[0.22em]
+
+                    text-white/55
+                  "
+                >
+                  {project.label}
+                </p>
+
+                <div>
+                  <h2
+                    class="
+                      text-3xl
+                      font-light
+                      tracking-[-0.035em]
+                      text-white
+
+                      sm:text-4xl
+                    "
+                  >
+                    {project.title}
+                  </h2>
+
+                  {project.subtitle && (
+                    <p
+                      class="
+                        mt-2
+
+                        font-editorial-body
+                        text-sm
+                        text-white/70
+                      "
+                    >
+                      {project.subtitle}
+                    </p>
+                  )}
+
+                  <div
+                    class="
+                      mt-5
+                      flex
+                      items-end
+                      justify-between
+                      gap-6
+                    "
+                  >
+                    <p
+                      class="
+                        max-w-sm
+
+                        font-editorial-body
+                        text-sm
+                        leading-relaxed
+                        text-white/58
+                      "
+                    >
+                      {project.meta}
+                    </p>
+
+                    <span
+                      class="
+                        work-arrow
+
+                        grid
+                        size-10
+                        shrink-0
+                        place-items-center
+
+                        rounded-full
+
+                        border
+                        border-white/25
+
+                        text-white
+                      "
+                      aria-hidden="true"
+                    >
+                      →
+                    </span>
+                  </div>
+
+                  <p
+                    class="
+                      mt-5
+
+                      font-editorial-body
+                      text-xs
+                      font-medium
+                      uppercase
+                      tracking-[0.16em]
+
+                      text-white/75
+                    "
+                  >
+                    {t.work.viewProject}
+                  </p>
+                </div>
+              </div>
+            </a>
+          ))
+        }
       </div>
-    ))}
-  </section>
-
+    </section>
+  </main>
 </Layout>
 
+
 <style>
-  .lightbox-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 50;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1.5rem;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.2s ease, visibility 0.2s ease;
+  /* =========================================================
+     PROJECT CARD
+     ========================================================= */
+
+  .work-card {
+    backface-visibility: hidden;
+    transform: translateZ(0);
+
+    transition:
+      transform 350ms cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 350ms ease,
+      box-shadow 350ms ease;
   }
 
-  .lightbox-overlay:target {
-    opacity: 1;
-    visibility: visible;
+
+  /* =========================================================
+     PROJECT IMAGE
+     ========================================================= */
+
+  .work-card-image {
+    transition:
+      transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+
+    will-change: transform;
   }
 
-  .lightbox-backdrop {
-    position: absolute;
-    inset: 0;
-    background: rgb(0 0 0 / 0.85);
+
+  /* =========================================================
+     ACTION ARROW
+     ========================================================= */
+
+  .work-arrow {
+    transition:
+      transform 300ms ease,
+      border-color 300ms ease,
+      background-color 300ms ease;
   }
 
-  .lightbox-image {
-    position: relative;
-    max-height: 90vh;
-    max-width: 90vw;
-    width: 800px;
-    height: 600px;
-    object-fit: contain;
-    border-radius: 0.5rem;
+
+  /* =========================================================
+     HOVER
+     ========================================================= */
+
+  @media (hover: hover) and (pointer: fine) {
+    .work-card:hover {
+      transform: translateY(-3px);
+
+      border-color: rgb(255 255 255 / 0.16);
+
+      box-shadow:
+        0 20px 55px rgb(0 0 0 / 0.2);
+    }
+
+    .work-card:hover .work-card-image {
+      transform: scale(1.025);
+    }
+
+    .work-card:hover .work-arrow {
+      transform: translateX(2px);
+
+      border-color: rgb(255 255 255 / 0.45);
+
+      background-color: rgb(255 255 255 / 0.06);
+    }
+  }
+
+
+  /* =========================================================
+     REDUCED MOTION
+     ========================================================= */
+
+  @media (prefers-reduced-motion: reduce) {
+    .work-card,
+    .work-card-image,
+    .work-arrow {
+      transition: none;
+    }
+
+    .work-card:hover,
+    .work-card:hover .work-card-image,
+    .work-card:hover .work-arrow {
+      transform: none;
+    }
   }
 </style>

@@ -1,0 +1,758 @@
+---
+// src/components/ContactSection.astro
+
+/**
+ * AOSET Visuals — Contact Section
+ *
+ * Dedicated contact interface for AOSET Visuals.
+ *
+ * Purpose:
+ * - Provide a simple, direct way to start a conversation.
+ * - Keep the visual language consistent with the homepage.
+ * - Avoid aggressive sales language.
+ * - Preserve multilingual behavior.
+ * - Submit messages through the existing internal API route.
+ *
+ * Visual direction:
+ * - Flat semantic background.
+ * - No decorative glows or gradients.
+ * - Elevated form controls for subtle hierarchy.
+ * - Smooth light/dark theme transitions.
+ */
+
+import { useTranslations } from "../i18n/utils";
+
+import type { Locale } from "../i18n/config";
+
+/* ============================================================
+   COMPONENT PROPS
+   ============================================================ */
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+const t = useTranslations(locale);
+
+/* ============================================================
+   FORM ENDPOINT
+   ============================================================ */
+
+/**
+ * Internal API route used by the standard contact form.
+ */
+const API_ENDPOINT = "/api/connect";
+---
+
+<section
+  class="bg-surface
+    transition-colors
+    duration-200
+    motion-reduce:transition-none"
+  aria-labelledby="contact-heading"
+>
+  <div
+    class="mx-auto
+      w-full
+      max-w-7xl
+      px-4
+      py-20
+      sm:px-6
+      sm:py-24
+      lg:px-8
+      lg:py-28"
+  >
+    <div
+      class="grid
+        grid-cols-1
+        gap-14
+        lg:grid-cols-[0.85fr_1.15fr]
+        lg:gap-20
+        xl:gap-24"
+    >
+      <!-- ================================================= -->
+      <!-- CONTACT INTRO                                     -->
+      <!-- ================================================= -->
+
+      <div>
+        <!-- Section eyebrow -->
+        <p
+          class="font-editorial-body
+            text-[0.64rem]
+            font-medium
+            uppercase
+            tracking-[0.22em]
+            text-text-muted
+            transition-colors
+            duration-200
+            motion-reduce:transition-none"
+        >
+          {t.contact.eyebrow}
+        </p>
+
+        <!-- Accent marker -->
+        <span
+          class="mt-5
+            block
+            h-px
+            w-10
+            bg-accent
+            transition-colors
+            duration-200
+            motion-reduce:transition-none"
+          aria-hidden="true"></span>
+
+        <!-- Main heading -->
+        <h1
+          id="contact-heading"
+          class="mt-6
+            max-w-[16ch]
+            text-3xl
+            font-light
+            leading-[1.08]
+            tracking-[-0.03em]
+            text-text
+            transition-colors
+            duration-200
+            sm:text-4xl
+            lg:text-[2.65rem]
+            motion-reduce:transition-none"
+        >
+          {t.contact.heading}
+        </h1>
+
+        <!-- Intro -->
+        <p
+          class="mt-6
+            max-w-lg
+            font-editorial-body
+            text-base
+            leading-[1.75]
+            text-text-muted
+            transition-colors
+            duration-200
+            sm:text-lg
+            motion-reduce:transition-none"
+        >
+          {t.contact.intro}
+        </p>
+
+        <!-- Contact details -->
+        <address
+          class="mt-10
+            space-y-2
+            font-editorial-body
+            text-sm
+            leading-relaxed
+            text-text-muted
+            not-italic
+            transition-colors
+            duration-200
+            motion-reduce:transition-none"
+        >
+          <p class="text-text">Miami, FL</p>
+
+          <p>
+            <!-- Company email -->
+            <a
+              href="mailto:hello@aosetvisuals.com"
+              class="select-all
+                transition-colors
+                duration-200
+                hover:text-accent
+                focus-visible:outline-2
+                focus-visible:outline-offset-4
+                focus-visible:outline-accent
+                motion-reduce:transition-none"
+            >
+              hello@aosetvisuals.com
+            </a>
+          </p>
+
+          <p>
+            <!-- Phone — clickable on mobile only -->
+            <a
+              href="tel:+13054821642"
+              class="transition-colors
+    duration-200
+    hover:text-accent
+    focus-visible:outline-2
+    focus-visible:outline-offset-4
+    focus-visible:outline-accent
+    sm:hidden
+    motion-reduce:transition-none"
+              aria-label="Call AOSET Visuals at +1 305 482 1642"
+            >
+              +1 (305) 482-1642
+            </a>
+
+            <!-- Phone — plain text on tablet / desktop -->
+            <span class="hidden
+    select-all
+    sm:inline">
+              +1 (305) 482-1642
+            </span>
+          </p>
+        </address>
+      </div>
+
+      <!-- ================================================= -->
+      <!-- CONTACT FORM                                      -->
+      <!-- ================================================= -->
+
+      <form
+        id="contact-form"
+        data-api-endpoint={API_ENDPOINT}
+        data-success-msg={t.contact.form.success}
+        data-error-msg={t.contact.form.error}
+        data-sending-msg={t.contact.form.sending}
+        data-invalid-email-msg={t.contact.form.invalidEmail}
+        data-invalid-email-submit-msg={t.contact.form.invalidEmailSubmit}
+        class="space-y-5"
+        aria-label={t.contact.form.ariaLabel}
+      >
+        <!-- ================================================= -->
+        <!-- FIRST + LAST NAME                                 -->
+        <!-- ================================================= -->
+
+        <div
+          class="grid
+            grid-cols-1
+            gap-5
+            sm:grid-cols-2"
+        >
+          <!-- First name -->
+          <div>
+            <label
+              for="firstName"
+              class="block
+                font-editorial-body
+                text-sm
+                font-medium
+                text-text
+                transition-colors
+                duration-200
+                motion-reduce:transition-none"
+            >
+              {t.contact.form.firstName}
+
+              <span aria-hidden="true" class="text-accent"> * </span>
+            </label>
+
+            <input
+              type="text"
+              id="firstName"
+              name="firstName"
+              required
+              autocomplete="given-name"
+              class="contact-control"
+            />
+          </div>
+
+          <!-- Last name -->
+          <div>
+            <label
+              for="lastName"
+              class="block
+                font-editorial-body
+                text-sm
+                font-medium
+                text-text
+                transition-colors
+                duration-200
+                motion-reduce:transition-none"
+            >
+              {t.contact.form.lastName}
+
+              <span aria-hidden="true" class="text-accent"> * </span>
+            </label>
+
+            <input
+              type="text"
+              id="lastName"
+              name="lastName"
+              required
+              autocomplete="family-name"
+              class="contact-control"
+            />
+          </div>
+        </div>
+
+        <!-- ================================================= -->
+        <!-- EMAIL + PHONE                                     -->
+        <!-- ================================================= -->
+
+        <div
+          class="grid
+            grid-cols-1
+            gap-5
+            sm:grid-cols-2"
+        >
+          <!-- Email -->
+          <div>
+            <label
+              for="email"
+              class="block
+                font-editorial-body
+                text-sm
+                font-medium
+                text-text
+                transition-colors
+                duration-200
+                motion-reduce:transition-none"
+            >
+              {t.contact.form.email}
+
+              <span aria-hidden="true" class="text-accent"> * </span>
+            </label>
+
+            <input
+              type="email"
+              id="email"
+              name="email"
+              required
+              autocomplete="email"
+              placeholder="name@example.com"
+              aria-describedby="email-error"
+              class="contact-control"
+            />
+
+            <p
+              id="email-error"
+              class="mt-2
+                hidden
+                font-editorial-body
+                text-xs
+                text-red-600
+                dark:text-red-400"
+              role="alert"
+            >
+            </p>
+          </div>
+
+          <!-- Phone -->
+          <div>
+            <label
+              for="phone"
+              class="block
+                font-editorial-body
+                text-sm
+                font-medium
+                text-text
+                transition-colors
+                duration-200
+                motion-reduce:transition-none"
+            >
+              {t.contact.form.phone}
+            </label>
+
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              autocomplete="tel"
+              inputmode="tel"
+              placeholder="(305) 555-0199"
+              class="contact-control"
+            />
+          </div>
+        </div>
+
+        <!-- ================================================= -->
+        <!-- SUBJECT                                           -->
+        <!-- ================================================= -->
+
+        <div>
+          <label
+            for="subject"
+            class="block
+              font-editorial-body
+              text-sm
+              font-medium
+              text-text
+              transition-colors
+              duration-200
+              motion-reduce:transition-none"
+          >
+            {t.contact.form.subject}
+          </label>
+
+          <input
+            type="text"
+            id="subject"
+            name="subject"
+            class="contact-control"
+          />
+        </div>
+
+        <!-- ================================================= -->
+        <!-- MESSAGE                                           -->
+        <!-- ================================================= -->
+
+        <div>
+          <label
+            for="message"
+            class="block
+              font-editorial-body
+              text-sm
+              font-medium
+              text-text
+              transition-colors
+              duration-200
+              motion-reduce:transition-none"
+          >
+            {t.contact.form.message}
+
+            <span aria-hidden="true" class="text-accent"> * </span>
+          </label>
+
+          <textarea
+            id="message"
+            name="message"
+            rows="6"
+            required
+            class="contact-control
+              resize-y"></textarea>
+        </div>
+
+        <!-- ================================================= -->
+        <!-- SUBMIT                                            -->
+        <!-- ================================================= -->
+
+        <div class="pt-2">
+          <button
+            type="submit"
+            class="inline-flex
+              cursor-pointer
+              items-center
+              justify-center
+              gap-4
+              rounded-full
+              bg-accent
+              px-6
+              py-3.5
+              font-editorial-body
+              text-sm
+              font-medium
+              text-brand-light
+              transition
+              duration-300
+              hover:bg-accent-hover
+              focus-visible:outline-2
+              focus-visible:outline-offset-4
+              focus-visible:outline-accent
+              active:scale-[0.99]
+              disabled:cursor-not-allowed
+              disabled:opacity-60
+              motion-reduce:transition-none"
+          >
+            {t.contact.form.submit}
+
+            <span aria-hidden="true"> → </span>
+          </button>
+        </div>
+
+        <!-- Dynamic form status -->
+        <p
+          id="form-status"
+          class="min-h-[1.25rem]
+            font-editorial-body
+            text-sm"
+          role="status"
+          aria-live="polite"
+        >
+        </p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script>
+  /* ==========================================================
+     VALIDATION HELPERS
+     ========================================================== */
+
+  function isValidEmail(email: string): boolean {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    return emailRegex.test(email.trim());
+  }
+
+  /**
+   * Format standard US 10-digit numbers for readability.
+   *
+   * Formatting is intentionally progressive while typing.
+   */
+  function formatPhoneNumber(value: string): string {
+    const digits = value.replace(/\D/g, "").slice(0, 10);
+
+    if (digits.length < 4) {
+      return digits;
+    }
+
+    if (digits.length < 7) {
+      return `(${digits.slice(0, 3)}) ${digits.slice(3)}`;
+    }
+
+    return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
+  }
+
+  /* ==========================================================
+     FORM INITIALIZATION
+     ----------------------------------------------------------
+     Initialization is safe across Astro page transitions.
+     ========================================================== */
+
+  function setupContactForm(): void {
+    const form = document.getElementById(
+      "contact-form",
+    ) as HTMLFormElement | null;
+
+    const status = document.getElementById(
+      "form-status",
+    ) as HTMLParagraphElement | null;
+
+    const emailInput = document.getElementById(
+      "email",
+    ) as HTMLInputElement | null;
+
+    const emailError = document.getElementById(
+      "email-error",
+    ) as HTMLParagraphElement | null;
+
+    /*
+     * Prevent duplicate listeners after Astro navigation.
+     */
+    if (!form || form.dataset.initialized === "true") {
+      return;
+    }
+
+    form.dataset.initialized = "true";
+
+    const phoneInput = form.querySelector("#phone") as HTMLInputElement | null;
+
+    /* ========================================================
+       PHONE FORMATTING
+       ======================================================== */
+
+    if (phoneInput) {
+      phoneInput.addEventListener("input", (event) => {
+        const target = event.target as HTMLInputElement;
+
+        target.value = formatPhoneNumber(target.value);
+      });
+    }
+
+    /* ========================================================
+       EMAIL VALIDATION
+       ======================================================== */
+
+    if (emailInput && emailError) {
+      emailInput.addEventListener("blur", () => {
+        const value = emailInput.value.trim();
+
+        if (value && !isValidEmail(value)) {
+          emailError.textContent = form.dataset.invalidEmailMsg ?? "";
+
+          emailError.classList.remove("hidden");
+
+          emailInput.classList.add("contact-control-error");
+
+          emailInput.setAttribute("aria-invalid", "true");
+        }
+      });
+
+      emailInput.addEventListener("input", () => {
+        emailError.classList.add("hidden");
+
+        emailInput.classList.remove("contact-control-error");
+
+        emailInput.removeAttribute("aria-invalid");
+      });
+    }
+
+    /* ========================================================
+       SUBMISSION
+       ======================================================== */
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      if (!status) {
+        return;
+      }
+
+      /* Validate email before submitting. */
+      if (emailInput && !isValidEmail(emailInput.value)) {
+        if (emailError) {
+          emailError.textContent = form.dataset.invalidEmailSubmitMsg ?? "";
+
+          emailError.classList.remove("hidden");
+        }
+
+        emailInput.classList.add("contact-control-error");
+
+        emailInput.setAttribute("aria-invalid", "true");
+
+        emailInput.focus();
+
+        return;
+      }
+
+      /* Let native browser validation handle required fields. */
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      const submitButton = form.querySelector(
+        'button[type="submit"]',
+      ) as HTMLButtonElement | null;
+
+      if (submitButton) {
+        submitButton.disabled = true;
+      }
+
+      status.textContent = form.dataset.sendingMsg ?? "";
+
+      status.className =
+        "min-h-[1.25rem] font-editorial-body text-sm font-medium text-text-muted";
+
+      try {
+        const formData = new FormData(form);
+
+        const payload = {
+          firstName: formData.get("firstName")?.toString().trim() || "",
+
+          lastName: formData.get("lastName")?.toString().trim() || "",
+
+          email: formData.get("email")?.toString().trim().toLowerCase() || "",
+
+          phone: formData.get("phone")?.toString().trim() || "",
+
+          subject: formData.get("subject")?.toString().trim() || "",
+
+          message: formData.get("message")?.toString().trim() || "",
+        };
+
+        const endpoint = form.dataset.apiEndpoint || "/api/connect";
+
+        const response = await fetch(endpoint, {
+          method: "POST",
+
+          headers: {
+            "Content-Type": "application/json",
+          },
+
+          body: JSON.stringify(payload),
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.success) {
+          status.textContent = form.dataset.successMsg ?? "";
+
+          status.className =
+            "min-h-[1.25rem] font-editorial-body text-sm font-medium text-green-600 dark:text-green-400";
+
+          form.reset();
+
+          emailError?.classList.add("hidden");
+
+          emailInput?.classList.remove("contact-control-error");
+
+          emailInput?.removeAttribute("aria-invalid");
+        } else {
+          throw new Error(data.error || `HTTP ${response.status}`);
+        }
+      } catch (error: unknown) {
+        console.error("Contact form transmission error:", error);
+
+        status.textContent = form.dataset.errorMsg ?? "";
+
+        status.className =
+          "min-h-[1.25rem] font-editorial-body text-sm font-medium text-red-600 dark:text-red-400";
+      } finally {
+        if (submitButton) {
+          submitButton.disabled = false;
+        }
+      }
+    });
+  }
+
+  /* ==========================================================
+     INITIALIZATION
+     ========================================================== */
+
+  setupContactForm();
+
+  document.addEventListener("astro:page-load", setupContactForm);
+</script>
+
+<style>
+  /* =========================================================
+     FORM CONTROLS
+     ---------------------------------------------------------
+     Shared styling keeps the markup lighter and guarantees
+     consistent theme behavior across every field.
+     ========================================================= */
+
+  .contact-control {
+    display: block;
+    width: 100%;
+
+    margin-top: 0.375rem;
+
+    border: 1px solid var(--color-border);
+
+    border-radius: 0.5rem;
+
+    background-color: var(--color-surface-elevated);
+
+    padding: 0.7rem 0.85rem;
+
+    font-size: 0.875rem;
+
+    color: var(--color-text);
+
+    transition:
+      background-color 200ms ease,
+      border-color 200ms ease,
+      color 200ms ease,
+      box-shadow 200ms ease;
+  }
+
+  .contact-control::placeholder {
+    color: var(--color-text-muted);
+
+    opacity: 0.62;
+  }
+
+  .contact-control:hover {
+    border-color: color-mix(
+      in srgb,
+      var(--color-text-muted) 34%,
+      var(--color-border)
+    );
+  }
+
+  .contact-control:focus {
+    border-color: var(--color-accent);
+
+    outline: none;
+
+    box-shadow: 0 0 0 1px var(--color-accent);
+  }
+
+  .contact-control-error {
+    border-color: rgb(220 38 38);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .contact-control {
+      transition: none;
+    }
+  }
+</style>
