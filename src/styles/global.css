@@ -195,7 +195,11 @@
   --color-signature:        var(--theme-signature);
 
   /* Layout */
-  --breakpoint-site: var(--config-max-width);
+  /*
+   * Tailwind v4 breakpoints must resolve to a static length at build time.
+   * Keep this value synchronized with --config-max-width in §1.
+   */
+  --breakpoint-site: 80rem;
 }
 
 /* ══════════════════════════════════════════════════════════════════════════════
