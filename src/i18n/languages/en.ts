@@ -14,7 +14,7 @@ export const en = {
   nav: {
     home: 'Home',
     about: 'About',
-    work: 'Projects',
+    work: 'Work',
     contact: 'Contact',
   },
 
