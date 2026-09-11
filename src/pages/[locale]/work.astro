@@ -10,7 +10,7 @@
  * - Static route generation
  * - Locale resolution
  * - SEO metadata
- * - Project data composition
+ * - Project registry composition
  * - Project grid composition
  *
  * Individual visual sections are delegated to components.
@@ -20,6 +20,8 @@ import Layout from '@/layouts/Layout.astro';
 
 import WorkIntro from '@/components/work/WorkIntro.astro';
 import ProjectCard from '@/components/work/ProjectCard.astro';
+
+import { projects } from '@/data/projects';
 
 import {
   getLocalePaths,
@@ -31,15 +33,6 @@ import {
   locales,
   type Locale,
 } from '@/i18n/config';
-
-/* ============================================================
-   PROJECT ASSETS
-   ============================================================ */
-
-import jcoHero from '@/assets/projects/jco-estate-renovations/hero.webp';
-import jdHero from '@/assets/projects/jd-good-corp/hero.webp';
-import seabizaHero from '@/assets/projects/seabiza/hero.webp';
-import campaignHero from '@/assets/projects/campaign/hero.webp';
 
 /* ============================================================
    STATIC GENERATION
@@ -71,56 +64,12 @@ const metaDescription = t.work.intro;
 
 /* ============================================================
    PROJECTS
-   ------------------------------------------------------------
-   Content comes from the same localized project data already
-   used by the homepage bento.
-
-   This data remains local to the route for now. It can later
-   move into a shared build-time project registry without
-   changing the presentation components.
    ============================================================ */
 
-const projects = [
-  {
-    slug: 'jco-estate-renovations',
-    image: jcoHero,
-    alt: t.hero.projects.jco.alt,
-    label: t.hero.projects.jco.label,
-    title: t.hero.projects.jco.title,
-    subtitle: t.hero.projects.jco.subtitle,
-    meta: t.hero.projects.jco.meta,
-  },
+const publishedProjects = projects
+  .filter((project) => project.status === 'published')
+  .sort((a, b) => a.order - b.order);
 
-  {
-    slug: 'email-campaign',
-    image: campaignHero,
-    alt: t.hero.projects.campaign.alt,
-    label: t.hero.projects.campaign.label,
-    title: t.hero.projects.campaign.title,
-    subtitle: '',
-    meta: t.hero.projects.campaign.description,
-  },
-
-  {
-    slug: 'seabiza',
-    image: seabizaHero,
-    alt: t.hero.projects.seabiza.alt,
-    label: 'Brand Concept',
-    title: t.hero.projects.seabiza.title,
-    subtitle: t.hero.projects.seabiza.subtitle,
-    meta: t.hero.projects.seabiza.meta,
-  },
-
-  {
-    slug: 'jd-good-corp',
-    image: jdHero,
-    alt: t.hero.projects.jd.alt,
-    label: 'Brand Identity',
-    title: t.hero.projects.jd.title,
-    subtitle: t.hero.projects.jd.subtitle,
-    meta: t.hero.projects.jd.meta,
-  },
-];
 ---
 
 <Layout
@@ -128,7 +77,7 @@ const projects = [
   locale={locale}
   description={metaDescription}
 >
-  <main class="bg-midnight">
+  <main class="bg-surface">
 
     <!-- =====================================================
          PAGE INTRO
@@ -165,22 +114,79 @@ const projects = [
         "
       >
         {
-          projects.map((project, index) => (
-            <ProjectCard
-              href={localizePath(
-                locale,
-                `/work/${project.slug}`,
-              )}
-              image={project.image}
-              alt={project.alt}
-              label={project.label}
-              title={project.title}
-              subtitle={project.subtitle}
-              meta={project.meta}
-              viewProject={t.work.viewProject}
-              eager={index < 2}
-            />
-          ))
+          publishedProjects.map((project, index) => {
+            const content = (() => {
+              switch (project.translationKey) {
+                case 'jco':
+                  return {
+                    alt: t.hero.projects.jco.alt,
+                    label:
+                      project.labelOverride ??
+                      t.hero.projects.jco.label,
+                    title: t.hero.projects.jco.title,
+                    subtitle:
+                      project.subtitleOverride ??
+                      t.hero.projects.jco.subtitle,
+                    meta: t.hero.projects.jco.meta,
+                  };
+
+                case 'campaign':
+                  return {
+                    alt: t.hero.projects.campaign.alt,
+                    label:
+                      project.labelOverride ??
+                      t.hero.projects.campaign.label,
+                    title: t.hero.projects.campaign.title,
+                    subtitle:
+                      project.subtitleOverride ?? '',
+                    meta: t.hero.projects.campaign.description,
+                  };
+
+                case 'seabiza':
+                  return {
+                    alt: t.hero.projects.seabiza.alt,
+                    label:
+                      project.labelOverride ??
+                      'Brand Concept',
+                    title: t.hero.projects.seabiza.title,
+                    subtitle:
+                      project.subtitleOverride ??
+                      t.hero.projects.seabiza.subtitle,
+                    meta: t.hero.projects.seabiza.meta,
+                  };
+
+                case 'jd':
+                  return {
+                    alt: t.hero.projects.jd.alt,
+                    label:
+                      project.labelOverride ??
+                      'Brand Identity',
+                    title: t.hero.projects.jd.title,
+                    subtitle:
+                      project.subtitleOverride ??
+                      t.hero.projects.jd.subtitle,
+                    meta: t.hero.projects.jd.meta,
+                  };
+              }
+            })();
+
+            return (
+              <ProjectCard
+                href={localizePath(
+                  locale,
+                  `/work/${project.slug}`,
+                )}
+                image={project.image}
+                alt={content.alt}
+                label={content.label}
+                title={content.title}
+                subtitle={content.subtitle}
+                meta={content.meta}
+                viewProject={t.work.viewProject}
+                eager={index < 2}
+              />
+            );
+          })
         }
       </div>
     </section>

@@ -1,80 +1,158 @@
 ---
+
 // src/components/Hero.astro
 
 /**
- * AOSET Visuals — Portfolio Hero
+
+ * AOSET Visuals - Portfolio Hero
+
  *
+
  * Responsive multilingual portfolio hero using an asymmetric
+
  * bento layout.
+
  *
+
  * Layout:
- * - Intro:      4 columns × 3 rows
- * - J&CO:       5 columns × 3 rows
- * - Campaign:   3 columns × 3 rows
- * - Seabiza:    4 columns × 2 rows
- * - Technical:  4 columns × 2 rows
- * - J&D:        4 columns × 2 rows
+
+ * - Intro:      4 columns x 3 rows
+
+ * - J&CO:       5 columns x 3 rows
+
+ * - Campaign:   3 columns x 3 rows
+
+ * - Seabiza:    4 columns x 2 rows
+
+ * - Technical:  4 columns x 2 rows
+
+ * - J&D:        4 columns x 2 rows
+
  *
+
  * Theme behavior:
+
  * - General interface surfaces and typography follow the
+
  *   semantic light/dark theme tokens.
+
  * - Photographic cards remain intentionally dark for stable
+
  *   image contrast in both themes.
+
  * - Theme-aware elements transition smoothly between modes.
+
  *
+
  * Visual treatment:
+
  * - Flat hero background.
+
  * - No ambient glow.
+
  * - No card borders.
+
  * - Photography, spacing, radius and surface contrast define
+
  *   the bento structure.
+
  *
+
  * IMPORTANT:
+
  * The established bento geometry is intentionally preserved.
+
  */
 
 import { Image } from 'astro:assets';
 
 import {
   useTranslations,
+
   localizePath,
+
 } from '../i18n/utils';
 
 import type { Locale } from '../i18n/config';
 
-
 /* ============================================================
-   PROJECT ASSETS
+
+   PROJECT REGISTRY
+
    ------------------------------------------------------------
-   Images live inside src/assets so Astro can optimize and
-   fingerprint them during the build.
+
+   Project assets and publication state are centralized in
+
+   src/data/projects.ts.
+
    ============================================================ */
 
-import jcoHero from '@/assets/projects/jco-estate-renovations/hero.webp';
-import campaignHero from '@/assets/projects/campaign/hero.webp';
-import seabizaHero from '@/assets/projects/seabiza/hero.webp';
-import jdHero from '@/assets/projects/jd-good-corp/hero.webp';
-
+import { projects } from '@/data/projects';
 
 /* ============================================================
+
    COMPONENT PROPS
+
    ============================================================ */
 
 interface Props {
+
   locale: Locale;
+
 }
 
 const { locale } = Astro.props;
 
 const t = useTranslations(locale);
+
 const hero = t.hero;
+
+/* ============================================================
+
+   FEATURED PROJECTS
+
+   ------------------------------------------------------------
+
+   Homepage cards must be both published and featured.
+
+   This keeps Work and Home controlled from the same registry.
+
+   ============================================================ */
+
+const featuredProjects = projects.filter(
+  (project) =>
+    project.status === 'published' &&
+    project.featured,
+);
+
+const jcoProject = featuredProjects.find(
+  (project) => project.translationKey === 'jco',
+);
+
+const campaignProject = featuredProjects.find(
+  (project) => project.translationKey === 'campaign',
+);
+
+const seabizaProject = featuredProjects.find(
+  (project) => project.translationKey === 'seabiza',
+);
+
+const jdProject = featuredProjects.find(
+  (project) => project.translationKey === 'jd',
+);
+
 ---
 
 <section
+
   class="
+
     relative
+
     isolate
+
     min-h-[calc(100svh-4rem)]
+
     overflow-hidden
 
     bg-surface
@@ -82,64 +160,99 @@ const hero = t.hero;
     pt-2
 
     transition-colors
+
     duration-200
 
     motion-reduce:transition-none
+
   "
+
   aria-labelledby="hero-title"
+
 >
+
   <!-- ===================================================== -->
+
   <!-- HERO CONTAINER                                        -->
+
   <!--                                                       -->
+
   <!-- The hero intentionally uses a flat semantic surface.  -->
+
   <!-- No gradients or ambient glows are applied behind the  -->
+
   <!-- bento composition.                                    -->
+
   <!-- ===================================================== -->
 
   <div
+
     class="
+
       mx-auto
+
       w-full
+
       max-w-[1440px]
 
       px-4
+
       pt-10
+
       pb-8
 
       sm:px-6
+
       sm:pt-12
+
       sm:pb-10
 
       lg:px-8
 
       xl:pt-10
+
       xl:pb-8
+
     "
+
   >
+
     <!--
+
       Responsive behavior:
 
       Mobile:
+
       - Single-column natural flow.
 
       Tablet:
+
       - Two-column layout.
 
       Desktop:
+
       - 12-column asymmetric bento.
+
       - 5 vertical tracks.
+
       - Top section uses 3 tracks.
+
       - Bottom section uses 2 tracks.
+
     -->
 
     <div
+
       class="
+
         hero-bento
 
         grid
+
         w-full
 
         grid-cols-1
+
         gap-3
 
         sm:gap-4
@@ -147,153 +260,231 @@ const hero = t.hero;
         md:grid-cols-2
 
         xl:grid-cols-12
+
         xl:grid-rows-[repeat(5,minmax(0,1fr))]
+
         xl:gap-3
+
       "
+
     >
+
       <!-- ================================================= -->
+
       <!-- INTRO / POSITIONING                               -->
+
       <!-- Intentionally unboxed                             -->
+
       <!-- ================================================= -->
 
       <div
+
         class="
+
           hero-reveal
+
           hero-intro
 
           relative
 
           flex
+
           min-h-[27rem]
+
           flex-col
+
           justify-center
 
           px-1
+
           py-8
 
           md:col-span-2
+
           md:min-h-[25rem]
+
           md:px-4
 
           xl:col-span-4
+
           xl:row-span-3
+
           xl:min-h-0
+
           xl:px-5
+
           xl:py-4
+
         "
+
       >
+
         {
+
           hero.eyebrow && (
+
             <p
+
               class="
+
                 mb-5
 
                 font-editorial-body
+
                 text-[0.64rem]
+
                 font-medium
+
                 uppercase
+
                 tracking-[0.20em]
 
                 text-text-muted
 
                 transition-colors
+
                 duration-200
 
                 motion-reduce:transition-none
+
               "
+
             >
+
               {hero.eyebrow}
+
             </p>
+
           )
+
         }
 
-
         <!-- Main statement -->
+
         <h1
+
           id="hero-title"
+
           class="
+
             hero-intro-title
 
             max-w-[11ch]
 
             text-[clamp(2.8rem,10vw,4.6rem)]
+
             font-light
+
             leading-[0.98]
+
             tracking-[-0.04em]
 
             text-text
 
             transition-colors
+
             duration-200
 
             xl:text-[clamp(2.75rem,3.15vw,4.15rem)]
 
             motion-reduce:transition-none
+
           "
+
         >
+
           <span class="block">
+
             {hero.statement.line1}
+
           </span>
 
           <span class="block">
+
             {hero.statement.line2}
+
           </span>
+
         </h1>
 
-
         <!-- Accent marker -->
+
         <span
+
           class="
+
             mt-5
+
             block
 
             h-px
+
             w-10
 
             bg-accent
 
             transition-colors
+
             duration-200
 
             motion-reduce:transition-none
+
           "
+
           aria-hidden="true"
+
         ></span>
 
-
         <!-- Supporting copy -->
+
         <p
+
           class="
+
             mt-4
+
             max-w-md
 
             font-editorial-body
+
             text-base
+
             leading-relaxed
 
             text-text-muted
 
             transition-colors
+
             duration-200
 
             sm:text-lg
 
             motion-reduce:transition-none
+
           "
+
         >
+
           {hero.subtitle}
+
         </p>
 
-
         <!-- Primary CTA -->
+
         <div class="mt-6">
+
           <a
+
             href={localizePath(locale, '/work')}
+
             class="
+
               group
 
               inline-flex
+
               items-center
+
               gap-5
 
               rounded-full
@@ -301,493 +492,818 @@ const hero = t.hero;
               bg-accent
 
               px-6
+
               py-3.5
 
               font-editorial-body
+
               text-sm
+
               font-medium
 
               text-brand-light
 
               transition
+
               duration-300
 
               hover:bg-accent-hover
 
               focus-visible:outline-2
+
               focus-visible:outline-offset-4
+
               focus-visible:outline-accent
 
               active:scale-[0.99]
 
               motion-reduce:transition-none
+
             "
+
           >
+
             <span>
+
               {hero.primaryCta}
+
             </span>
 
             <svg
+
               viewBox="0 0 24 24"
+
               fill="none"
+
               class="
+
                 size-4
 
                 transition-transform
+
                 duration-300
 
                 group-hover:translate-x-1
 
                 motion-reduce:transition-none
+
               "
+
               aria-hidden="true"
+
             >
+
               <path
+
                 d="M5 12h14M13 6l6 6-6 6"
+
                 stroke="currentColor"
+
                 stroke-width="1.6"
+
                 stroke-linecap="round"
+
                 stroke-linejoin="round"
+
               ></path>
+
             </svg>
+
           </a>
+
         </div>
+
       </div>
 
-
       <!-- ================================================= -->
+
       <!-- J&CO — FEATURED PROJECT                           -->
+
       <!-- ================================================= -->
 
-      <a
-        href={localizePath(
-          locale,
-          '/work/jco-estate-renovations',
-        )}
-        class="
-          hero-card
-          hero-photo-card
-          hero-card--large
-          hero-reveal
-          group
+      {
+        jcoProject && (
+          <a
 
-          relative
-          min-h-[25rem]
-          overflow-hidden
+          href={localizePath(
+            locale,
+            `/work/${jcoProject.slug}`,
+          )}
 
-          rounded-2xl
-
-          bg-brand-dark
-
-          md:min-h-[28rem]
-
-          xl:col-span-5
-          xl:row-span-3
-          xl:min-h-0
-        "
-        aria-label={hero.projects.jco.cta}
-      >
-        <Image
-          src={jcoHero}
-          alt={hero.projects.jco.alt}
-          widths={[640, 960, 1280]}
-          sizes="
-            (min-width: 1280px) 42vw,
-            (min-width: 768px) 50vw,
-            100vw
-          "
-          loading="eager"
-          quality={85}
-          class="hero-card-image absolute inset-0"
-        />
-
-        <div
-          class="hero-card-overlay"
-          aria-hidden="true"
-        ></div>
-
-        <div
           class="
+
+            hero-card
+
+            hero-photo-card
+
+            hero-card--large
+
+            hero-reveal
+
+            group
+
             relative
-            z-10
 
-            flex
-            h-full
-            flex-col
-            justify-between
+            min-h-[25rem]
 
-            p-6
+            overflow-hidden
 
-            sm:p-7
+            rounded-2xl
+
+            bg-brand-dark
+
+            md:min-h-[28rem]
+
+            xl:col-span-5
+
+            xl:row-span-3
+
+            xl:min-h-0
+
           "
+
+          aria-label={hero.projects.jco.cta}
+
         >
-          <div>
-            <p
-              class="
-                font-editorial-body
-                text-[0.6rem]
-                uppercase
-                tracking-[0.22em]
 
-                text-brand-light/52
-              "
-            >
-              {hero.projects.jco.label}
-            </p>
+          <Image
 
-            <div class="mt-6">
+            src={jcoProject.image}
+
+            alt={hero.projects.jco.alt}
+
+            widths={[640, 960, 1280]}
+
+            sizes="
+
+              (min-width: 1280px) 42vw,
+
+              (min-width: 768px) 50vw,
+
+              100vw
+
+            "
+
+            loading="eager"
+
+            quality={85}
+
+            class="hero-card-image absolute inset-0"
+
+          />
+
+          <div
+
+            class="hero-card-overlay"
+
+            aria-hidden="true"
+
+          ></div>
+
+          <div
+
+            class="
+
+              relative
+
+              z-10
+
+              flex
+
+              h-full
+
+              flex-col
+
+              justify-between
+
+              p-6
+
+              sm:p-7
+
+            "
+
+          >
+
+            <div>
+
               <p
+
                 class="
-                  text-5xl
+
+                  font-editorial-body
+
+                  text-[0.6rem]
+
+                  uppercase
+
+                  tracking-[0.22em]
+
+                  text-brand-light/52
+
+                "
+
+              >
+
+                {hero.projects.jco.label}
+
+              </p>
+
+              <div class="mt-6">
+
+                <p
+
+                  class="
+
+                    text-5xl
+
+                    font-light
+
+                    tracking-[-0.045em]
+
+                    text-brand-light
+
+                    sm:text-6xl
+
+                  "
+
+                >
+
+                  {hero.projects.jco.title}
+
+                </p>
+
+                <p
+
+                  class="
+
+                    mt-1
+
+                    font-editorial-body
+
+                    text-xs
+
+                    uppercase
+
+                    tracking-[0.22em]
+
+                    text-brand-light/84
+
+                  "
+
+                >
+
+                  {hero.projects.jco.subtitle}
+
+                </p>
+
+              </div>
+
+            </div>
+
+            <div
+
+              class="
+
+                flex
+
+                items-end
+
+                justify-between
+
+                gap-5
+
+              "
+
+            >
+
+              <p
+
+                class="
+
+                  font-editorial-body
+
+                  text-sm
+
+                  leading-relaxed
+
+                  text-brand-light/80
+
+                "
+
+              >
+
+                {hero.projects.jco.meta}
+
+              </p>
+
+              <span
+
+                class="hero-arrow"
+
+                aria-hidden="true"
+
+              >
+
+                &rarr;
+
+              </span>
+
+            </div>
+
+          </div>
+
+          </a>
+        )
+      }
+
+      <!-- ================================================= -->
+
+      <!-- CAMPAIGN                                          -->
+
+      <!-- ================================================= -->
+
+      {
+        campaignProject && (
+          <a
+
+          href={localizePath(
+            locale,
+            `/work/${campaignProject.slug}`,
+          )}
+
+          class="
+
+            hero-card
+
+            hero-photo-card
+
+            hero-card--large
+
+            hero-reveal
+
+            group
+
+            relative
+
+            min-h-[25rem]
+
+            overflow-hidden
+
+            rounded-2xl
+
+            bg-brand-dark
+
+            md:min-h-[28rem]
+
+            xl:col-span-3
+
+            xl:row-span-3
+
+            xl:min-h-0
+
+          "
+
+          aria-label={hero.projects.campaign.cta}
+
+        >
+
+          <Image
+
+            src={campaignProject.image}
+
+            alt={hero.projects.campaign.alt}
+
+            widths={[480, 640, 800]}
+
+            sizes="
+
+              (min-width: 1280px) 25vw,
+
+              (min-width: 768px) 50vw,
+
+              100vw
+
+            "
+
+            loading="lazy"
+
+            quality={85}
+
+            class="hero-card-image absolute inset-0"
+
+          />
+
+          <!--
+
+            Campaign-specific image protection.
+
+            This treatment deliberately uses the stable brand-dark
+
+            primitive because it belongs to the photography rather
+
+            than to the interface theme.
+
+          -->
+
+          <div
+
+            class="
+
+              absolute
+
+              inset-0
+
+              bg-linear-to-t
+
+              from-brand-dark
+
+              via-brand-dark/72
+
+              to-brand-dark/12
+
+            "
+
+            aria-hidden="true"
+
+          ></div>
+
+          <div
+
+            class="
+
+              relative
+
+              z-10
+
+              flex
+
+              h-full
+
+              flex-col
+
+              justify-between
+
+              p-6
+
+            "
+
+          >
+
+            <div>
+
+              <p
+
+                class="
+
+                  font-editorial-body
+
+                  text-[0.6rem]
+
+                  uppercase
+
+                  tracking-[0.22em]
+
+                  text-brand-light/48
+
+                "
+
+              >
+
+                {hero.projects.campaign.label}
+
+              </p>
+
+              <h2
+
+                class="
+
+                  mt-5
+
+                  max-w-[9ch]
+
+                  text-3xl
+
                   font-light
+
+                  leading-tight
+
+                  tracking-tight
+
+                  text-brand-light
+
+                "
+
+              >
+
+                {hero.projects.campaign.title}
+
+              </h2>
+
+              <p
+
+                class="
+
+                  mt-3
+
+                  max-w-xs
+
+                  font-editorial-body
+
+                  text-sm
+
+                  leading-relaxed
+
+                  text-brand-light/60
+
+                "
+
+              >
+
+                {hero.projects.campaign.description}
+
+              </p>
+
+            </div>
+
+            <div
+
+              class="
+
+                flex
+
+                items-center
+
+                justify-between
+
+                gap-4
+
+              "
+
+            >
+
+              <span
+
+                class="
+
+                  font-editorial-body
+
+                  text-sm
+
+                  text-brand-light/78
+
+                "
+
+              >
+
+                {hero.projects.campaign.cta}
+
+              </span>
+
+              <span
+
+                class="hero-arrow"
+
+                aria-hidden="true"
+
+              >
+
+                &rarr;
+
+              </span>
+
+            </div>
+
+          </div>
+
+          </a>
+        )
+      }
+
+      <!-- ================================================= -->
+
+      <!-- SEABIZA                                           -->
+
+      <!-- ================================================= -->
+
+      {
+        seabizaProject && (
+          <a
+
+          href={localizePath(
+            locale,
+            `/work/${seabizaProject.slug}`,
+          )}
+
+          class="
+
+            hero-card
+
+            hero-photo-card
+
+            hero-reveal
+
+            group
+
+            relative
+
+            min-h-[18rem]
+
+            overflow-hidden
+
+            rounded-2xl
+
+            bg-brand-dark
+
+            xl:col-span-4
+
+            xl:row-span-2
+
+            xl:min-h-0
+
+          "
+
+          aria-label={hero.projects.seabiza.cta}
+
+        >
+
+          <Image
+
+            src={seabizaProject.image}
+
+            alt={hero.projects.seabiza.alt}
+
+            widths={[640, 960, 1200]}
+
+            sizes="
+
+              (min-width: 1280px) 33vw,
+
+              (min-width: 768px) 50vw,
+
+              100vw
+
+            "
+
+            loading="lazy"
+
+            quality={85}
+
+            class="hero-card-image absolute inset-0"
+
+          />
+
+          <div
+
+            class="hero-card-overlay"
+
+            aria-hidden="true"
+
+          ></div>
+
+          <div
+
+            class="
+
+              relative
+
+              z-10
+
+              flex
+
+              h-full
+
+              flex-col
+
+              justify-between
+
+              p-6
+
+            "
+
+          >
+
+            <div>
+
+              <p
+
+                class="
+
+                  text-4xl
+
+                  font-semibold
+
                   tracking-[-0.045em]
 
                   text-brand-light
 
-                  sm:text-6xl
                 "
+
               >
-                {hero.projects.jco.title}
+
+                {hero.projects.seabiza.title}
+
               </p>
 
               <p
+
                 class="
+
                   mt-1
 
                   font-editorial-body
+
                   text-xs
+
                   uppercase
-                  tracking-[0.22em]
 
-                  text-brand-light/84
+                  tracking-[0.18em]
+
+                  text-brand-light/68
+
                 "
+
               >
-                {hero.projects.jco.subtitle}
+
+                {hero.projects.seabiza.subtitle}
+
               </p>
+
             </div>
-          </div>
 
-          <div
-            class="
-              flex
-              items-end
-              justify-between
-              gap-5
-            "
-          >
-            <p
+            <div
+
               class="
-                font-editorial-body
-                text-sm
-                leading-relaxed
 
-                text-brand-light/80
+                flex
+
+                items-end
+
+                justify-between
+
+                gap-4
+
               "
-            >
-              {hero.projects.jco.meta}
-            </p>
 
-            <span
-              class="hero-arrow"
-              aria-hidden="true"
             >
-              →
-            </span>
+
+              <p
+
+                class="
+
+                  font-editorial-body
+
+                  text-sm
+
+                  text-brand-light/78
+
+                "
+
+              >
+
+                {hero.projects.seabiza.meta}
+
+              </p>
+
+              <span
+
+                class="hero-arrow"
+
+                aria-hidden="true"
+
+              >
+
+                &rarr;
+
+              </span>
+
+            </div>
+
           </div>
-        </div>
-      </a>
 
+          </a>
+        )
+      }
 
       <!-- ================================================= -->
-      <!-- CAMPAIGN                                          -->
-      <!-- ================================================= -->
 
-      <a
-        href={localizePath(
-          locale,
-          '/work/digital-campaign',
-        )}
-        class="
-          hero-card
-          hero-photo-card
-          hero-card--large
-          hero-reveal
-          group
-
-          relative
-          min-h-[25rem]
-          overflow-hidden
-
-          rounded-2xl
-
-          bg-brand-dark
-
-          md:min-h-[28rem]
-
-          xl:col-span-3
-          xl:row-span-3
-          xl:min-h-0
-        "
-        aria-label={hero.projects.campaign.cta}
-      >
-        <Image
-          src={campaignHero}
-          alt={hero.projects.campaign.alt}
-          widths={[480, 640, 800]}
-          sizes="
-            (min-width: 1280px) 25vw,
-            (min-width: 768px) 50vw,
-            100vw
-          "
-          loading="lazy"
-          quality={85}
-          class="hero-card-image absolute inset-0"
-        />
-
-
-        <!--
-          Campaign-specific image protection.
-
-          This treatment deliberately uses the stable brand-dark
-          primitive because it belongs to the photography rather
-          than to the interface theme.
-        -->
-        <div
-          class="
-            absolute
-            inset-0
-
-            bg-linear-to-t
-
-            from-brand-dark
-            via-brand-dark/72
-            to-brand-dark/12
-          "
-          aria-hidden="true"
-        ></div>
-
-
-        <div
-          class="
-            relative
-            z-10
-
-            flex
-            h-full
-            flex-col
-            justify-between
-
-            p-6
-          "
-        >
-          <div>
-            <p
-              class="
-                font-editorial-body
-                text-[0.6rem]
-                uppercase
-                tracking-[0.22em]
-
-                text-brand-light/48
-              "
-            >
-              {hero.projects.campaign.label}
-            </p>
-
-            <h2
-              class="
-                mt-5
-                max-w-[9ch]
-
-                text-3xl
-                font-light
-                leading-tight
-                tracking-tight
-
-                text-brand-light
-              "
-            >
-              {hero.projects.campaign.title}
-            </h2>
-
-            <p
-              class="
-                mt-3
-                max-w-xs
-
-                font-editorial-body
-                text-sm
-                leading-relaxed
-
-                text-brand-light/60
-              "
-            >
-              {hero.projects.campaign.description}
-            </p>
-          </div>
-
-          <div
-            class="
-              flex
-              items-center
-              justify-between
-              gap-4
-            "
-          >
-            <span
-              class="
-                font-editorial-body
-                text-sm
-
-                text-brand-light/78
-              "
-            >
-              {hero.projects.campaign.cta}
-            </span>
-
-            <span
-              class="hero-arrow"
-              aria-hidden="true"
-            >
-              →
-            </span>
-          </div>
-        </div>
-      </a>
-
-
-      <!-- ================================================= -->
-      <!-- SEABIZA                                           -->
-      <!-- ================================================= -->
-
-      <a
-        href={localizePath(
-          locale,
-          '/work/seabiza',
-        )}
-        class="
-          hero-card
-          hero-photo-card
-          hero-reveal
-          group
-
-          relative
-          min-h-[18rem]
-          overflow-hidden
-
-          rounded-2xl
-
-          bg-brand-dark
-
-          xl:col-span-4
-          xl:row-span-2
-          xl:min-h-0
-        "
-        aria-label={hero.projects.seabiza.cta}
-      >
-        <Image
-          src={seabizaHero}
-          alt={hero.projects.seabiza.alt}
-          widths={[640, 960, 1200]}
-          sizes="
-            (min-width: 1280px) 33vw,
-            (min-width: 768px) 50vw,
-            100vw
-          "
-          loading="lazy"
-          quality={85}
-          class="hero-card-image absolute inset-0"
-        />
-
-        <div
-          class="hero-card-overlay"
-          aria-hidden="true"
-        ></div>
-
-        <div
-          class="
-            relative
-            z-10
-
-            flex
-            h-full
-            flex-col
-            justify-between
-
-            p-6
-          "
-        >
-          <div>
-            <p
-              class="
-                text-4xl
-                font-semibold
-                tracking-[-0.045em]
-
-                text-brand-light
-              "
-            >
-              {hero.projects.seabiza.title}
-            </p>
-
-            <p
-              class="
-                mt-1
-
-                font-editorial-body
-                text-xs
-                uppercase
-                tracking-[0.18em]
-
-                text-brand-light/68
-              "
-            >
-              {hero.projects.seabiza.subtitle}
-            </p>
-          </div>
-
-          <div
-            class="
-              flex
-              items-end
-              justify-between
-              gap-4
-            "
-          >
-            <p
-              class="
-                font-editorial-body
-                text-sm
-
-                text-brand-light/78
-              "
-            >
-              {hero.projects.seabiza.meta}
-            </p>
-
-            <span
-              class="hero-arrow"
-              aria-hidden="true"
-            >
-              →
-            </span>
-          </div>
-        </div>
-      </a>
-
-
-      <!-- ================================================= -->
       <!-- BEHIND THE INTERFACE                              -->
+
       <!-- ================================================= -->
 
       <div
+
         class="
+
           hero-card
+
           hero-tech-card
+
           hero-reveal
 
           relative
+
           min-h-[18rem]
+
           overflow-hidden
 
           rounded-2xl
@@ -797,640 +1313,998 @@ const hero = t.hero;
           p-6
 
           transition-colors
+
           duration-200
 
           xl:col-span-4
+
           xl:row-span-2
+
           xl:min-h-0
 
           motion-reduce:transition-none
+
         "
+
       >
+
         <div
+
           class="
+
             relative
+
             z-10
 
             flex
+
             h-full
+
             flex-col
+
             justify-between
+
           "
+
         >
+
           <div>
+
             <!-- Technical eyebrow -->
+
             <p
+
               class="
+
                 font-editorial-body
+
                 text-[0.6rem]
+
                 uppercase
+
                 tracking-[0.22em]
 
                 text-text-muted
 
                 transition-colors
+
                 duration-200
 
                 motion-reduce:transition-none
+
               "
+
             >
+
               {hero.projects.built.label}
+
             </p>
 
-
             <!-- Technical statement -->
+
             <h2
+
               class="
+
                 hero-built-title
 
                 mt-4
+
                 max-w-[26ch]
 
                 text-lg
+
                 font-light
+
                 leading-[1.3]
+
                 tracking-tight
 
                 text-text
 
                 transition-colors
+
                 duration-200
 
                 2xl:max-w-[30ch]
+
                 2xl:text-xl
 
                 motion-reduce:transition-none
+
               "
+
             >
+
               {hero.projects.built.title}
+
             </h2>
 
-
             <!-- Accent marker -->
+
             <span
+
               class="
+
                 mt-3
+
                 block
 
                 h-px
+
                 w-9
 
                 bg-accent
 
                 transition-colors
+
                 duration-200
 
                 motion-reduce:transition-none
+
               "
+
               aria-hidden="true"
+
             ></span>
 
-
             <!-- Technical stack -->
+
             <div
+
               class="
+
                 hero-built-stack
 
                 mt-3
 
                 font-editorial-body
+
                 text-xs
+
                 leading-relaxed
 
                 text-text-muted
 
                 transition-colors
+
                 duration-200
 
                 2xl:text-sm
 
                 motion-reduce:transition-none
+
               "
+
             >
+
               {
+
                 hero.projects.built.stack.map((line) => (
+
                   <div>{line}</div>
+
                 ))
+
               }
+
             </div>
+
           </div>
 
-
           <!--
+
             The technical overview now leads to the About section
+
             on the localized homepage instead of the retired
+
             standalone /about route.
+
           -->
+
           <a
+
             href={`${localizePath(locale, '/')}#about`}
+
             class="
+
               group
 
               mt-3
 
               inline-flex
+
               w-fit
+
               items-center
+
               gap-3
 
               font-editorial-body
+
               text-sm
 
               text-text-muted
 
               transition
+
               duration-300
 
               hover:text-text
 
               focus-visible:outline-2
+
               focus-visible:outline-offset-4
+
               focus-visible:outline-accent
 
               motion-reduce:transition-none
+
             "
+
           >
+
             {hero.projects.built.cta}
 
             <span
+
               class="
+
                 transition-transform
+
                 duration-300
 
                 group-hover:translate-x-1
 
                 motion-reduce:transition-none
+
               "
+
               aria-hidden="true"
+
             >
-              →
+
+              &rarr;
+
             </span>
+
           </a>
+
         </div>
+
       </div>
 
-
       <!-- ================================================= -->
+
       <!-- J&D GOOD CORP                                     -->
+
       <!-- ================================================= -->
 
-      <a
-        href={localizePath(
-          locale,
-          '/work/jd-good-corp',
-        )}
-        class="
-          hero-card
-          hero-photo-card
-          hero-reveal
-          group
+      {
+        jdProject && (
+          <a
 
-          relative
-          min-h-[18rem]
-          overflow-hidden
+          href={localizePath(
+            locale,
+            `/work/${jdProject.slug}`,
+          )}
 
-          rounded-2xl
-
-          bg-brand-dark
-
-          md:col-span-2
-
-          xl:col-span-4
-          xl:row-span-2
-          xl:min-h-0
-        "
-        aria-label={hero.projects.jd.cta}
-      >
-        <Image
-          src={jdHero}
-          alt={hero.projects.jd.alt}
-          widths={[640, 960, 1200]}
-          sizes="
-            (min-width: 1280px) 33vw,
-            (min-width: 768px) 100vw,
-            100vw
-          "
-          loading="lazy"
-          quality={85}
-          class="hero-card-image absolute inset-0"
-        />
-
-        <div
-          class="hero-card-overlay"
-          aria-hidden="true"
-        ></div>
-
-        <div
           class="
+
+            hero-card
+
+            hero-photo-card
+
+            hero-reveal
+
+            group
+
             relative
-            z-10
 
-            flex
-            h-full
-            flex-col
-            justify-between
+            min-h-[18rem]
 
-            p-6
+            overflow-hidden
+
+            rounded-2xl
+
+            bg-brand-dark
+
+            md:col-span-2
+
+            xl:col-span-4
+
+            xl:row-span-2
+
+            xl:min-h-0
+
           "
+
+          aria-label={hero.projects.jd.cta}
+
         >
-          <div>
-            <p
-              class="
-                text-3xl
-                font-semibold
-                leading-none
-                tracking-tight
 
-                text-brand-light
-              "
-            >
-              {hero.projects.jd.title}
-            </p>
+          <Image
 
-            <p
-              class="
-                mt-1
+            src={jdProject.image}
 
-                font-editorial-body
-                text-xs
-                uppercase
-                tracking-[0.17em]
+            alt={hero.projects.jd.alt}
 
-                text-brand-light/66
-              "
-            >
-              {hero.projects.jd.subtitle}
-            </p>
-          </div>
+            widths={[640, 960, 1200]}
+
+            sizes="
+
+              (min-width: 1280px) 33vw,
+
+              (min-width: 768px) 100vw,
+
+              100vw
+
+            "
+
+            loading="lazy"
+
+            quality={85}
+
+            class="hero-card-image absolute inset-0"
+
+          />
 
           <div
+
+            class="hero-card-overlay"
+
+            aria-hidden="true"
+
+          ></div>
+
+          <div
+
             class="
+
+              relative
+
+              z-10
+
               flex
-              items-end
+
+              h-full
+
+              flex-col
+
               justify-between
-              gap-4
+
+              p-6
+
             "
+
           >
-            <p
+
+            <div>
+
+              <p
+
+                class="
+
+                  text-3xl
+
+                  font-semibold
+
+                  leading-none
+
+                  tracking-tight
+
+                  text-brand-light
+
+                "
+
+              >
+
+                {hero.projects.jd.title}
+
+              </p>
+
+              <p
+
+                class="
+
+                  mt-1
+
+                  font-editorial-body
+
+                  text-xs
+
+                  uppercase
+
+                  tracking-[0.17em]
+
+                  text-brand-light/66
+
+                "
+
+              >
+
+                {hero.projects.jd.subtitle}
+
+              </p>
+
+            </div>
+
+            <div
+
               class="
-                font-editorial-body
-                text-sm
 
-                text-brand-light/78
+                flex
+
+                items-end
+
+                justify-between
+
+                gap-4
+
               "
-            >
-              {hero.projects.jd.meta}
-            </p>
 
-            <span
-              class="hero-arrow"
-              aria-hidden="true"
             >
-              →
-            </span>
+
+              <p
+
+                class="
+
+                  font-editorial-body
+
+                  text-sm
+
+                  text-brand-light/78
+
+                "
+
+              >
+
+                {hero.projects.jd.meta}
+
+              </p>
+
+              <span
+
+                class="hero-arrow"
+
+                aria-hidden="true"
+
+              >
+
+                &rarr;
+
+              </span>
+
+            </div>
+
           </div>
-        </div>
-      </a>
+
+          </a>
+        )
+      }
+
     </div>
+
   </div>
+
 </section>
 
-
 <style>
+
   /* =========================================================
+
      DESKTOP BENTO HEIGHT
+
      ---------------------------------------------------------
+
      The bento adapts to available viewport height while
+
      preserving the established landscape composition.
 
      IMPORTANT:
+
      These values preserve the original bento geometry.
+
      ========================================================= */
 
   @media (min-width: 80rem) {
+
     .hero-bento {
+
       height: min(
+
         calc(100svh - 8rem),
+
         calc((100vw - 4rem) * 0.5625)
+
       );
 
       min-height: 700px;
+
       max-height: 900px;
+
     }
+
   }
 
-
   /* =========================================================
+
      CARD BASE
+
      ---------------------------------------------------------
+
      Cards intentionally have no visible border. Separation is
+
      created by spacing, radius, photography and surface value.
+
      ========================================================= */
 
   .hero-card {
+
     position: relative;
+
     overflow: hidden;
 
     isolation: isolate;
 
     backface-visibility: hidden;
+
     transform: translateZ(0);
+
   }
 
-
   /* =========================================================
+
      PROJECT IMAGES
+
      ========================================================= */
 
   .hero-card-image {
+
     width: 100%;
+
     height: 100%;
 
     object-fit: cover;
+
     object-position: center;
 
     transition:
+
       transform 700ms cubic-bezier(0.22, 1, 0.36, 1),
+
       filter 500ms ease;
 
     will-change: transform;
+
   }
 
-
   /* =========================================================
+
      PHOTOGRAPHIC OVERLAY
+
      ---------------------------------------------------------
+
      This overlay belongs to image treatment rather than to
+
      light/dark interface theming.
 
      It therefore uses the stable AOSET dark brand primitive.
+
      ========================================================= */
 
   .hero-card-overlay {
+
     position: absolute;
+
     inset: 0;
 
     pointer-events: none;
 
     background:
+
       linear-gradient(
+
         to top,
+
         color-mix(
+
           in srgb,
+
           var(--brand-dark) 92%,
+
           transparent
+
         ) 0%,
+
         color-mix(
+
           in srgb,
+
           var(--brand-dark) 42%,
+
           transparent
+
         ) 38%,
+
         color-mix(
+
           in srgb,
+
           var(--brand-dark) 8%,
+
           transparent
+
         ) 72%,
+
         transparent 100%
+
       );
+
   }
 
-
   /* =========================================================
+
      CARD HOVER
+
      ---------------------------------------------------------
+
      Hover remains intentionally restrained.
 
      No borders are introduced during interaction.
+
      ========================================================= */
 
   @media (hover: hover) and (pointer: fine) {
-    .hero-card {
-      transition:
-        transform 350ms cubic-bezier(0.22, 1, 0.36, 1),
-        box-shadow 350ms ease;
-    }
 
+    .hero-card {
+
+      transition:
+
+        transform 350ms cubic-bezier(0.22, 1, 0.36, 1),
+
+        box-shadow 350ms ease;
+
+    }
 
     /* Photographic project cards */
+
     .hero-photo-card:hover {
+
       transform: translateY(-3px);
 
       box-shadow:
-        0 14px 36px
-        rgb(0 0 0 / 0.14);
-    }
 
+        0 14px 36px
+
+        rgb(0 0 0 / 0.14);
+
+    }
 
     /* Slight image movement provides the primary hover cue. */
+
     .hero-photo-card:hover
+
       .hero-card-image {
+
       transform: scale(1.025);
+
     }
 
-
     /* Theme-aware technical card */
+
     .hero-tech-card:hover {
+
       transform: translateY(-3px);
 
       box-shadow:
+
         0 14px 36px
+
         rgb(0 0 0 / 0.08);
+
     }
+
   }
 
-
   /* =========================================================
+
      PHOTO CARD ACTION ARROWS
+
      ---------------------------------------------------------
+
      Arrow styling remains intentionally independent from the
+
      active site theme because the arrows always sit over
+
      darkened photography.
+
      ========================================================= */
 
   .hero-arrow {
+
     display: inline-grid;
+
     place-items: center;
 
     width: 2.5rem;
+
     height: 2.5rem;
 
     flex-shrink: 0;
 
     border:
+
       1px solid
+
       color-mix(
+
         in srgb,
+
         var(--brand-light) 28%,
+
         transparent
+
       );
 
     border-radius: 9999px;
 
     background:
+
       color-mix(
+
         in srgb,
+
         var(--brand-dark) 8%,
+
         transparent
+
       );
 
     color:
+
       var(--brand-light);
 
     transition:
+
       transform 300ms ease,
+
       border-color 300ms ease,
+
       background-color 300ms ease;
+
   }
 
-
   @media (hover: hover) and (pointer: fine) {
+
     .hero-photo-card:hover
+
       .hero-arrow {
+
       transform: translateX(2px);
 
       border-color:
+
         color-mix(
+
           in srgb,
+
           var(--brand-light) 50%,
+
           transparent
+
         );
 
       background-color:
+
         color-mix(
+
           in srgb,
+
           var(--brand-light) 7%,
+
           transparent
+
         );
+
     }
+
   }
 
-
   /* =========================================================
+
      HERO ENTRANCE
+
      ---------------------------------------------------------
+
      Soft staggered entrance without client-side JavaScript.
+
      ========================================================= */
 
   .hero-reveal {
+
     opacity: 0;
 
     transform: translateY(14px);
 
     animation:
+
       hero-reveal
+
       700ms
+
       cubic-bezier(0.22, 1, 0.36, 1)
+
       forwards;
 
     will-change:
+
       opacity,
+
       transform;
+
   }
 
-
   .hero-reveal:nth-child(1) {
+
     animation-delay: 50ms;
+
   }
 
   .hero-reveal:nth-child(2) {
+
     animation-delay: 100ms;
+
   }
 
   .hero-reveal:nth-child(3) {
+
     animation-delay: 150ms;
+
   }
 
   .hero-reveal:nth-child(4) {
+
     animation-delay: 200ms;
+
   }
 
   .hero-reveal:nth-child(5) {
+
     animation-delay: 250ms;
+
   }
 
   .hero-reveal:nth-child(6) {
+
     animation-delay: 300ms;
+
   }
 
-
   @keyframes hero-reveal {
+
     from {
+
       opacity: 0;
+
       transform: translateY(14px);
+
     }
 
     to {
+
       opacity: 1;
+
       transform: translateY(0);
+
     }
+
   }
 
-
   /* =========================================================
+
      SHORT DESKTOP VIEWPORTS
+
      ---------------------------------------------------------
+
      Typography is reduced on shorter wide displays without
+
      changing the bento geometry.
+
      ========================================================= */
 
   @media (min-width: 80rem) and (max-height: 820px) {
+
     .hero-bento {
+
       min-height: 640px;
+
     }
 
     .hero-intro-title {
+
       font-size:
+
         clamp(
+
           2.6rem,
+
           3vw,
+
           3.8rem
+
         );
+
     }
 
     .hero-built-title {
+
       font-size: 1.2rem;
+
     }
 
     .hero-built-stack {
+
       font-size: 0.72rem;
+
       line-height: 1.5;
+
     }
+
   }
 
-
   /* =========================================================
+
      MOBILE / TABLET
+
      ---------------------------------------------------------
+
      Smaller screens use natural document height rather than
+
      forcing the desktop viewport composition.
+
      ========================================================= */
 
   @media (max-width: 79.999rem) {
+
     .hero-bento {
+
       height: auto;
+
       min-height: 0;
+
       max-height: none;
+
     }
+
   }
 
-
   /* =========================================================
+
      SMALL MOBILE
+
      ========================================================= */
 
   @media (max-width: 30rem) {
+
     .hero-card {
+
       border-radius: 0.875rem;
+
     }
+
   }
 
-
   /* =========================================================
+
      REDUCED MOTION
+
      ========================================================= */
 
   @media (prefers-reduced-motion: reduce) {
+
     .hero-reveal {
+
       opacity: 1;
 
       transform: none;
@@ -1438,20 +2312,33 @@ const hero = t.hero;
       animation: none;
 
       will-change: auto;
+
     }
 
     .hero-card,
+
     .hero-card-image,
+
     .hero-arrow {
+
       transition: none;
+
     }
 
     .hero-card:hover,
+
     .hero-card:hover
+
       .hero-card-image,
+
     .hero-card:hover
+
       .hero-arrow {
+
       transform: none;
+
     }
+
   }
+
 </style>
