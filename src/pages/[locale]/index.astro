@@ -4,10 +4,7 @@ import Hero from '../../components/Hero.astro';
 import About from '../../components/About.astro';
 import Closing from '../../components/Closing.astro';
 
-import {
-  getLocalePaths,
-  useTranslations,
-} from '../../i18n/utils';
+import { getLocalePaths } from '../../i18n/utils';
 
 import type { Locale } from '../../i18n/config';
 
@@ -19,27 +16,17 @@ const { locale } = Astro.params as {
   locale: Locale;
 };
 
-const t = useTranslations(locale);
-
-const metaDescription = [
-  t.hero.statement.line1,
-  t.hero.statement.line2,
-  t.hero.subtitle,
-]
-  .filter(Boolean)
-  .join(' ')
-  .replace(/\s+/g, ' ')
-  .trim();
+const metaDescription =
+  "Creative thinking, visual craft and technology speaking the same language.";
 ---
 
 <Layout
-  title="AOSET"
+  title="AOSET Visuals | Elevating the Visible Layer."
   locale={locale}
   description={metaDescription}
+  ogImage="/images/og/aoset-ogg-website.png"
 >
   <Hero locale={locale} />
-
   <About locale={locale} />
-
   <Closing locale={locale} />
 </Layout>
