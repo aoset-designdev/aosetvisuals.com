@@ -23,11 +23,12 @@ const {
   title,
   description = "Creative thinking, visual craft and technology speaking the same language.",
   locale = "en",
-  ogImage = "/images/og/aoset-ogg-website.png",
+  ogImage = "/images/ogg/aoset-ogg-website.png",
   hideNav = false,
   hideFooter = false,
   noIndex = false,
 } = Astro.props;
+
 
 // Determine fallback base URL for canonical and OG meta tags
 const siteBase = Astro.site ?? "https://aosetvisuals.com";
@@ -87,10 +88,12 @@ const absoluteOgImage = new URL(ogImage, siteBase).toString();
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={absoluteOgImage} />
+    <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="AOSET Visuals" />
     <meta property="og:locale" content={locale === "es" ? "es_US" : "en_US"} />
+  
 
     <!-- Twitter / X Card Metadata -->
     <meta name="twitter:card" content="summary_large_image" />

@@ -60,7 +60,7 @@ export default defineConfig({
         navigateFallbackDenylist: [/^\/api\//, /^\/connect\/.*\.vcf$/],
 
         // Optimize precache manifest size
-        globPatterns: ["**/*.{css,js,html,svg,png,woff2}"],
+       globPatterns: ["**/*.{css,js,html,svg,png,jpg,jpeg,webp,avif,woff2}",],        
 
         // Exclude node_modules and sw files from build-time precaching
         globIgnores: ["**/node_modules/**/*", "sw.js", "workbox-*.js"],
