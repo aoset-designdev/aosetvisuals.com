@@ -67,6 +67,7 @@
 import { Image } from 'astro:assets';
 
 import {
+
   useTranslations,
 
   localizePath,
@@ -88,6 +89,7 @@ import type { Locale } from '../i18n/config';
    ============================================================ */
 
 import { projects } from '@/data/projects';
+import { getProjectPresentation } from '@/data/projectPresentation';
 
 /* ============================================================
 
@@ -125,21 +127,37 @@ const featuredProjects = projects.filter(
     project.featured,
 );
 
-const jcoProject = featuredProjects.find(
-  (project) => project.translationKey === 'jco',
+const primaryProject = featuredProjects.find(
+  (project) => project.homeSlot === 'primary',
 );
 
-const campaignProject = featuredProjects.find(
-  (project) => project.translationKey === 'campaign',
+const secondaryProject = featuredProjects.find(
+  (project) => project.homeSlot === 'secondary',
 );
 
-const seabizaProject = featuredProjects.find(
-  (project) => project.translationKey === 'seabiza',
+const supportingLeftProject = featuredProjects.find(
+  (project) => project.homeSlot === 'supporting-left',
 );
 
-const jdProject = featuredProjects.find(
-  (project) => project.translationKey === 'jd',
+const supportingRightProject = featuredProjects.find(
+  (project) => project.homeSlot === 'supporting-right',
 );
+
+const primaryContent = primaryProject
+  ? getProjectPresentation(locale, primaryProject)
+  : null;
+
+const secondaryContent = secondaryProject
+  ? getProjectPresentation(locale, secondaryProject)
+  : null;
+
+const supportingLeftContent = supportingLeftProject
+  ? getProjectPresentation(locale, supportingLeftProject)
+  : null;
+
+const supportingRightContent = supportingRightProject
+  ? getProjectPresentation(locale, supportingRightProject)
+  : null;
 
 ---
 
@@ -577,17 +595,17 @@ const jdProject = featuredProjects.find(
 
       <!-- ================================================= -->
 
-      <!-- J&CO — FEATURED PROJECT                           -->
+      <!-- PRIMARY FEATURED PROJECT                         -->
 
       <!-- ================================================= -->
 
       {
-        jcoProject && (
+        primaryProject && primaryContent && (
           <a
 
           href={localizePath(
             locale,
-            `/work/${jcoProject.slug}`,
+            `/work/${primaryProject.slug}`,
           )}
 
           class="
@@ -622,15 +640,15 @@ const jdProject = featuredProjects.find(
 
           "
 
-          aria-label={hero.projects.jco.cta}
+          aria-label={primaryContent.cta}
 
         >
 
           <Image
 
-            src={jcoProject.image}
+            src={primaryProject.image}
 
-            alt={hero.projects.jco.alt}
+            alt={primaryContent.alt}
 
             widths={[640, 960, 1280]}
 
@@ -704,7 +722,7 @@ const jdProject = featuredProjects.find(
 
               >
 
-                {hero.projects.jco.label}
+                {primaryContent.label}
 
               </p>
 
@@ -728,7 +746,7 @@ const jdProject = featuredProjects.find(
 
                 >
 
-                  {hero.projects.jco.title}
+                  {primaryContent.title}
 
                 </p>
 
@@ -752,7 +770,7 @@ const jdProject = featuredProjects.find(
 
                 >
 
-                  {hero.projects.jco.subtitle}
+                  {primaryContent.subtitle}
 
                 </p>
 
@@ -792,7 +810,7 @@ const jdProject = featuredProjects.find(
 
               >
 
-                {hero.projects.jco.meta}
+                {primaryContent.meta}
 
               </p>
 
@@ -818,17 +836,17 @@ const jdProject = featuredProjects.find(
 
       <!-- ================================================= -->
 
-      <!-- CAMPAIGN                                          -->
+      <!-- SECONDARY FEATURED PROJECT                       -->
 
       <!-- ================================================= -->
 
       {
-        campaignProject && (
+        secondaryProject && secondaryContent && (
           <a
 
           href={localizePath(
             locale,
-            `/work/${campaignProject.slug}`,
+            `/work/${secondaryProject.slug}`,
           )}
 
           class="
@@ -863,15 +881,15 @@ const jdProject = featuredProjects.find(
 
           "
 
-          aria-label={hero.projects.campaign.cta}
+          aria-label={secondaryContent.cta}
 
         >
 
           <Image
 
-            src={campaignProject.image}
+            src={secondaryProject.image}
 
-            alt={hero.projects.campaign.alt}
+            alt={secondaryContent.alt}
 
             widths={[480, 640, 800]}
 
@@ -969,7 +987,7 @@ const jdProject = featuredProjects.find(
 
               >
 
-                {hero.projects.campaign.label}
+                {secondaryContent.label}
 
               </p>
 
@@ -995,7 +1013,7 @@ const jdProject = featuredProjects.find(
 
               >
 
-                {hero.projects.campaign.title}
+                {secondaryContent.title}
 
               </h2>
 
@@ -1019,7 +1037,7 @@ const jdProject = featuredProjects.find(
 
               >
 
-                {hero.projects.campaign.description}
+                {secondaryContent.description}
 
               </p>
 
@@ -1055,7 +1073,7 @@ const jdProject = featuredProjects.find(
 
               >
 
-                {hero.projects.campaign.cta}
+                {secondaryContent.cta}
 
               </span>
 
@@ -1081,17 +1099,17 @@ const jdProject = featuredProjects.find(
 
       <!-- ================================================= -->
 
-      <!-- SEABIZA                                           -->
+      <!-- SUPPORTING PROJECT — LEFT                        -->
 
       <!-- ================================================= -->
 
       {
-        seabizaProject && (
+        supportingLeftProject && supportingLeftContent && (
           <a
 
           href={localizePath(
             locale,
-            `/work/${seabizaProject.slug}`,
+            `/work/${supportingLeftProject.slug}`,
           )}
 
           class="
@@ -1122,15 +1140,15 @@ const jdProject = featuredProjects.find(
 
           "
 
-          aria-label={hero.projects.seabiza.cta}
+          aria-label={supportingLeftContent.cta}
 
         >
 
           <Image
 
-            src={seabizaProject.image}
+            src={supportingLeftProject.image}
 
-            alt={hero.projects.seabiza.alt}
+            alt={supportingLeftContent.alt}
 
             widths={[640, 960, 1200]}
 
@@ -1200,7 +1218,7 @@ const jdProject = featuredProjects.find(
 
               >
 
-                {hero.projects.seabiza.title}
+                {supportingLeftContent.title}
 
               </p>
 
@@ -1224,7 +1242,7 @@ const jdProject = featuredProjects.find(
 
               >
 
-                {hero.projects.seabiza.subtitle}
+                {supportingLeftContent.subtitle}
 
               </p>
 
@@ -1260,7 +1278,7 @@ const jdProject = featuredProjects.find(
 
               >
 
-                {hero.projects.seabiza.meta}
+                {supportingLeftContent.meta}
 
               </p>
 
@@ -1576,17 +1594,17 @@ const jdProject = featuredProjects.find(
 
       <!-- ================================================= -->
 
-      <!-- J&D GOOD CORP                                     -->
+      <!-- SUPPORTING PROJECT — RIGHT                       -->
 
       <!-- ================================================= -->
 
       {
-        jdProject && (
+        supportingRightProject && supportingRightContent && (
           <a
 
           href={localizePath(
             locale,
-            `/work/${jdProject.slug}`,
+            `/work/${supportingRightProject.slug}`,
           )}
 
           class="
@@ -1619,15 +1637,15 @@ const jdProject = featuredProjects.find(
 
           "
 
-          aria-label={hero.projects.jd.cta}
+          aria-label={supportingRightContent.cta}
 
         >
 
           <Image
 
-            src={jdProject.image}
+            src={supportingRightProject.image}
 
-            alt={hero.projects.jd.alt}
+            alt={supportingRightContent.alt}
 
             widths={[640, 960, 1200]}
 
@@ -1699,7 +1717,7 @@ const jdProject = featuredProjects.find(
 
               >
 
-                {hero.projects.jd.title}
+                {supportingRightContent.title}
 
               </p>
 
@@ -1723,7 +1741,7 @@ const jdProject = featuredProjects.find(
 
               >
 
-                {hero.projects.jd.subtitle}
+                {supportingRightContent.subtitle}
 
               </p>
 
@@ -1759,7 +1777,7 @@ const jdProject = featuredProjects.find(
 
               >
 
-                {hero.projects.jd.meta}
+                {supportingRightContent.meta}
 
               </p>
 

@@ -1,0 +1,217 @@
+---
+// src/pages/[locale]/work/[slug].astro
+
+import { Image } from 'astro:assets';
+
+import Layout from '@/layouts/Layout.astro';
+
+import { projects } from '@/data/projects';
+import { getProjectPresentation } from '@/data/projectPresentation';
+
+import {
+  locales,
+  type Locale,
+} from '@/i18n/config';
+
+import {
+  localizePath,
+} from '@/i18n/utils';
+
+export const prerender = true;
+
+export function getStaticPaths() {
+  return locales.flatMap((locale) =>
+    projects
+      .filter((project) => project.status === 'published')
+      .map((project) => ({
+        params: {
+          locale,
+          slug: project.slug,
+        },
+      })),
+  );
+}
+
+const rawLocale = Astro.params.locale;
+const slug = Astro.params.slug;
+
+const locale: Locale = locales.includes(rawLocale as Locale)
+  ? (rawLocale as Locale)
+  : 'en';
+
+const project = projects.find(
+  (item) =>
+    item.slug === slug &&
+    item.status === 'published',
+);
+
+if (!project) {
+  throw new Error(
+    `Published project not found for slug: ${slug}`,
+  );
+}
+
+const content = getProjectPresentation(locale, project);
+
+const metaDescription =
+  content.description ||
+  content.meta ||
+  content.subtitle;
+---
+
+<Layout
+  title={`${content.title} — AOSET Visuals`}
+  locale={locale}
+  description={metaDescription}
+>
+  <main
+    class="
+      bg-surface
+      text-text
+      transition-colors
+      duration-200
+      motion-reduce:transition-none
+    "
+  >
+    <article>
+      <header
+        class="
+          mx-auto
+          max-w-7xl
+          px-4
+          pt-16
+          pb-10
+          sm:px-6
+          sm:pt-20
+          lg:px-8
+          lg:pt-24
+          lg:pb-14
+        "
+      >
+        <a
+          href={localizePath(locale, '/work')}
+          class="
+            inline-flex
+            items-center
+            gap-2
+            font-editorial-body
+            text-sm
+            text-text-muted
+            transition-colors
+            duration-200
+            hover:text-text
+            focus-visible:outline-2
+            focus-visible:outline-offset-4
+            focus-visible:outline-accent
+            motion-reduce:transition-none
+          "
+        >
+          <span aria-hidden="true">←</span>
+          <span>Work</span>
+        </a>
+
+        <div class="mt-10 max-w-4xl">
+          <p
+            class="
+              font-editorial-body
+              text-[0.64rem]
+              font-medium
+              uppercase
+              tracking-[0.20em]
+              text-text-muted
+            "
+          >
+            {content.label}
+          </p>
+
+          <h1
+            class="
+              mt-5
+              text-[clamp(3rem,8vw,6.5rem)]
+              font-light
+              leading-[0.94]
+              tracking-[-0.045em]
+              text-text
+            "
+          >
+            {content.title}
+          </h1>
+
+          {
+            content.subtitle && (
+              <p
+                class="
+                  mt-5
+                  max-w-2xl
+                  font-editorial-body
+                  text-lg
+                  leading-relaxed
+                  text-text-muted
+                  sm:text-xl
+                "
+              >
+                {content.subtitle}
+              </p>
+            )
+          }
+
+          {
+            content.meta && (
+              <p
+                class="
+                  mt-8
+                  max-w-2xl
+                  font-editorial-body
+                  text-sm
+                  leading-relaxed
+                  text-text-muted
+                "
+              >
+                {content.meta}
+              </p>
+            )
+          }
+        </div>
+      </header>
+
+      <section
+        class="
+          mx-auto
+          max-w-[1440px]
+          px-4
+          pb-16
+          sm:px-6
+          lg:px-8
+          lg:pb-24
+        "
+        aria-label={content.title}
+      >
+        <div
+          class="
+            relative
+            aspect-[4/3]
+            overflow-hidden
+            rounded-2xl
+            bg-brand-dark
+          "
+        >
+          <Image
+            src={project.image}
+            alt={content.alt}
+            widths={[960, 1280, 1600, 2000]}
+            sizes="(min-width: 1440px) 1376px, calc(100vw - 2rem)"
+            loading="eager"
+            quality={88}
+            class="absolute inset-0 h-full w-full object-cover"
+          />
+        </div>
+      </section>
+
+      <!--
+        Case-study content will be composed here project by project.
+        The dynamic route, localization, publication state and hero asset
+        are already resolved from the shared project registry.
+      -->
+    </article>
+  </main>
+</Layout>
