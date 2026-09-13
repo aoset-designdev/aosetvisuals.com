@@ -1,38 +1,58 @@
 ---
 // src/pages/index.astro
+
 import { locales, defaultLocale } from '@/i18n/config';
 
 export const prerender = true;
 ---
 
 <!doctype html>
+
 <html lang={defaultLocale}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex, follow" />
-    <link rel="canonical" href={`https://aosetvisuals.com/${defaultLocale}/`} />
+
+    <link
+      rel="canonical"
+      href={`https://aosetvisuals.com/${defaultLocale}/`}
+    />
 
     {/* Hreflang annotations for SEO crawlers */}
     {locales.map((l) => (
-      <link rel="alternate" hreflang={l} href={`https://aosetvisuals.com/${l}/`} />
+      <link
+        rel="alternate"
+        hreflang={l}
+        href={`https://aosetvisuals.com/${l}/`}
+      />
     ))}
-    <link rel="alternate" hreflang="x-default" href={`https://aosetvisuals.com/${defaultLocale}/`} />
+
+    <link
+      rel="alternate"
+      hreflang="x-default"
+      href={`https://aosetvisuals.com/${defaultLocale}/`}
+    />
 
     <title>AOSET — Redirecting...</title>
 
-    <script is:inline define:vars={{ supportedLocales: locales, fallbackLocale: defaultLocale }}>
+    <script
+      is:inline
+      define:vars={{ fallbackLocale: defaultLocale }}
+    >
       (function () {
         const path = window.location.pathname;
 
-        // Prevent infinite redirect loops if pathname is already localized
+        // Prevent redirect outside the root path
         if (path !== '/' && path !== '') return;
 
-        const userLang = (navigator.language || fallbackLocale).slice(0, 2).toLowerCase();
-        const locale = supportedLocales.includes(userLang) ? userLang : fallbackLocale;
-
-        // Preserve query parameters (?ref=...) and hash fragments (#section)
-        const targetUrl = '/' + locale + '/' + window.location.search + window.location.hash;
+        // Always use the configured default locale
+        const targetUrl =
+          '/' +
+          fallbackLocale +
+          '/' +
+          window.location.search +
+          window.location.hash;
 
         window.location.replace(targetUrl);
       })();
@@ -40,8 +60,12 @@ export const prerender = true;
 
     <!-- Fallback for JavaScript-disabled clients -->
     <noscript>
-      <meta http-equiv="refresh" content={`0; url=/${defaultLocale}/`} />
+      <meta
+        http-equiv="refresh"
+        content={`0; url=/${defaultLocale}/`}
+      />
     </noscript>
   </head>
+
   <body class="bg-ramp-900"></body>
 </html>
